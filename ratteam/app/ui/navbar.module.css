@@ -1,0 +1,41 @@
+.shape {
+  min-width: 960px;
+  max-width: 1420px;
+  /* height: 80px; */
+  position: relative;
+  overflow: hidden;
+  zoom: 1;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  box-shadow: 0 0 5px #eee;
+  padding: 12px 10px;
+  margin: 0 auto;
+}
+.logo {
+  height: "auto";
+  float: left;
+  position: relative;
+  top: -3px;
+}
+.auth {
+  color: #3b3b3b;
+  position: absolute;
+  right: 17px;
+  top: 49px;
+}
+.loginLink {
+    background: #22496A;
+    color: #FFF;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 0 4px;
+    text-decoration: none;
+}
+.regLink {
+    background: #F05A00;
+    color: #FFF;
+    font-size: 14px;
+    padding: 0 4px;
+    text-decoration: none;
+}
