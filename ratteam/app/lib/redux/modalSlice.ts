@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+'use client';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface IModal {
   isOpen: boolean;
@@ -9,7 +10,7 @@ const initialState: IModal = {
 };
 
 const modalSlice = createSlice({
-  name: "modalSlice",
+  name: 'modalSlice',
   initialState,
   reducers: {
     changeModalStatus: (state: IModal, action: PayloadAction<void>) => {
