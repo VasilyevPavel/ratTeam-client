@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 // import { registerThunk } from "../../features/auth/authThunk"
 import { useAppDispatch } from "@/app/lib/redux/hooks";
 import { IUserData } from "@/app/lib/types/types";
+import { registerThunk } from "@/app/lib/data/authThunk";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -31,14 +32,14 @@ export default function RegistrationForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  //   const handleSubmit = () => {
-  //     dispatch(registerThunk(formData))
-  //     setFormData({
-  //       name: "",
-  //       email: "",
-  //       password: "",
-  //     })
-  //   }
+  const handleSubmit = () => {
+    dispatch(registerThunk(formData));
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+    });
+  };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -99,30 +100,23 @@ export default function RegistrationForm() {
                   autoComplete="new-password"
                 />
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <FormControlLabel
                   control={
                     <Checkbox value="allowExtraEmails" color="primary" />
                   }
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
             <Button
-              //   onClick={handleSubmit}
+              onClick={handleSubmit}
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>

@@ -1,5 +1,7 @@
 export interface IUserData {
-  name?: string;
   email: string;
+  isActivated?: boolean;
+  id?: string;
+  name?: string;
   password: string;
 }

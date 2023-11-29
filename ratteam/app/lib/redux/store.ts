@@ -1,21 +1,23 @@
-'use client';
+"use client";
 /* Core */
 import {
   configureStore,
   type ThunkAction,
   type Action,
-} from '@reduxjs/toolkit';
+} from "@reduxjs/toolkit";
 import {
   useSelector as useReduxSelector,
   useDispatch as useReduxDispatch,
   type TypedUseSelectorHook,
-} from 'react-redux';
-import modalSlice from './modalSlice';
+} from "react-redux";
+import modalSlice from "./modalSlice";
+import userSlice from "./userSlice";
 /* Instruments */
 
 export const reduxStore = configureStore({
   reducer: {
     modalSlice: modalSlice,
+    userSlice: userSlice,
   },
 });
 export const useDispatch = () => useReduxDispatch<ReduxDispatch>();
