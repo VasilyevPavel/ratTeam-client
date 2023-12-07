@@ -1,15 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  name: "",
-  email: "",
-  password: "",
+  name: '',
+  email: '',
+  password: '',
   isActivated: false,
   isAuth: false,
+  isLoading: false,
 };
 
 const userSlice = createSlice({
-  name: "userSlice",
+  name: 'userSlice',
   initialState,
   reducers: {
     user(state, action) {
@@ -20,14 +21,17 @@ const userSlice = createSlice({
       state.isAuth = true;
     },
     resetUserData(state) {
-      state.name = "";
-      state.email = "";
-      state.password = "";
-      isActivated: false;
-      isAuth: false;
+      state.name = '';
+      state.email = '';
+      state.password = '';
+      state.isActivated = false;
+      state.isAuth = false;
+    },
+    changeLoadingStatus(state) {
+      state.isLoading = !state.isLoading;
     },
   },
 });
 
 export default userSlice.reducer;
-export const { user, resetUserData } = userSlice.actions;
+export const { user, resetUserData, changeLoadingStatus } = userSlice.actions;
