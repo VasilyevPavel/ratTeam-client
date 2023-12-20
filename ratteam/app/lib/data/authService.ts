@@ -26,4 +26,8 @@ export default class AuthService {
       withCredentials: true,
     });
   }
+
+  static async resetPass(email: string): Promise<AxiosResponse<IAuthResponse>> {
+    return $api.post<IAuthResponse>('/auth/forgot-password', { email });
+  }
 }

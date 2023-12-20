@@ -8,10 +8,12 @@ import { RootState } from '@/app/lib/redux/store';
 import LoginForm from './LoginForm';
 import RegistrationForm from './registrationForm';
 import {
+  changeForgotPasssModalStatus,
   changeLoginModalStatus,
   changeModalStatus,
   changeRegistrationModalStatus,
 } from '@/app/lib/redux/modalSlice';
+import ForgotPasswordForm from './forgotPassForm';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -39,15 +41,20 @@ export default function Auth() {
   );
   console.log('registrationForm', registrationForm);
 
+  const forgotPassForm = useAppSelector(
+    (state: RootState) => state.modalSlice.isForgotPassOpen
+  );
+
   function closeModal() {
     if (loginForm) {
       dispatch(changeLoginModalStatus());
-    } else {
+    } else if (registrationForm) {
       dispatch(changeRegistrationModalStatus());
+    } else if (forgotPassForm) {
+      dispatch(changeForgotPasssModalStatus());
     }
     dispatch(changeModalStatus());
   }
-
   return (
     <div>
       <Modal
@@ -56,7 +63,15 @@ export default function Auth() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>{loginForm ? <LoginForm /> : <RegistrationForm />}</Box>
+        <Box sx={style}>
+          {loginForm ? (
+            <LoginForm />
+          ) : registrationForm ? (
+            <RegistrationForm />
+          ) : forgotPassForm ? (
+            <ForgotPasswordForm />
+          ) : null}
+        </Box>
       </Modal>
     </div>
   );

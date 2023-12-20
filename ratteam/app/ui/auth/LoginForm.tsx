@@ -17,6 +17,7 @@ import { useAppDispatch } from '@/app/lib/redux/hooks';
 import { IUserData } from '@/app/lib/types/types';
 import { loginThunk } from '@/app/lib/data/authThunk';
 import {
+  changeForgotPasssModalStatus,
   changeLoginModalStatus,
   changeModalStatus,
 } from '@/app/lib/redux/modalSlice';
@@ -40,6 +41,12 @@ const LoginForm: FC = () => {
     dispatch(loginThunk(formData));
     dispatch(changeLoginModalStatus());
     dispatch(changeModalStatus());
+  };
+
+  const forgotPasswordHandler = () => {
+    dispatch(changeLoginModalStatus());
+
+    dispatch(changeForgotPasssModalStatus());
   };
 
   const defaultTheme = createTheme();
@@ -100,14 +107,14 @@ const LoginForm: FC = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Button onClick={forgotPasswordHandler}>
                   Forgot password?
-                </Link>
+                </Button>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                {/* <Link href="#" variant="body2">
                   {"Don't have an account? Sign Up"}
-                </Link>
+                </Link> */}
               </Grid>
             </Grid>
           </Box>

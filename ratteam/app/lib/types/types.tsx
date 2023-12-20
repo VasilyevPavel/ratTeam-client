@@ -5,3 +5,4 @@ export interface IUserData {
   name?: string;
   password: string;
 }
+
