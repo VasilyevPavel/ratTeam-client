@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import AuthService from './authService';
-import { resetUserData, user } from '../redux/userSlice';
+import { resetUserData, setUserData } from '../redux/userSlice';
 import { IUserData } from '../types/types';
 import { AxiosError } from 'axios';
 import { IError } from '../types/response';
@@ -9,7 +9,7 @@ export const registerThunk = (formData: IUserData) => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await AuthService.registration(formData);
-      dispatch(user(response.data));
+      dispatch(setUserData(response.data));
       localStorage.setItem('token', response.data.accessToken);
     } catch (error) {
       const err = error as AxiosError<IError>;
@@ -26,7 +26,7 @@ export const loginThunk = (inputsData: { email: string; password: string }) => {
         inputsData.password
       );
       console.log('response', response);
-      dispatch(user(response.data));
+      dispatch(setUserData(response.data));
       localStorage.setItem('token', response.data.accessToken);
     } catch (error) {
       const err = error as AxiosError<IError>;
@@ -53,7 +53,7 @@ export const checkAuthThunk = () => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await AuthService.checkAuth();
-      dispatch(user(response.data));
+      dispatch(setUserData(response.data));
       localStorage.setItem('token', response.data.accessToken);
     } catch (error) {
       const err = error as AxiosError<IError>;
@@ -66,7 +66,18 @@ export const checkAuthThunk = () => {
 export const resetPass = (email: string) => {
   return async (dispatch: Dispatch) => {
     try {
-      const response = await AuthService.resetPass(email);
+      const responseReset = await AuthService.resetPass(email);
+    } catch (error) {
+      const err = error as AxiosError<IError>;
+      console.log(err.response?.data?.message);
+    }
+  };
+};
+
+export const newPass = (password: string, token: string) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const response = await AuthService.newPass(password, token);
     } catch (error) {
       const err = error as AxiosError<IError>;
       console.log(err.response?.data?.message);

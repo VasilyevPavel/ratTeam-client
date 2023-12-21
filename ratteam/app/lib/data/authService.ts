@@ -30,4 +30,10 @@ export default class AuthService {
   static async resetPass(email: string): Promise<AxiosResponse<IAuthResponse>> {
     return $api.post<IAuthResponse>('/auth/forgot-password', { email });
   }
+  static async newPass(
+    password: string,
+    token: string
+  ): Promise<AxiosResponse<IAuthResponse>> {
+    return $api.post(`auth/reset-password/${token}`, { password });
+  }
 }

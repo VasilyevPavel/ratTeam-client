@@ -13,7 +13,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useAppDispatch } from '@/app/lib/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/lib/redux/hooks';
 import { IUserData } from '@/app/lib/types/types';
 import { loginThunk } from '@/app/lib/data/authThunk';
 import {
@@ -21,6 +21,7 @@ import {
   changeLoginModalStatus,
   changeModalStatus,
 } from '@/app/lib/redux/modalSlice';
+import { RootState } from '@/app/lib/redux/store';
 
 const LoginForm: FC = () => {
   const dispatch = useAppDispatch();
@@ -28,6 +29,7 @@ const LoginForm: FC = () => {
     email: '',
     password: '',
   });
+  const user = useAppSelector((state: RootState) => state.userSlice.user);
 
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

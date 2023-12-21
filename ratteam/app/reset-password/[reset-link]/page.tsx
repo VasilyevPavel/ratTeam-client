@@ -1,28 +1,38 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-// import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
 
-export default function ResetPassword({
-  params,
-}: {
-  params: { resetLink: string };
-}) {
-  // const { resetToken } = useParams();
+import { useAppDispatch } from '@/app/lib/redux/hooks';
+import { newPass } from '@/app/lib/data/authThunk';
+
+import { useParams } from 'next/navigation';
+
+const ResetPassword = () => {
+  const params = useParams<{ ['reset-link']: string }>();
+  const resetToken: string = params['reset-link'];
+  console.log('resetToken', resetToken);
+  // const searchParams = useSearchParams();
+  const dispatch = useAppDispatch();
+  // const resetToken = searchParams.get('resetToken');
   const [password, setPassword] = useState('');
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
+  const handlePasswordReset = async () => {
+    try {
+      if (!resetToken) {
+        // Обработка ошибки, если токен отсутствует
+        console.error('Reset token is missing');
+        return;
+      }
 
-  const handlePasswordReset = () => {
-    // Отправка запроса на сервер с токеном и новым паролем
-    // ...
-  };
+      // Вызываем Thunk-действие для отправки нового пароля на сервер
+      await dispatch(newPass(password, resetToken));
 
-  // useEffect(() => {
-  //   // Здесь можно выполнить проверку токена или другие необходимые действия
-  //   // ...
-  // }, [resetToken]);
+      // После успешной смены пароля перенаправляем пользователя на другую страницу
+      // router.push('/login'); // Например, перенаправляем на страницу входа
+    } catch (error) {
+      // Обработка ошибок, если что-то пошло не так
+      console.error('Error resetting password:', error);
+    }
+  };
 
   return (
     <div>
@@ -31,9 +41,11 @@ export default function ResetPassword({
         type="password"
         placeholder="Введите новый пароль"
         value={password}
-        onChange={handlePasswordChange}
+        onChange={(e) => setPassword(e.target.value)}
       />
       <button onClick={handlePasswordReset}>Сменить пароль</button>
     </div>
   );
-}
+};
+
+export default ResetPassword;

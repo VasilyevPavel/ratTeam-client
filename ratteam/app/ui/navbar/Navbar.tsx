@@ -1,8 +1,9 @@
 'use client';
 
 import styles from '@/app/ui/navbar/navbar.module.css';
-import Image from '@/node_modules/next/image';
-import Link from '@/node_modules/next/link';
+import Image from 'next/image';
+import Link from 'next/link';
+
 import logo from '../../../public/logo.png';
 
 import {
@@ -14,32 +15,28 @@ import {
 import { useAppDispatch, useAppSelector } from '../../lib/redux/hooks';
 import { useEffect, useState } from 'react';
 import { checkAuthThunk, logoutThunk } from '@/app/lib/data/authThunk';
-import { useSelector } from 'react-redux';
+
 import { RootState } from '@/app/lib/redux/store';
 
 export default function NavBar() {
   const dispatch = useAppDispatch();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   const [loading, setLoading] = useState(true);
+  const userData = useAppSelector(
+    (state: RootState) => state.userSlice.userData
+  );
+  console.log('userData', userData);
 
-  const isAuth = useSelector((state: RootState) => state.userSlice.isAuth);
-
-  console.log('isAuth', isAuth);
   useEffect(() => {
-    setLoading(true);
-
-    const checkAuth = async () => {
-      await dispatch(checkAuthThunk());
+    const checkToken = async () => {
+      if (localStorage.getItem('token')) {
+        await dispatch(checkAuthThunk());
+      }
       setLoading(false);
-      setIsAuthenticated(true);
     };
 
-    if (localStorage.getItem('token')) {
-      checkAuth();
-    } else {
-      setLoading(false);
-    }
-  }, [isAuth, dispatch]);
+    checkToken();
+  }, [dispatch]);
 
   function loginHandler() {
     dispatch(changeLoginModalStatus());
@@ -51,7 +48,6 @@ export default function NavBar() {
   }
   function logoutHandler() {
     dispatch(logoutThunk());
-    setIsAuthenticated(false);
   }
 
   return (
@@ -59,14 +55,18 @@ export default function NavBar() {
       <Link href="/">
         <Image src={logo} width={100} alt="logo" className={styles.logo} />
       </Link>
+      {userData && userData.user.name && (
+        <span>Привет, {userData.user.name}</span>
+      )}
       {loading ? (
         <div className={styles.auth}>Загрузка...</div>
-      ) : isAuthenticated ? (
+      ) : userData ? (
         <div className={styles.auth}>
           {' '}
           <span className={styles.enter} onClick={logoutHandler}>
             Выйти{' '}
           </span>
+          <div>Добавить пост</div>
         </div>
       ) : (
         <div className={styles.auth}>

@@ -1,37 +1,23 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { IAuthResponse } from '../types/response';
+import { UserState } from '../types/types';
 
-const initialState = {
-  name: '',
-  email: '',
-  password: '',
-  isActivated: false,
-  isAuth: false,
-  isLoading: false,
+const initialUserState: UserState = {
+  userData: null,
 };
 
 const userSlice = createSlice({
   name: 'userSlice',
-  initialState,
+  initialState: initialUserState,
   reducers: {
-    user(state, action) {
-      const user = action.payload.user;
-      state.name = user.name;
-      state.email = user.email;
-      state.isActivated = user.isActivated;
-      state.isAuth = true;
+    setUserData(state, action: PayloadAction<IAuthResponse>) {
+      state.userData = action.payload;
     },
     resetUserData(state) {
-      state.name = '';
-      state.email = '';
-      state.password = '';
-      state.isActivated = false;
-      state.isAuth = false;
-    },
-    changeLoadingStatus(state) {
-      state.isLoading = !state.isLoading;
+      state.userData = null;
     },
   },
 });
 
 export default userSlice.reducer;
-export const { user, resetUserData, changeLoadingStatus } = userSlice.actions;
+export const { setUserData, resetUserData } = userSlice.actions;
