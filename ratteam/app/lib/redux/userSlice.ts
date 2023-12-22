@@ -4,6 +4,7 @@ import { UserState } from '../types/types';
 
 const initialUserState: UserState = {
   userData: null,
+  message: '',
 };
 
 const userSlice = createSlice({
@@ -16,8 +17,11 @@ const userSlice = createSlice({
     resetUserData(state) {
       state.userData = null;
     },
+    setMessage(state, action: PayloadAction<string>) {
+      state.message = action.payload;
+    },
   },
 });
 
 export default userSlice.reducer;
-export const { setUserData, resetUserData } = userSlice.actions;
+export const { setUserData, resetUserData, setMessage } = userSlice.actions;

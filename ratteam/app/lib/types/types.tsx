@@ -12,4 +12,5 @@ export interface IAuthResponse {
 }
 export interface UserState {
   userData: IAuthResponse | null;
+  message?: string;
 }

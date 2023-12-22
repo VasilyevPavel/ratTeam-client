@@ -25,7 +25,6 @@ export default function NavBar() {
   const userData = useAppSelector(
     (state: RootState) => state.userSlice.userData
   );
-  console.log('userData', userData);
 
   useEffect(() => {
     const checkToken = async () => {
@@ -55,9 +54,14 @@ export default function NavBar() {
       <Link href="/">
         <Image src={logo} width={100} alt="logo" className={styles.logo} />
       </Link>
-      {userData && userData.user.name && (
-        <span>Привет, {userData.user.name}</span>
-      )}
+      <div className={styles.hello}>
+        {' '}
+        {userData && userData.user.name && (
+          <span className={styles.helloSign}>Привет, {userData.user.name}</span>
+        )}
+        <div className={styles.helloSign}>Добавить пост</div>
+      </div>
+
       {loading ? (
         <div className={styles.auth}>Загрузка...</div>
       ) : userData ? (
@@ -66,7 +70,6 @@ export default function NavBar() {
           <span className={styles.enter} onClick={logoutHandler}>
             Выйти{' '}
           </span>
-          <div>Добавить пост</div>
         </div>
       ) : (
         <div className={styles.auth}>

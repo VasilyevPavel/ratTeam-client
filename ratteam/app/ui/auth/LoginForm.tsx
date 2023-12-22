@@ -1,4 +1,4 @@
-import { FC, useState, ChangeEvent } from 'react';
+import { FC, useState, ChangeEvent, useEffect } from 'react';
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -29,25 +29,49 @@ const LoginForm: FC = () => {
     email: '',
     password: '',
   });
-  const user = useAppSelector((state: RootState) => state.userSlice.user);
+  const [message, setMessage] = useState<string>('');
+  console.log('message', message);
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
+
+  const userData = useAppSelector(
+    (state: RootState) => state.userSlice.userData
+  );
+  const loginInfo = useAppSelector(
+    (state: RootState) => state.userSlice.message
+  );
+  console.log('loginInfo', loginInfo);
 
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const rememberMeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setRememberMe(e.target.checked);
+  };
+
+  useEffect(() => {
+    if (userData) {
+      let name;
+      userData.user.name
+        ? (name = userData.user.name)
+        : (name = 'человек, поленившийся написать имя при регистрации');
+      setMessage(`Добро пожаловать, ${name}`);
+      setTimeout(() => {
+        dispatch(changeLoginModalStatus());
+        dispatch(changeModalStatus());
+        setMessage('Sign in');
+      }, 2000);
+    } else {
+      setMessage(loginInfo || 'Sign in');
+    }
+  }, [userData, loginInfo, dispatch]);
+
   const signInHandler = () => {
-    setFormData({
-      email: '',
-      password: '',
-    });
     dispatch(loginThunk(formData));
-    dispatch(changeLoginModalStatus());
-    dispatch(changeModalStatus());
   };
 
   const forgotPasswordHandler = () => {
     dispatch(changeLoginModalStatus());
-
     dispatch(changeForgotPasssModalStatus());
   };
 
@@ -68,7 +92,7 @@ const LoginForm: FC = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            {message}
           </Typography>
           <Box component="form" noValidate sx={{ mt: 1 }}>
             <TextField
@@ -94,9 +118,16 @@ const LoginForm: FC = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              autoSave={rememberMe ? 'on' : 'off'}
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={
+                <Checkbox
+                  checked={rememberMe}
+                  onChange={rememberMeHandler}
+                  color="primary"
+                />
+              }
               label="Remember me"
             />
             <Button

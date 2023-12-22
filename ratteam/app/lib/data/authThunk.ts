@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import AuthService from './authService';
-import { resetUserData, setUserData } from '../redux/userSlice';
+import { resetUserData, setMessage, setUserData } from '../redux/userSlice';
 import { IUserData } from '../types/types';
 import { AxiosError } from 'axios';
 import { IError } from '../types/response';
@@ -25,13 +25,15 @@ export const loginThunk = (inputsData: { email: string; password: string }) => {
         inputsData.email,
         inputsData.password
       );
-      console.log('response', response);
+
       dispatch(setUserData(response.data));
       localStorage.setItem('token', response.data.accessToken);
     } catch (error) {
       const err = error as AxiosError<IError>;
 
       console.log(err.response?.data?.message);
+      const errorMessage = err.response?.data?.message || 'An error occurred';
+      dispatch(setMessage(errorMessage));
     }
   };
 };
@@ -42,6 +44,7 @@ export const logoutThunk = () => {
       await AuthService.logout();
       dispatch(resetUserData());
       localStorage.removeItem('token');
+      dispatch(setMessage(''));
     } catch (error) {
       const err = error as AxiosError<IError>;
       console.log(err.response?.data?.message);

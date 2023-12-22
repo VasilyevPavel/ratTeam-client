@@ -1,21 +1,21 @@
 import { IAuthResponse } from '@/app/lib/types/response';
-import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 
 const $api = axios.create({
   withCredentials: true,
   baseURL: process.env.NEXT_PUBLIC_URL,
 });
 
-$api.interceptors.request.use((config: AxiosRequestConfig) => {
+$api.interceptors.request.use((config) => {
   config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
   return config;
 });
 
 $api.interceptors.response.use(
-  (config: AxiosRequestConfig) => {
+  (config) => {
     return config;
   },
-  async (error: AxiosError) => {
+  async (error) => {
     const originalRequest = error.config;
     if (
       error.response?.status === 401 &&

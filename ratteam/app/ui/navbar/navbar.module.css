@@ -1,7 +1,7 @@
 .shape {
-  min-width: 960px;
-  max-width: 1420px;
-  /* height: 80px; */
+  display: flex;
+  min-width: 80%;
+  max-width: 99%;
   position: relative;
   overflow: hidden;
   zoom: 1;
@@ -9,7 +9,7 @@
   border: 1px solid #ddd;
   border-radius: 7px;
   box-shadow: 0 0 5px #eee;
-  padding: 12px 10px;
+  padding: 15px 1%;
   margin: 0 auto;
 }
 .logo {
@@ -41,4 +41,11 @@
 }
 .enter {
   cursor: pointer;
+}
+.hello {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+  margin-left: 30px;
 }
