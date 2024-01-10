@@ -9,3 +9,9 @@ export interface IAuthResponse {
 export interface IError {
   message: string;
 }
+export interface PostData {
+  id: number;
+  header: string;
+  body: string;
+  user_id: number;
+}

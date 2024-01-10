@@ -4,6 +4,7 @@ import { resetUserData, setMessage, setUserData } from '../redux/userSlice';
 import { IUserData } from '../types/types';
 import { AxiosError } from 'axios';
 import { IError } from '../types/response';
+import { redirect } from 'next/navigation';
 
 export const registerThunk = (formData: IUserData) => {
   return async (dispatch: Dispatch) => {
@@ -45,6 +46,7 @@ export const logoutThunk = () => {
       dispatch(resetUserData());
       localStorage.removeItem('token');
       dispatch(setMessage(''));
+      // window.location.href = '/';
     } catch (error) {
       const err = error as AxiosError<IError>;
       console.log(err.response?.data?.message);
@@ -58,6 +60,7 @@ export const checkAuthThunk = () => {
       const response = await AuthService.checkAuth();
       dispatch(setUserData(response.data));
       localStorage.setItem('token', response.data.accessToken);
+      return response.data;
     } catch (error) {
       const err = error as AxiosError<IError>;
 

@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react';
 import { checkAuthThunk, logoutThunk } from '@/app/lib/data/authThunk';
 
 import { RootState } from '@/app/lib/redux/store';
+import { redirect, useRouter } from 'next/navigation';
 
 export default function NavBar() {
   const dispatch = useAppDispatch();
@@ -26,6 +27,7 @@ export default function NavBar() {
     (state: RootState) => state.userSlice.userData
   );
 
+  const router = useRouter();
   useEffect(() => {
     const checkToken = async () => {
       if (localStorage.getItem('token')) {
@@ -47,6 +49,7 @@ export default function NavBar() {
   }
   function logoutHandler() {
     dispatch(logoutThunk());
+    router.push('/');
   }
 
   return (
@@ -59,18 +62,22 @@ export default function NavBar() {
         {userData && userData.user.name && (
           <span className={styles.helloSign}>Привет, {userData.user.name}</span>
         )}
-        <div className={styles.helloSign}>Добавить пост</div>
       </div>
 
       {loading ? (
         <div className={styles.auth}>Загрузка...</div>
       ) : userData ? (
-        <div className={styles.auth}>
-          {' '}
-          <span className={styles.enter} onClick={logoutHandler}>
-            Выйти{' '}
-          </span>
-        </div>
+        <>
+          <Link href="/personal">
+            <div className={styles.helloSign}>Личный кабинет</div>
+          </Link>
+          <div className={styles.auth}>
+            {' '}
+            <span className={styles.enter} onClick={logoutHandler}>
+              Выйти{' '}
+            </span>
+          </div>
+        </>
       ) : (
         <div className={styles.auth}>
           <span className={styles.enter} onClick={loginHandler}>
