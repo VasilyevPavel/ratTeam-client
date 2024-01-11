@@ -6,7 +6,7 @@ import { IError, PostData } from '../lib/types/response';
 import { revalidateTag } from 'next/cache';
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
-import Post from '../components/Post';
+import PostPreview from '../components/PostPreview';
 async function getData() {
   try {
     const cookieStore = cookies();
@@ -37,7 +37,7 @@ export default async function PersonalPage() {
         <div>Создать пост</div>
       </Link>
       {posts ? (
-        posts.map((post) => <Post key={post.id} {...post} />)
+        posts.map((post) => <PostPreview key={post.id} {...post} />)
       ) : (
         <Link href="/personal/create-post">
           <div>Напиши свой первый пост</div>
