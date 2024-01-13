@@ -1,12 +1,16 @@
 import React from 'react';
 import { PostData } from '../lib/types/response';
-import DOMPurify from 'isomorphic-dompurify';
 import Link from 'next/link';
 import styles from './postPreview.module.css';
+import ReactHtmlParser from 'html-react-parser';
+import { headers } from 'next/headers';
+import EditIcon from '@mui/icons-material/Edit';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import PostLike from './PostLike';
 
 const truncateText = (text: string, maxLength: number) => {
   if (text.length <= maxLength) {
-    return text;
+    return <div>{ReactHtmlParser(text)}</div>;
   }
 
   const truncated = text.substring(0, maxLength) + '...';
@@ -18,20 +22,67 @@ const truncateText = (text: string, maxLength: number) => {
 
   return (
     <>
-      {truncated} {readMoreLink}
+      <div>{ReactHtmlParser(truncated)}</div>
+      {readMoreLink}
     </>
   );
 };
 
-export default function PostPreview({ header, body }: PostData) {
-  console.log('body', body);
-  const clean = DOMPurify.sanitize(body);
-  const truncatedBody = truncateText(clean, 300);
+const extractFirstImage = (text: string) => {
+  const firstImage = text.match(/<img [^>]*src="([^"]+)"[^>]*>/);
+  return firstImage ? firstImage[0] : '';
+};
+
+export default function PostPreview({
+  header,
+  body,
+  user_id,
+  id,
+  PostLikes,
+  Comments,
+}: PostData) {
+  const firstImage = extractFirstImage(body);
+  const truncatedBody = truncateText(body, 300);
+  const headersList = headers();
+  const middlewareSet = headersList.get('user');
+  let user = null;
+
+  if (middlewareSet) {
+    const decodedUser = Buffer.from(middlewareSet, 'base64').toString('utf-8');
+    user = JSON.parse(decodedUser);
+  }
+  const isOwner = user.id === user_id;
+
+  const editPostLink = `/edit-post/${id}`;
 
   return (
     <div className={styles.previewStyle}>
-      <div>{header}</div>
+      <Link href="/">
+        <div className={styles.header}>{header}</div>
+      </Link>
+      <div className={styles.imagePreview}>{ReactHtmlParser(firstImage)}</div>
       <div>{truncatedBody}</div>
+      <div className={styles.previewBottom}>
+        <div className={styles.previewBottomLeft}>
+          <div className={styles.previewBottomLeftInfo}>
+            <PostLike PostLikes={PostLikes} user={user} postId={id} />
+          </div>
+          <div className={styles.previewBottomLeftInfo}>
+            <ChatBubbleOutlineIcon />
+            <span>{Comments.length}</span>
+          </div>
+        </div>
+
+        {isOwner && (
+          <>
+            <div className={styles.previewBottomRight}>
+              <Link href={editPostLink}>
+                <EditIcon />
+              </Link>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }
