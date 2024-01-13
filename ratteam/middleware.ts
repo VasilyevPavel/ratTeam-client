@@ -6,7 +6,7 @@ export default async function middleware(req: {
   nextUrl: { pathname: string };
   url: string | URL | undefined;
 }) {
-  const loggedin = req.cookies.get('refreshToken');
+  const loggedin = req.cookies.get('refreshToken') ?? { value: null };
 
   const { pathname } = req.nextUrl;
 
@@ -29,7 +29,7 @@ export default async function middleware(req: {
     }
   };
 
-  if (loggedin) {
+  if (loggedin.value) {
     const result = await token();
     const user = JSON.stringify(result.user);
     const encodedUser = Buffer.from(user).toString('base64');
