@@ -8,12 +8,12 @@ export default class PostService {
   }): Promise<AxiosResponse> {
     return $api.post('/post/create', { postData });
   }
-  static async getPosts(refreshToken: string): Promise<AxiosResponse> {
-    const headers = {
-      Authorization: `Bearer ${refreshToken}`,
-    };
-    return axios.get(`${process.env.NEXT_PUBLIC_URL}/post/get-posts`, {
-      headers,
+  static async getUserPosts(id: number): Promise<AxiosResponse> {
+    // const headers = {
+    //   Authorization: `Bearer ${refreshToken}`,
+    // };
+    return axios.get(`${process.env.NEXT_PUBLIC_URL}/post/get-posts/${id}`, {
+      // headers,
       withCredentials: true,
     });
   }

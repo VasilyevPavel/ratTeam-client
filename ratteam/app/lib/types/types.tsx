@@ -1,7 +1,7 @@
 export interface IUserData {
   email: string;
   isActivated?: boolean;
-  id?: string;
+  id?: number;
   name?: string;
   password: string;
 }

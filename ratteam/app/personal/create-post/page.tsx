@@ -50,6 +50,13 @@ const quillModules = {
       });
     },
   },
+  imageCompress: {
+    quality: 0.7, // default
+    maxWidth: 550, // default
+    maxHeight: 'auto', // default
+    imageType: 'image/jpeg', // default
+    debug: true, // default
+  },
 };
 
 const quillFormats = [
@@ -69,17 +76,16 @@ const quillFormats = [
 ];
 
 const QuillNoSSRWrapper = dynamic(
-  () => {
-    return import('react-quill').then((module) => {
-      const RQ = module.default || module;
-      const { default: ImageUploader } = require('quill-image-uploader');
-
-      if (RQ.Quill && ImageUploader) {
-        RQ.Quill.register('modules/imageUploader', ImageUploader);
-      }
-
-      return RQ;
-    });
+  async () => {
+    const module = await import('react-quill');
+    const RQ = module.default || module;
+    const { default: ImageUploader } = require('quill-image-uploader');
+    const { default: ImageCompress } = require('quill-image-compress');
+    if (RQ.Quill && ImageUploader && ImageCompress) {
+      RQ.Quill.register('modules/imageUploader', ImageUploader);
+      RQ.Quill.register('modules/imageCompress', ImageCompress);
+    }
+    return RQ;
   },
   {
     ssr: false,
