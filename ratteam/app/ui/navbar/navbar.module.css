@@ -1,0 +1,52 @@
+.shape {
+  display: flex;
+  min-width: 80%;
+  max-width: 99%;
+  position: relative;
+  overflow: hidden;
+  zoom: 1;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  box-shadow: 0 0 5px #eee;
+  padding: 15px 1%;
+  margin: 0 auto;
+  margin-top: 5px;
+}
+.logo {
+  height: 'auto';
+  float: left;
+  position: relative;
+  top: -3px;
+}
+.auth {
+  color: #3b3b3b;
+  position: absolute;
+  right: 17px;
+  top: 49px;
+}
+.loginLink {
+  background: #22496a;
+  color: #fff;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 0 4px;
+  text-decoration: none;
+}
+.regLink {
+  background: #f05a00;
+  color: #fff;
+  font-size: 14px;
+  padding: 0 4px;
+  text-decoration: none;
+}
+.enter {
+  cursor: pointer;
+}
+.hello {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+  margin-left: 30px;
+}

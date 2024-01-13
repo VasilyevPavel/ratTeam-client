@@ -1,0 +1,44 @@
+.previewStyle {
+  /* border: solid 3px black; */
+  /* height: 200px; */
+  max-width: 70%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.035), 0 4px 25px rgba(0, 0, 0, 0.07);
+  border-radius: 6px;
+  padding: 20px;
+  position: relative;
+}
+.header {
+  cursor: pointer;
+  word-wrap: break-word;
+  margin-bottom: 14px;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+.imagePreview {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.previewBottom {
+  align-items: center;
+  margin-top: 15px;
+  display: flex;
+}
+.previewBottomLeft {
+  flex-shrink: 0;
+  min-width: 0;
+  margin-right: auto;
+  display: flex;
+}
+.previewBottomRight {
+  min-width: 0;
+  margin-left: 20px;
+}
+.previewBottomLeftInfo {
+  display: flex;
+}
