@@ -2,8 +2,8 @@
 import React from 'react';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { IPostLike } from '../lib/types/response';
-import { IUserData } from '../lib/types/types';
+import { IPostLike } from '../../lib/types/response';
+import { IUserData } from '../../lib/types/types';
 
 interface PostLikeProps {
   PostLikes: IPostLike[];

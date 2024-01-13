@@ -6,7 +6,7 @@ import ReactHtmlParser from 'html-react-parser';
 import { headers } from 'next/headers';
 import EditIcon from '@mui/icons-material/Edit';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import PostLike from './PostLike';
+import PostLike from '../ui/postLike/PostLike';
 
 const truncateText = (text: string, maxLength: number) => {
   if (text.length <= maxLength) {
