@@ -28,6 +28,7 @@ export const loginThunk = (inputsData: { email: string; password: string }) => {
         inputsData.email,
         inputsData.password
       );
+      console.log('response!!!', response);
 
       dispatch(setUserData(response.data));
       localStorage.setItem('token', response.data.accessToken);
@@ -60,8 +61,10 @@ export const checkAuthThunk = () => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await AuthService.checkAuth();
+
       dispatch(setUserData(response.data));
       localStorage.setItem('token', response.data.accessToken);
+      console.log('response.data', response.data);
       return response.data;
     } catch (error) {
       const err = error as AxiosError<IError>;

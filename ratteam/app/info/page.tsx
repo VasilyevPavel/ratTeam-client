@@ -1,14 +1,13 @@
-"use client";
+'use client';
 export default function Info() {
   async function testHendler() {
     try {
-      const res = await fetch("https://z65zk9-3002.csb.app/api/auth/test", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
+      const res = await fetch('https://z65zk9-3002.csb.app/api/auth/test', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
       });
       const test = await res.json();
-      console.log(test);
     } catch (err) {
       console.log(err);
     }

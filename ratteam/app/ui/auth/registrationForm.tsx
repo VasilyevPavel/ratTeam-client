@@ -21,6 +21,7 @@ import {
   changeModalStatus,
   changeRegistrationModalStatus,
 } from '@/app/lib/redux/modalSlice';
+import { setMessage } from '@/app/lib/redux/userSlice';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -40,7 +41,7 @@ export default function RegistrationForm() {
   const loginInfo = useAppSelector(
     (state: RootState) => state.userSlice.message
   );
-  console.log('loginInfo', loginInfo);
+
   useEffect(() => {
     if (userData) {
       let name;
@@ -52,9 +53,18 @@ export default function RegistrationForm() {
         dispatch(changeRegistrationModalStatus());
         dispatch(changeModalStatus());
         setWelcomeText('Sign Up');
+        setFormData({
+          name: '',
+          email: '',
+          password: '',
+        });
       }, 2000);
     } else {
       setWelcomeText(loginInfo || 'Sign Up');
+      setTimeout(() => {
+        setWelcomeText('Sign Up');
+        dispatch(setMessage(''));
+      }, 2000);
     }
   }, [userData, loginInfo, dispatch]);
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -63,11 +73,6 @@ export default function RegistrationForm() {
 
   const handleSubmit = () => {
     dispatch(registerThunk(formData));
-    setFormData({
-      name: '',
-      email: '',
-      password: '',
-    });
   };
 
   return (

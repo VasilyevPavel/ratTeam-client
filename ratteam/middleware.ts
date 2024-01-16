@@ -17,36 +17,39 @@ export default async function middleware(req: {
         {
           method: 'GET',
           credentials: 'include',
-          headers: { Cookie: `refreshToken=${loggedin.value}` },
+          headers: { Cookie: `refreshToken=${loggedin.value || ''}` },
         }
       );
       const data = await response.json();
 
       return data;
     } catch (error) {
-      console.error('Error fetching token:', error);
+      console.error('Ошибка при получении токена:', error);
       return null;
     }
   };
 
   if (loggedin.value) {
     const result = await token();
-    const user = JSON.stringify(result.user);
-    const encodedUser = Buffer.from(user).toString('base64');
 
-    const requestHeaders = new Headers(req.headers);
-    requestHeaders.set('user', encodedUser);
+    if (result && result.user) {
+      const user = JSON.stringify(result.user);
+      const encodedUser = Buffer.from(user).toString('base64');
 
-    const response = NextResponse.next({
-      request: {
-        headers: requestHeaders,
-      },
-    });
+      const requestHeaders = new Headers(req.headers);
+      requestHeaders.set('user', encodedUser);
 
-    return response;
+      const response = NextResponse.next({
+        request: {
+          headers: requestHeaders,
+        },
+      });
+
+      return response;
+    }
   }
 
-  if (!loggedin && pathname.startsWith('/personal')) {
+  if (!loggedin.value && pathname.startsWith('/personal')) {
     return NextResponse.redirect(new URL('/', req.url));
   }
 }

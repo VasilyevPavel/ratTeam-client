@@ -17,7 +17,8 @@ import { useEffect, useState } from 'react';
 import { checkAuthThunk, logoutThunk } from '@/app/lib/data/authThunk';
 
 import { RootState } from '@/app/lib/redux/store';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import Avatar from '@/app/components/Avatar';
 
 export default function NavBar() {
   const dispatch = useAppDispatch();
@@ -60,7 +61,12 @@ export default function NavBar() {
       <div className={styles.hello}>
         {' '}
         {userData && userData.user.name && (
-          <span className={styles.helloSign}>Привет, {userData.user.name}</span>
+          <>
+            <span className={styles.helloSign}>
+              Привет, {userData.user.name}
+            </span>
+            <Avatar />
+          </>
         )}
       </div>
 

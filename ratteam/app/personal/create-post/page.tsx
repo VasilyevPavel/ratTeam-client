@@ -36,7 +36,6 @@ const quillModules = {
           )
             .then((response) => response.json())
             .then((result) => {
-              console.log(result);
               resolve(result.data.url);
             })
             .catch((error) => {
@@ -52,7 +51,7 @@ const quillModules = {
   },
   imageCompress: {
     quality: 0.7, // default
-    maxWidth: 550, // default
+    maxWidth: 'auto', // default
     maxHeight: 'auto', // default
     imageType: 'image/jpeg', // default
     debug: true, // default

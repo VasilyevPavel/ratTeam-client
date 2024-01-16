@@ -1,0 +1,13 @@
+.avatar {
+  border-radius: 50%;
+  overflow: hidden;
+  width: auto;
+  height: auto;
+  margin-left: 10px;
+  margin-left: 10px;
+}
+
+.avatar:hover {
+  border: 2px solid #22496a;
+  transition: border 0.3s ease-in-out;
+}

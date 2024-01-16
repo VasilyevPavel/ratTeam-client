@@ -9,7 +9,7 @@ import { useParams } from 'next/navigation';
 const ResetPassword = () => {
   const params = useParams<{ ['reset-link']: string }>();
   const resetToken: string = params['reset-link'];
-  console.log('resetToken', resetToken);
+
   // const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
   // const resetToken = searchParams.get('resetToken');
