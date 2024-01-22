@@ -48,7 +48,7 @@ export async function getAllPosts() {
 }
 export async function getOnePost(postId: number) {
   try {
-    console.log('попал');
+    console.log('попал', postId);
     const response = await PostService.getOnePost(postId);
     console.log('responseresponseresponse', response);
 

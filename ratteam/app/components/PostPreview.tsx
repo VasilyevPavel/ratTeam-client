@@ -9,10 +9,11 @@ import PostLike from '../ui/postLike/PostLike';
 import EditButton from './EditButton';
 import Avatar from './Avatar';
 import { translit } from '../lib/translit/translit';
+import Image from 'next/image';
 
 const extractFirstImage = (text: string) => {
   const firstImage = text.match(/<img [^>]*src="([^"]+)"[^>]*>/);
-  return firstImage ? firstImage[0] : '';
+  return firstImage ? firstImage[1] : '';
 };
 
 export default function PostPreview({
@@ -25,6 +26,7 @@ export default function PostPreview({
   User,
 }: PostData) {
   const firstImage = extractFirstImage(body);
+  console.log('firstImagefirstImagefirstImage', firstImage);
   const postAuthorTranslit = translit(User.name);
   const postNameTranslit = translit(header);
   const truncateText = (text: string, maxLength: number) => {
@@ -63,11 +65,24 @@ export default function PostPreview({
       <Link href={`/blog/${postAuthorTranslit}/${postNameTranslit}/${id}`}>
         <div className={styles.header}>{header}</div>
       </Link>
-      <div className={styles.imageContainer}>
-        <div className={styles.imagePreviewContainer}>
-          {ReactHtmlParser(firstImage)}
-        </div>
-      </div>
+      {/* <div className={styles.imageContainer}> */}
+      {/* <div className={styles.imagePreviewContainer}> */}
+      {/* {ReactHtmlParser(firstImage)} */}
+      {firstImage && (
+        <Image
+          src={firstImage}
+          alt="preview"
+          width={0}
+          height={0}
+          sizes="100vw"
+          style={{
+            width: '100%',
+            height: 'auto',
+          }}
+        />
+      )}
+      {/* </div> */}
+      {/* </div> */}
       <div>{truncatedBody}</div>
       <div className={styles.previewBottom}>
         <div className={styles.previewBottomLeft}>

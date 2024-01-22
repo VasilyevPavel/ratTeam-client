@@ -1,5 +1,5 @@
 export const translit = (text: string) => {
-  const clearedText = text.replace(/[ьъЬЪ\s]|[^a-zA-Zа-яА-ЯёЁ]/g, '');
+  const clearedText = text.replace(/[ьъЬЪ\s]|[^a-zA-Zа-яА-ЯёЁ0-9]/g, '');
 
   const alphabet: Record<string, string> = {
     а: 'a',

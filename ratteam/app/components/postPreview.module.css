@@ -1,5 +1,5 @@
 .previewStyle {
-  width: 70%;
+  width: 60%;
   margin-top: 20px;
   margin-bottom: 20px;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.035), 0 4px 25px rgba(0, 0, 0, 0.07);
@@ -16,13 +16,14 @@
   line-height: 1.15;
 }
 .imageContainer {
+  position: relative;
   overflow: hidden;
   border-radius: 6px;
 }
 
 .imagePreviewContainer {
-  max-width: 100%;
-  height: auto;
+  position: relative;
+
   display: flex;
   flex-direction: column;
 }
@@ -57,4 +58,8 @@
 }
 .previewBottomInfoAvatar img {
   max-height: 30px;
+}
+.image {
+  height: auto;
+  width: 100%;
 }

@@ -16,7 +16,7 @@ export default function Avatar({ user }: AvatarProps) {
   const userData = useAppSelector(
     (state: RootState) => state.userSlice.userData
   );
-  console.log('user!!!!', user);
+
   if (!user && !userData) {
     return <div>No user data available</div>;
   }
