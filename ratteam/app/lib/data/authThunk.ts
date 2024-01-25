@@ -4,7 +4,6 @@ import { resetUserData, setMessage, setUserData } from '../redux/userSlice';
 import { IUserData } from '../types/types';
 import { AxiosError } from 'axios';
 import { IError } from '../types/response';
-import { redirect } from 'next/navigation';
 
 export const registerThunk = (formData: IUserData) => {
   return async (dispatch: Dispatch) => {

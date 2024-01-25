@@ -1,0 +1,26 @@
+.photosBox {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.progressBar {
+  height: 10px;
+  width: 100%;
+  background-color: #ddd;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.progress {
+  height: 100%;
+  width: 0;
+  background-color: #4caf50;
+  border-radius: 5px;
+}
+.loadingSpinner {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #2196f3;
+}

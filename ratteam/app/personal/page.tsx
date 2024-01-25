@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { headers } from 'next/headers';
-import PostPreview from '../components/PostPreview';
+import PostPreview from '../components/postPreview/PostPreview';
 import styles from './personal.module.css';
 import { getUserPosts } from '../lib/data/postData';
 

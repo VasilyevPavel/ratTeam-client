@@ -1,0 +1,19 @@
+.imageСontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.imageStyle {
+  height: auto;
+  max-width: 800px;
+  width: 100%;
+}
+.ql-align-center {
+  display: flex;
+  justify-content: center;
+}
+/* .postBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */

@@ -2,13 +2,15 @@ import React from 'react';
 import { getOnePost } from '@/app/lib/data/postData';
 import { Element } from 'html-react-parser';
 const parse = require('html-react-parser').default;
-import styles from './post.module.css';
+import './postStyles.css';
+
 import Image from 'next/image';
 
 export default async function page({ params }: { params: { post: string[] } }) {
   const [, , postId] = params.post.map(Number);
+  console.log('postId', params);
   const post = await getOnePost(postId);
-
+  console.log('post', post);
   if (!post) {
     return <div>Произошла ошибка</div>;
   } else {
@@ -18,7 +20,7 @@ export default async function page({ params }: { params: { post: string[] } }) {
           const { src, alt, width, height } = domNode.attribs;
           return (
             <Image
-              className={styles.image}
+              className="imageStyle"
               src={src}
               alt={post.header}
               width={0}
@@ -33,8 +35,8 @@ export default async function page({ params }: { params: { post: string[] } }) {
 
     return (
       <>
-        <div className={styles.post}>{post.header}</div>
-        <div>{parse(post.body, options)}</div>
+        <div className="postHeader">{post.header}</div>
+        <div className="postBody">{parse(post.body, options)}</div>
       </>
     );
   }

@@ -1,4 +1,4 @@
-import PostPreview from './components/PostPreview';
+import PostPreview from './components/postPreview/PostPreview';
 import { getAllPosts } from './lib/data/postData';
 import styles from './page.module.css';
 

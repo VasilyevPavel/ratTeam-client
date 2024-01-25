@@ -1,8 +1,8 @@
 'use client';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import PostService from '@/app/lib/data/postService';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { IError } from '@/app/lib/types/response';
 import { TextField } from '@mui/material';
 import styles from './createPost.module.css';
@@ -11,7 +11,11 @@ import dynamic from 'next/dynamic';
 import 'quill-image-uploader/dist/quill.imageUploader.min.css';
 import { useRouter } from 'next/navigation';
 
-import Dropzone from '@/app/components/Dropzone';
+import Dropzone from '@/app/components/dropzone/Dropzone';
+import { Dispatch } from 'redux';
+import { useAppDispatch, useAppSelector } from '@/app/lib/redux/hooks';
+import postSlice, { setPostBody } from '@/app/lib/redux/postSlice';
+import { RootState } from '@/app/lib/redux/store';
 
 const quillModules = {
   toolbar: [
@@ -26,43 +30,6 @@ const quillModules = {
     ['code-block'],
     ['clean'],
   ],
-  // imageUploader: {
-  //   upload: (file: string | Blob) => {
-  //     return new Promise((resolve, reject) => {
-  //       try {
-  //         const formData = new FormData();
-  //         formData.append('image', file);
-
-  //         fetch(
-  //           'https://api.imgbb.com/1/upload?key=e1a48b3cfa8eb4ffab49dc2cc8ce0543',
-  //           {
-  //             method: 'POST',
-  //             body: formData,
-  //           }
-  //         )
-  //           .then((response) => response.json())
-  //           .then((result) => {
-  //             console.log('result.data.url', result.data.url);
-  //             resolve(result.data.url);
-  //           })
-  //           .catch((error) => {
-  //             reject('Upload failed');
-  //             console.error('Error:', error);
-  //           });
-  //       } catch (error) {
-  //         reject('Error processing file');
-  //         console.error('Error:', error);
-  //       }
-  //     });
-  //   },
-  // },
-  // imageCompress: {
-  //   quality: 0.7, // default
-  //   maxWidth: 'auto', // default
-  //   maxHeight: 'auto', // default
-  //   imageType: 'image/jpeg/png', // default
-  //   debug: true, // default
-  // },
 };
 
 const quillFormats = [
@@ -85,12 +52,7 @@ const QuillNoSSRWrapper = dynamic(
   async () => {
     const module = await import('react-quill');
     const RQ = module.default || module;
-    // const { default: ImageUploader } = require('quill-image-uploader');
-    // const { default: ImageCompress } = require('quill-image-compress');
-    // if (RQ.Quill && ImageUploader && ImageCompress) {
-    //   RQ.Quill.register('modules/imageUploader', ImageUploader);
-    //   // RQ.Quill.register('modules/imageCompress', ImageCompress);
-    // }
+
     return RQ;
   },
   {
@@ -100,24 +62,37 @@ const QuillNoSSRWrapper = dynamic(
 );
 
 export default function CreatePost() {
-  const [body, setBody] = useState('');
-  console.log('body', body);
   const [postHeader, setPostHeader] = useState('');
-  const [image, setImage] = useState('');
-
+  const [isPostheaderFilled, setIsPostHeaderFilled] = useState<boolean>(true);
+  const postBody = useAppSelector((state: RootState) => state.postSlice.body);
+  console.log('postBody', postBody);
   const router = useRouter();
 
+  const postHeaderInputRef = useRef<HTMLInputElement | null>(null);
+  const dispatch = useAppDispatch();
+
   const handleEditorChange = useCallback((newContent: string) => {
-    setBody(newContent);
+    dispatch(setPostBody(newContent));
   }, []);
 
   const handleSave = async () => {
     if (postHeader.length === 0) {
+      setIsPostHeaderFilled(false);
+      if (postHeaderInputRef.current) {
+        postHeaderInputRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }
+      setTimeout(() => {
+        setIsPostHeaderFilled(true);
+      }, 1500);
+      return;
     }
     try {
       const postData = {
         header: postHeader,
-        body: body,
+        body: postBody,
       };
       const response = await PostService.create(postData);
       router.push('/personal');
@@ -132,7 +107,10 @@ export default function CreatePost() {
       <div className={styles.box}>
         <div className={styles.input}>Выбери название для поста</div>
         <TextField
-          className={styles.textField}
+          inputRef={postHeaderInputRef}
+          className={`${styles.textField} ${
+            !isPostheaderFilled ? styles.alert : ''
+          }`}
           fullWidth
           type="text"
           required
@@ -143,7 +121,7 @@ export default function CreatePost() {
         />
         <QuillNoSSRWrapper
           placeholder="Start typing!"
-          value={body}
+          value={postBody}
           onChange={handleEditorChange}
           modules={quillModules}
           formats={quillFormats}
@@ -151,7 +129,7 @@ export default function CreatePost() {
       </div>
       <div className={styles.box}>
         <h2 className={styles.header}>Фотографии</h2>
-        <Dropzone setBody={setBody} />
+        <Dropzone />
       </div>
       <div className={styles.buttonsBlock}>
         <button onClick={handleSave} className={styles.button}>

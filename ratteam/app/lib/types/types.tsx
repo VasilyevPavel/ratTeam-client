@@ -25,3 +25,8 @@ export interface UserState {
   userData: IAuthResponse | null;
   message?: string;
 }
+
+export interface PostBody {
+  header: string;
+  body: string;
+}

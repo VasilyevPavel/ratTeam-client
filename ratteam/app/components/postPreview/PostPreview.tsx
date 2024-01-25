@@ -1,19 +1,33 @@
 import React from 'react';
-import { PostData } from '../lib/types/response';
+import { PostData } from '../../lib/types/response';
 import Link from 'next/link';
 import styles from './postPreview.module.css';
 import ReactHtmlParser from 'html-react-parser';
 import { headers } from 'next/headers';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import PostLike from '../ui/postLike/PostLike';
-import EditButton from './EditButton';
-import Avatar from './Avatar';
-import { translit } from '../lib/translit/translit';
+import PostLike from '../../ui/postLike/PostLike';
+import EditButton from '../EditButton';
+import Avatar from '../Avatar';
+import { translit } from '../../lib/translit/translit';
 import Image from 'next/image';
 
 const extractFirstImage = (text: string) => {
-  const firstImage = text.match(/<img [^>]*src="([^"]+)"[^>]*>/);
-  return firstImage ? firstImage[1] : '';
+  const imageRegex = /<img [^>]*src="([^"]+)"[^>]*>/;
+  const firstImage = text.match(imageRegex);
+  let textForPreview = '';
+
+  if (firstImage) {
+    textForPreview = text.replace(imageRegex, '');
+  }
+
+  return firstImage
+    ? {
+        firstImage: firstImage[1],
+        textForPreview: textForPreview.trim(),
+      }
+    : {
+        textForPreview: text.trim(),
+      };
 };
 
 export default function PostPreview({
@@ -29,26 +43,34 @@ export default function PostPreview({
   console.log('firstImagefirstImagefirstImage', firstImage);
   const postAuthorTranslit = translit(User.name);
   const postNameTranslit = translit(header);
+  const readMoreLink = (
+    <Link href={`/blog/${postAuthorTranslit}/${postNameTranslit}/${id}`}>
+      <strong>Читать дальше</strong>
+    </Link>
+  );
+
   const truncateText = (text: string, maxLength: number) => {
     if (text.length <= maxLength) {
-      return <div>{ReactHtmlParser(text)}</div>;
+      return (
+        <>
+          <div>{ReactHtmlParser(text)}</div>
+          {readMoreLink}
+        </>
+      );
     }
 
     const truncated = text.substring(0, maxLength) + '...';
-    const readMoreLink = (
-      <Link href={`/blog/${postAuthorTranslit}/${postNameTranslit}/${id}`}>
-        <strong>Читать дальше</strong>
-      </Link>
-    );
 
     return (
       <>
-        <div>{ReactHtmlParser(truncated)}</div>
+        <div>{truncated}</div>
         {readMoreLink}
       </>
     );
   };
-  const truncatedBody = truncateText(body, 300);
+
+  const truncatedBody = truncateText(firstImage.textForPreview, 300);
+
   const headersList = headers();
   const middlewareSet = headersList.get('user');
 
@@ -65,12 +87,9 @@ export default function PostPreview({
       <Link href={`/blog/${postAuthorTranslit}/${postNameTranslit}/${id}`}>
         <div className={styles.header}>{header}</div>
       </Link>
-      {/* <div className={styles.imageContainer}> */}
-      {/* <div className={styles.imagePreviewContainer}> */}
-      {/* {ReactHtmlParser(firstImage)} */}
       {firstImage && (
         <Image
-          src={firstImage}
+          src={firstImage.firstImage}
           alt="preview"
           width={0}
           height={0}

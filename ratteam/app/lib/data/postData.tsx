@@ -2,7 +2,7 @@ import { headers } from 'next/headers';
 import PostService from './postService';
 import { IError, PostData } from '../types/response';
 import { AxiosError } from 'axios';
-import { NextResponse } from 'next/server';
+
 export async function getUserPosts() {
   try {
     const headersList = headers();

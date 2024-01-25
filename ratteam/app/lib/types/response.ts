@@ -5,6 +5,11 @@ export interface IAuthResponse {
   refreshToken: string;
   user: IUser;
 }
+export interface IImageResponse {
+  id: number;
+  name: string;
+  post_id: number | null;
+}
 
 export interface IError {
   message: string;
