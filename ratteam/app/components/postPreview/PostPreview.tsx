@@ -11,25 +11,6 @@ import Avatar from '../Avatar';
 import { translit } from '../../lib/translit/translit';
 import Image from 'next/image';
 
-const extractFirstImage = (text: string) => {
-  const imageRegex = /<img [^>]*src="([^"]+)"[^>]*>/;
-  const firstImage = text.match(imageRegex);
-  let textForPreview = '';
-
-  if (firstImage) {
-    textForPreview = text.replace(imageRegex, '');
-  }
-
-  return firstImage
-    ? {
-        firstImage: firstImage[1],
-        textForPreview: textForPreview.trim(),
-      }
-    : {
-        textForPreview: text.trim(),
-      };
-};
-
 export default function PostPreview({
   header,
   body,
@@ -38,9 +19,14 @@ export default function PostPreview({
   PostLikes,
   Comments,
   User,
+  Images,
 }: PostData) {
-  const firstImage = extractFirstImage(body);
-  console.log('firstImagefirstImagefirstImage', firstImage);
+  console.log('Images', Images);
+  let firstImage = '';
+  if (Images.length > 0) {
+    firstImage = Images[0].name;
+  }
+
   const postAuthorTranslit = translit(User.name);
   const postNameTranslit = translit(header);
   const readMoreLink = (
@@ -59,17 +45,28 @@ export default function PostPreview({
       );
     }
 
-    const truncated = text.substring(0, maxLength) + '...';
+    const imagesRegex =
+      /<p class="ql-align-center">(<img src="[^"]*">(?:<\/p>)?(?:<p class="ql-align-center">)?<em>[^<]*<\/em>(?:<\/p>)?(?:<p class="ql-align-center"><br><\/p>)?)<\/p>/g;
+    const matches = text.matchAll(imagesRegex);
+    let truncated = text;
+
+    for (const match of matches) {
+      if (match.index !== undefined && match[0] !== undefined) {
+        truncated = truncated.replace(match[0], '');
+      }
+    }
+
+    truncated = truncated.substring(0, maxLength) + '...';
 
     return (
       <>
-        <div>{truncated}</div>
+        <div>{ReactHtmlParser(truncated)}</div>
         {readMoreLink}
       </>
     );
   };
 
-  const truncatedBody = truncateText(firstImage.textForPreview, 300);
+  const truncatedBody = truncateText(body, 300);
 
   const headersList = headers();
   const middlewareSet = headersList.get('user');
@@ -87,9 +84,9 @@ export default function PostPreview({
       <Link href={`/blog/${postAuthorTranslit}/${postNameTranslit}/${id}`}>
         <div className={styles.header}>{header}</div>
       </Link>
-      {firstImage && (
+      {firstImage !== '' && (
         <Image
-          src={firstImage.firstImage}
+          src={`${process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL}${firstImage}`}
           alt="preview"
           width={0}
           height={0}
@@ -100,8 +97,7 @@ export default function PostPreview({
           }}
         />
       )}
-      {/* </div> */}
-      {/* </div> */}
+
       <div>{truncatedBody}</div>
       <div className={styles.previewBottom}>
         <div className={styles.previewBottomLeft}>

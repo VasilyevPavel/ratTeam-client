@@ -35,7 +35,7 @@ export default async function page({ params }: { params: { post: string[] } }) {
 
     return (
       <>
-        <div className="postHeader">{post.header}</div>
+        <h1 className="postHeader">{post.header}</h1>
         <div className="postBody">{parse(post.body, options)}</div>
       </>
     );

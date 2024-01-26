@@ -6,6 +6,7 @@ import { AxiosError } from 'axios';
 import { IError } from '@/app/lib/types/response';
 import { TextField } from '@mui/material';
 import styles from './createPost.module.css';
+import ReactHtmlParser from 'html-react-parser';
 
 import dynamic from 'next/dynamic';
 import 'quill-image-uploader/dist/quill.imageUploader.min.css';
@@ -14,7 +15,10 @@ import { useRouter } from 'next/navigation';
 import Dropzone from '@/app/components/dropzone/Dropzone';
 import { Dispatch } from 'redux';
 import { useAppDispatch, useAppSelector } from '@/app/lib/redux/hooks';
-import postSlice, { setPostBody } from '@/app/lib/redux/postSlice';
+import postSlice, {
+  resetPostData,
+  setPostBody,
+} from '@/app/lib/redux/postSlice';
 import { RootState } from '@/app/lib/redux/store';
 
 const quillModules = {
@@ -71,12 +75,56 @@ export default function CreatePost() {
   const postHeaderInputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
 
-  const handleEditorChange = useCallback((newContent: string) => {
-    dispatch(setPostBody(newContent));
-  }, []);
+  const containsImageWithSrc = (content: string): boolean => {
+    const doc = new DOMParser().parseFromString(content, 'text/html');
+    const imgElements = doc.querySelectorAll('img[src]');
+    console.log('imgElements', imgElements);
+    if (imgElements.length > 0) {
+      // Оборачиваем изображение в комментарий HTML
+      imgElements.forEach((img) => {
+        const comment = doc.createComment(img.outerHTML);
+        img.replaceWith(comment);
+      });
+      return true;
+    }
+
+    return false;
+  };
+  const handleEditorChange = useCallback(
+    (newContent: string) => {
+      const doc = new DOMParser().parseFromString(newContent, 'text/html');
+      const imgElements = doc.querySelectorAll('img[src]');
+
+      if (imgElements.length > 0) {
+        // Оборачиваем изображение в комментарий HTML, если src не начинается с указанного адреса
+        imgElements.forEach((img) => {
+          const srcAttribute = img.getAttribute('src');
+          if (
+            !srcAttribute ||
+            !srcAttribute.startsWith(
+              `${process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL}`
+            )
+          ) {
+            const comment = doc.createComment(img.outerHTML);
+            img.replaceWith(comment);
+          }
+        });
+
+        // Получаем очищенный HTML без изображений
+        const clearedHtml = doc.body.innerHTML;
+
+        // Обновляем состояние
+        dispatch(setPostBody(clearedHtml));
+      } else {
+        // Если изображений нет, обновляем состояние с исходным HTML
+        dispatch(setPostBody(newContent));
+      }
+    },
+    [dispatch]
+  );
 
   const handleSave = async () => {
-    if (postHeader.length === 0) {
+    if (postHeader.length === 0 || postHeader.trim() === '') {
       setIsPostHeaderFilled(false);
       if (postHeaderInputRef.current) {
         postHeaderInputRef.current.scrollIntoView({
@@ -95,6 +143,7 @@ export default function CreatePost() {
         body: postBody,
       };
       const response = await PostService.create(postData);
+      dispatch(resetPostData());
       router.push('/personal');
     } catch (error) {
       const err = error as AxiosError<IError>;

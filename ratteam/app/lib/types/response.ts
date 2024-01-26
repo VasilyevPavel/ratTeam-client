@@ -33,4 +33,5 @@ export interface PostData {
   PostLikes: IPostLike[];
   Comments: IComment[];
   User: IUser;
+  Images: IImageResponse[];
 }

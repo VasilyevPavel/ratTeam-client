@@ -13,6 +13,17 @@ export async function uploadPhoto(formData: FormData) {
     throw error;
   }
 }
+export async function updatePhoto(postId: number, photoId: number) {
+  try {
+    const response = await ImageService.updatePhoto(postId, photoId);
+
+    return response;
+  } catch (error) {
+    const err = error as AxiosError<IError>;
+    console.log(err.response?.data.message);
+    throw error;
+  }
+}
 
 export async function deletePhoto(id: number) {
   try {

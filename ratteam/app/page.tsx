@@ -4,7 +4,7 @@ import styles from './page.module.css';
 
 export default async function Home() {
   const posts = await getAllPosts();
-
+  console.log('posts', posts);
   return (
     <main className={styles.main}>
       {posts &&

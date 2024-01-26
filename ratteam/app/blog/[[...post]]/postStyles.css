@@ -12,8 +12,13 @@
   display: flex;
   justify-content: center;
 }
-/* .postBody {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-} */
+.postHeader {
+  letter-spacing: -0.02em;
+  word-wrap: break-word;
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 3px;
+  margin-bottom: 15px;
+}

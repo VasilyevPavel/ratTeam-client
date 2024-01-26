@@ -8,12 +8,12 @@ import styles from './imageModal.module.css';
 import { IImageResponse } from '@/app/lib/types/response';
 import { useAppDispatch } from '@/app/lib/redux/hooks';
 import { addImage, setPostBody } from '@/app/lib/redux/postSlice';
+import { updatePhoto } from '@/app/lib/data/imageData';
 
 interface ImageModalProps {
   showImageModal: boolean;
   setShowImageModal: React.Dispatch<React.SetStateAction<boolean>>;
   file: IImageResponse | null;
-  // setBody: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const style = {
@@ -47,11 +47,6 @@ const ImageModal: React.FC<ImageModalProps> = ({
     if (file) {
       const imageUrl = `${process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL}${file.name}`;
 
-      // const imgTag = `
-      //     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      //       <Image src="${imageUrl}" alt="${file.name}" />
-      //       <div style={{ fontStyle: 'italic', marginTop: '8px' }}>${description}</div>
-      //     </div>`;
       const imgTag = `
       <p class="ql-align-center"><img src=${imageUrl}></p><p class="ql-align-center"><em>${description}</em></p><p class="ql-align-center"><br></p><p> </p>
 `;
