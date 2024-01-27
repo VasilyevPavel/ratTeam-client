@@ -1,9 +1,14 @@
-import { IUserData } from './types';
+import { IUser, IUserData } from './types';
 
 export interface IAuthResponse {
   accessToken: string;
   refreshToken: string;
-  user: IUserData;
+  user: IUser;
+}
+export interface IImageResponse {
+  id: number;
+  name: string;
+  post_id: number | null;
 }
 
 export interface IError {
@@ -27,4 +32,6 @@ export interface PostData {
   user_id: number;
   PostLikes: IPostLike[];
   Comments: IComment[];
+  User: IUser;
+  Images: IImageResponse[];
 }

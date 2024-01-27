@@ -1,5 +1,6 @@
 import $api from '@/http';
 import axios, { AxiosResponse } from 'axios';
+import { IAuthResponse } from '../types/types';
 
 export default class PostService {
   static async create(postData: {
@@ -16,5 +17,18 @@ export default class PostService {
       // headers,
       withCredentials: true,
     });
+  }
+  static async getAllPosts(): Promise<AxiosResponse> {
+    return axios.get(`${process.env.NEXT_PUBLIC_URL}/post/get-all-posts/`, {
+      withCredentials: true,
+    });
+  }
+  static async setLike(userId: number, postId: number): Promise<AxiosResponse> {
+    return $api.post<IAuthResponse>('/post/set-like', { userId, postId });
+  }
+  static async getOnePost(postId: number): Promise<AxiosResponse> {
+    return axios.get<IAuthResponse>(
+      `${process.env.NEXT_PUBLIC_URL}/post/get-post/${postId}`
+    );
   }
 }

@@ -1,32 +1,73 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { IPostLike } from '../../lib/types/response';
-import { IUserData } from '../../lib/types/types';
+import { IUser } from '../../lib/types/types';
+import PostService from '@/app/lib/data/postService';
+import { useAppDispatch, useAppSelector } from '@/app/lib/redux/hooks';
+import {
+  changeLoginModalStatus,
+  changeModalStatus,
+} from '@/app/lib/redux/modalSlice';
+import { RootState } from '@/app/lib/redux/store';
 
 interface PostLikeProps {
   PostLikes: IPostLike[];
-  user: IUserData;
+
   postId: number;
 }
 
-export default function PostLike({ PostLikes, user, postId }: PostLikeProps) {
-  const isLiked = PostLikes.some((like) => like.user_id === user.id);
+export default function PostLike({ PostLikes, postId }: PostLikeProps) {
+  const dispatch = useAppDispatch();
+  const userData = useAppSelector(
+    (state: RootState) => state.userSlice.userData
+  );
+  const [liked, setLiked] = useState(false);
+  const [likes, setLikes] = useState(PostLikes.length);
+
+  useEffect(() => {
+    const isLiked = PostLikes.some(
+      (like) => like.user_id === userData?.user?.id
+    );
+    setLiked(isLiked);
+  }, [PostLikes, userData]);
 
   const handleLikeClick = async () => {
-    console.log('лайк');
+    if (!userData) {
+      dispatch(changeLoginModalStatus());
+      dispatch(changeModalStatus());
+      return;
+    }
+
+    const userId = userData.user.id;
+    if (!userId) {
+      return;
+    }
+    await PostService.setLike(userId, postId);
+    setLiked((prevLiked) => !prevLiked);
+    if (liked) {
+      setLikes((prevLikes) => prevLikes - 1);
+    } else {
+      setLikes((prevLikes) => prevLikes + 1);
+    }
   };
 
   return (
     <>
-      {isLiked ? (
-        <FavoriteIcon sx={{ color: 'red' }} onClick={handleLikeClick} />
+      {liked ? (
+        <FavoriteIcon
+          sx={{ color: 'red', cursor: 'pointer' }}
+          onClick={handleLikeClick}
+        />
       ) : (
-        <FavoriteBorderIcon onClick={handleLikeClick} />
+        <FavoriteBorderIcon
+          sx={{ cursor: 'pointer' }}
+          onClick={handleLikeClick}
+        />
       )}
 
-      <span>{PostLikes.length}</span>
+      <span>{likes}</span>
     </>
   );
 }

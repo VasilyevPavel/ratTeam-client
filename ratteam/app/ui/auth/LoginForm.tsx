@@ -22,6 +22,7 @@ import {
   changeModalStatus,
 } from '@/app/lib/redux/modalSlice';
 import { RootState } from '@/app/lib/redux/store';
+import { setMessage } from '@/app/lib/redux/userSlice';
 
 const LoginForm: FC = () => {
   const dispatch = useAppDispatch();
@@ -29,8 +30,8 @@ const LoginForm: FC = () => {
     email: '',
     password: '',
   });
-  const [message, setMessage] = useState<string>('');
-  console.log('message', message);
+  const [welcomeText, setWelcomeText] = useState<string>('');
+
   const [rememberMe, setRememberMe] = useState<boolean>(false);
 
   const userData = useAppSelector(
@@ -39,7 +40,6 @@ const LoginForm: FC = () => {
   const loginInfo = useAppSelector(
     (state: RootState) => state.userSlice.message
   );
-  console.log('loginInfo', loginInfo);
 
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -51,18 +51,23 @@ const LoginForm: FC = () => {
 
   useEffect(() => {
     if (userData) {
+      console.log('Юзер дата', userData);
       let name;
       userData.user.name
         ? (name = userData.user.name)
         : (name = 'человек, поленившийся написать имя при регистрации');
-      setMessage(`Добро пожаловать, ${name}`);
+      setWelcomeText(`Добро пожаловать, ${name}`);
       setTimeout(() => {
         dispatch(changeLoginModalStatus());
         dispatch(changeModalStatus());
-        setMessage('Sign in');
+        setWelcomeText('Sign in');
       }, 2000);
     } else {
-      setMessage(loginInfo || 'Sign in');
+      setWelcomeText(loginInfo || 'Sign in');
+      setTimeout(() => {
+        setWelcomeText('Sign in');
+        dispatch(setMessage(''));
+      }, 2000);
     }
   }, [userData, loginInfo, dispatch]);
 
@@ -92,7 +97,7 @@ const LoginForm: FC = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            {message}
+            {welcomeText}
           </Typography>
           <Box component="form" noValidate sx={{ mt: 1 }}>
             <TextField

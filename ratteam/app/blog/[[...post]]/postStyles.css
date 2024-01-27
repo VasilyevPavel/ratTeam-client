@@ -1,0 +1,24 @@
+.imageСontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.imageStyle {
+  height: auto;
+  max-width: 800px;
+  width: 100%;
+}
+.ql-align-center {
+  display: flex;
+  justify-content: center;
+}
+.postHeader {
+  letter-spacing: -0.02em;
+  word-wrap: break-word;
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 3px;
+  margin-bottom: 15px;
+}

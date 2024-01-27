@@ -35,11 +35,10 @@ export default function Auth() {
   const loginForm = useAppSelector(
     (state: RootState) => state.modalSlice.isLoginOpen
   );
-  console.log('loginForm', loginForm);
+
   const registrationForm = useAppSelector(
     (state: RootState) => state.modalSlice.isRegistrationOpen
   );
-  console.log('registrationForm', registrationForm);
 
   const forgotPassForm = useAppSelector(
     (state: RootState) => state.modalSlice.isForgotPassOpen
