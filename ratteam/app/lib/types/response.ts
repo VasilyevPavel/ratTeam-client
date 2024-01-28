@@ -30,6 +30,7 @@ export interface PostData {
   header: string;
   body: string;
   user_id: number;
+  isPosted: boolean;
   PostLikes: IPostLike[];
   Comments: IComment[];
   User: IUser;

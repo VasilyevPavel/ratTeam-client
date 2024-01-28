@@ -8,9 +8,9 @@ import Image from 'next/image';
 
 export default async function page({ params }: { params: { post: string[] } }) {
   const [, , postId] = params.post.map(Number);
-  console.log('postId', params);
+
   const post = await getOnePost(postId);
-  console.log('post', post);
+
   if (!post) {
     return <div>Произошла ошибка</div>;
   } else {

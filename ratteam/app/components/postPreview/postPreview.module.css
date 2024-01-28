@@ -6,6 +6,9 @@
   border-radius: 6px;
   padding: 20px;
   position: relative;
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
 }
 .header {
   cursor: pointer;
@@ -62,4 +65,9 @@
 .image {
   height: auto;
   width: 100%;
+}
+.imageBox {
+  width: 90%;
+  display: flex;
+  justify-content: center;
 }

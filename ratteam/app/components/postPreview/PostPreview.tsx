@@ -34,22 +34,23 @@ export default function PostPreview({
       <strong>Читать дальше</strong>
     </Link>
   );
+  const imagesRegex =
+    /<p class="ql-align-center">(<img src="[^"]*">(?:<\/p>)?(?:<p class="ql-align-center">)?(?:<em>[^<]*<\/em>)?(?:<\/p>)?(?:<p class="ql-align-center"><br><\/p>)?)<\/p>/g;
 
   const truncateText = (text: string, maxLength: number) => {
     if (text.length <= maxLength) {
+      const textWithoutImages = text.replace(imagesRegex, '');
       return (
         <>
-          <div>{ReactHtmlParser(text)}</div>
+          <div>{ReactHtmlParser(textWithoutImages)}</div>
           {readMoreLink}
         </>
       );
     }
 
-    const imagesRegex =
-      /<p class="ql-align-center">(<img src="[^"]*">(?:<\/p>)?(?:<p class="ql-align-center">)?<em>[^<]*<\/em>(?:<\/p>)?(?:<p class="ql-align-center"><br><\/p>)?)<\/p>/g;
-    const matches = text.matchAll(imagesRegex);
-    let truncated = text;
+    let truncated = text.replace(/<br\s*\/?>/gi, '');
 
+    const matches = truncated.matchAll(imagesRegex);
     for (const match of matches) {
       if (match.index !== undefined && match[0] !== undefined) {
         truncated = truncated.replace(match[0], '');
@@ -85,17 +86,19 @@ export default function PostPreview({
         <div className={styles.header}>{header}</div>
       </Link>
       {firstImage !== '' && (
-        <Image
-          src={`${process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL}${firstImage}`}
-          alt="preview"
-          width={0}
-          height={0}
-          sizes="100vw"
-          style={{
-            width: '100%',
-            height: 'auto',
-          }}
-        />
+        <div className={styles.imageBox}>
+          <Image
+            src={`${process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL}${firstImage}`}
+            alt="preview"
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{
+              width: '100%',
+              height: 'auto',
+            }}
+          />
+        </div>
       )}
 
       <div>{truncatedBody}</div>

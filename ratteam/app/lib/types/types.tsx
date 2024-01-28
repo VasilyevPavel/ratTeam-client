@@ -1,3 +1,5 @@
+import { PostData } from './response';
+
 export interface IUserData {
   avatar?: string;
   isAdmin?: boolean;
@@ -27,6 +29,7 @@ export interface UserState {
 }
 
 export interface PostBody {
+  posts: PostData[];
   header: string;
   body: string;
 }

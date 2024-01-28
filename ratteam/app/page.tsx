@@ -9,7 +9,9 @@ export default async function Home() {
     <main className={styles.main}>
       {posts &&
         posts.length > 0 &&
-        posts.map((post) => <PostPreview key={post.id} {...post} />)}
+        posts
+          .filter((post) => post.isPosted)
+          .map((post) => <PostPreview key={post.id} {...post} />)}
     </main>
   );
 }

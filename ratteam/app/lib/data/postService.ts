@@ -6,6 +6,7 @@ export default class PostService {
   static async create(postData: {
     header: string;
     body: string;
+    isPosted?: boolean;
   }): Promise<AxiosResponse> {
     return $api.post('/post/create', { postData });
   }

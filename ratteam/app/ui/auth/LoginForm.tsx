@@ -51,7 +51,6 @@ const LoginForm: FC = () => {
 
   useEffect(() => {
     if (userData) {
-      console.log('Юзер дата', userData);
       let name;
       userData.user.name
         ? (name = userData.user.name)

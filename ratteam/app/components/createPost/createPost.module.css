@@ -1,0 +1,107 @@
+.box {
+  padding-top: 5px;
+  color: #333;
+  background-color: #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.035), 0 4px 25px rgba(0, 0, 0, 0.07);
+  border-radius: 6px;
+  padding: 20px;
+  position: relative;
+  width: 70%;
+  margin-bottom: 20px;
+}
+.input {
+  width: 100%;
+
+  appearance: none;
+  font-size: inherit;
+  line-height: inherit;
+  color: #333;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  padding: 14px 0;
+}
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  flex-direction: column;
+}
+.MuiInput-input {
+  width: -webkit-fill-available;
+}
+.textField {
+  margin-bottom: 10px;
+}
+.textField.alert {
+  /* background-color: red; */
+  border: 3px solid red;
+  border-radius: 10px;
+  animation: shake 0.8s ease 1;
+}
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-3px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.header {
+  margin-bottom: 15px;
+}
+.button {
+  --height: 30px;
+  --font-size: 15px;
+  --color: #333;
+
+  height: var(--height);
+  padding: 0 calc(var(--height) * 0.5);
+  color: var(--color);
+  font-size: var(--font-size);
+  font-weight: 700;
+  line-height: var(--height);
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  background: 0 0;
+  border: none;
+  border-radius: 99px;
+  outline: 0;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  display: inline-flex;
+  position: relative;
+  background-color: #333;
+  color: #fff;
+}
+.photos {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  flex-wrap: wrap;
+  margin-right: -10px;
+  font-size: 13px;
+  line-height: 1.30769;
+  display: flex;
+}

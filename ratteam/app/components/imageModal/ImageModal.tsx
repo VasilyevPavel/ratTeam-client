@@ -33,7 +33,6 @@ const ImageModal: React.FC<ImageModalProps> = ({
   setShowImageModal,
   file,
 }) => {
-  console.log('file', file);
   const [description, setDescription] = useState<string>('');
   const dispatch = useAppDispatch();
 
@@ -48,8 +47,10 @@ const ImageModal: React.FC<ImageModalProps> = ({
       const imageUrl = `${process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL}${file.name}`;
 
       const imgTag = `
-      <p class="ql-align-center"><img src=${imageUrl}></p><p class="ql-align-center"><em>${description}</em></p><p class="ql-align-center"><br></p><p> </p>
-`;
+      <p class="ql-align-center"><img src=${imageUrl}></p>
+      <p class="ql-align-center"><em >${description}</em></p>
+      <p>&nbsp;</p>
+   `;
 
       dispatch(addImage(imgTag));
 
