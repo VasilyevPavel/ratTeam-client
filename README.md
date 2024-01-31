@@ -1,4 +1,4 @@
-Hi. Here is a pet project to create my own blog./n
-The goal not the blog itself, but to test different technologies and have fun ofcourse./n
-The client side of this applicaten created with NextJs./n
-The blog in progress. Chech the dev branch
+Hi. Here is a pet project to create my own blog.
+The goal is not the blog itself, but to test different technologies and have fun, of course.
+The client side of this application is created with Next.js.
+The blog is in progress. Check the dev branch.
