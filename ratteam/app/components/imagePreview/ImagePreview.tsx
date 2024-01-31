@@ -5,21 +5,21 @@ import { CircularProgress } from '@mui/material';
 import ImageModal from '../imageModal/ImageModal';
 import { IImageResponse } from '@/app/lib/types/response';
 import { deletePhoto } from '@/app/lib/data/imageData';
+import { useAppDispatch } from '@/app/lib/redux/hooks';
+import { deleteImage } from '@/app/lib/redux/postSlice';
+import { IImage } from '@/app/lib/types/types';
 
-interface imagePreviewProps {
-  file: IImageResponse;
-  files: IImageResponse[];
-  setFiles: React.Dispatch<React.SetStateAction<IImageResponse[]>>;
+interface ImageProps {
+  image: IImage;
 }
 
-export default function ImagePreview({
-  file,
-  files,
-  setFiles,
-}: imagePreviewProps) {
+export default function ImagePreview({ image }: ImageProps) {
   const [loading, setLoading] = useState(true);
   const [showImageModal, setShowImageModal] = useState(false);
   const [sureDelPhoto, setSureDelPhoto] = useState(false);
+
+  const dispatch = useAppDispatch();
+
   const addImageHandler = (file: IImageResponse) => {
     setShowImageModal(true);
   };
@@ -28,9 +28,9 @@ export default function ImagePreview({
     setSureDelPhoto(true);
   };
   const approveRemove = () => {
-    deletePhoto(file.id);
-    const filteredFiles = files.filter((el) => el.id !== file.id);
-    setFiles(filteredFiles);
+    deletePhoto(image.id);
+    dispatch(deleteImage(image.id));
+
     setSureDelPhoto(false);
   };
 
@@ -39,14 +39,14 @@ export default function ImagePreview({
       <ImageModal
         setShowImageModal={setShowImageModal}
         showImageModal={showImageModal}
-        file={file}
+        image={image}
       />
-      <div key={file.id} className={styles.onePhotoBox}>
+      <div key={image.id} className={styles.onePhotoBox}>
         {loading && <CircularProgress />}
         <Image
           className={styles.image}
-          src={`${process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL}${file.name}`}
-          alt={file.name}
+          src={`${process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL}${image.name}`}
+          alt={image.name}
           width={150}
           height={0}
           sizes="100vw"
@@ -65,7 +65,7 @@ export default function ImagePreview({
             <button
               type="button"
               className={styles.button}
-              onClick={() => addImageHandler(file)}
+              onClick={() => addImageHandler(image)}
             >
               Вставить в текст
             </button>

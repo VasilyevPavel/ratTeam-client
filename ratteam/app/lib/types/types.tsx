@@ -27,9 +27,16 @@ export interface UserState {
   userData: IAuthResponse | null;
   message?: string;
 }
-
+export interface IImage {
+  id: number;
+  name: string;
+  post_id: number | null;
+}
 export interface PostBody {
+  cursorPosition?: number | null;
   posts: PostData[];
+  images: IImage[];
+  id?: number;
   header: string;
   body: string;
 }

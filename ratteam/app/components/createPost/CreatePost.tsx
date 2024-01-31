@@ -1,20 +1,24 @@
 'use client';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import 'quill-image-uploader/dist/quill.imageUploader.min.css';
 import PostService from '@/app/lib/data/postService';
 import { AxiosError } from 'axios';
-import { IError } from '@/app/lib/types/response';
+import { IError, PostData } from '@/app/lib/types/response';
 import { TextField } from '@mui/material';
 import styles from './createPost.module.css';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import Dropzone from '@/app/components/dropzone/Dropzone';
 import { useAppDispatch, useAppSelector } from '@/app/lib/redux/hooks';
-import { addPost, resetPostData, setPostBody } from '@/app/lib/redux/postSlice';
+import {
+  resetPostData,
+  setCursorPosition,
+  setPostBody,
+  setPostHeader,
+} from '@/app/lib/redux/postSlice';
 import { RootState } from '@/app/lib/redux/store';
-import { getAllPosts, getUserPosts } from '@/app/lib/data/postData';
-import { revalidatePath } from 'next/cache';
+import { getOnePost } from '@/app/lib/data/postData';
 
 const quillModules = {
   toolbar: [
@@ -61,9 +65,13 @@ const QuillNoSSRWrapper = dynamic(
 );
 
 export default function CreatePost() {
-  const [postHeader, setPostHeader] = useState('');
-  const [isPostheaderFilled, setIsPostHeaderFilled] = useState<boolean>(true);
+  const postId = useAppSelector((state: RootState) => state.postSlice.id);
 
+  const [isPostheaderFilled, setIsPostHeaderFilled] = useState<boolean>(true);
+  const postHeader = useAppSelector(
+    (state: RootState) => state.postSlice.header
+  );
+  const images = useAppSelector((state: RootState) => state.postSlice.images);
   const postBody = useAppSelector((state: RootState) => state.postSlice.body);
   const router = useRouter();
 
@@ -71,7 +79,7 @@ export default function CreatePost() {
   const dispatch = useAppDispatch();
 
   const handleEditorChange = useCallback(
-    (newContent: string) => {
+    (newContent: string, delta: any, source: any, editor: any) => {
       const doc = new DOMParser().parseFromString(newContent, 'text/html');
       const imgElements = doc.querySelectorAll('img[src]');
 
@@ -96,6 +104,7 @@ export default function CreatePost() {
         dispatch(setPostBody(newContent));
       }
     },
+
     [dispatch]
   );
 
@@ -118,9 +127,13 @@ export default function CreatePost() {
         header: postHeader,
         body: postBody,
         isPosted: isPosted,
+        images,
       };
-
-      const post = await PostService.create(postData);
+      if (postId) {
+        const post = await PostService.update(postId, postData);
+      } else {
+        const post = await PostService.create(postData);
+      }
 
       dispatch(resetPostData());
       router.push('/personal');
@@ -148,7 +161,7 @@ export default function CreatePost() {
           autoFocus
           label="Название поста"
           value={postHeader}
-          onChange={(e) => setPostHeader(e.target.value)}
+          onChange={(e) => dispatch(setPostHeader(e.target.value))}
         />
         <QuillNoSSRWrapper
           placeholder="Start typing!"

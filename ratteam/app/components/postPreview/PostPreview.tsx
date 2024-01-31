@@ -34,10 +34,10 @@ export default function PostPreview({
       <strong>Читать дальше</strong>
     </Link>
   );
-  const imagesRegex =
-    /<p class="ql-align-center">(<img src="[^"]*">(?:<\/p>)?(?:<p class="ql-align-center">)?(?:<em>[^<]*<\/em>)?(?:<\/p>)?(?:<p class="ql-align-center"><br><\/p>)?)<\/p>/g;
+  const imagesRegex = /\[image\s+src=\d\s+title=(\w+)\]/g;
 
   const truncateText = (text: string, maxLength: number) => {
+    console.log('text', text);
     if (text.length <= maxLength) {
       const textWithoutImages = text.replace(imagesRegex, '');
       return (
@@ -118,7 +118,7 @@ export default function PostPreview({
               <Avatar user={User} />
             </div>
             <span>{User.name}</span>
-            {(isOwner || user?.isAdmin) && <EditButton />}
+            {(isOwner || user?.isAdmin) && <EditButton postId={id} />}
           </div>
         </div>
       </div>

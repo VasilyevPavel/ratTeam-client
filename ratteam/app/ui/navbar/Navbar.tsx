@@ -15,10 +15,11 @@ import {
 import { useAppDispatch, useAppSelector } from '../../lib/redux/hooks';
 import { useEffect, useState } from 'react';
 import { checkAuthThunk, logoutThunk } from '@/app/lib/data/authThunk';
-
+import { usePathname } from 'next/navigation';
 import { RootState } from '@/app/lib/redux/store';
 import { useRouter } from 'next/navigation';
 import Avatar from '@/app/components/Avatar';
+import { resetPostData } from '@/app/lib/redux/postSlice';
 
 export default function NavBar() {
   const dispatch = useAppDispatch();
@@ -29,6 +30,8 @@ export default function NavBar() {
   );
 
   const router = useRouter();
+  const pathname = usePathname();
+
   useEffect(() => {
     const checkToken = async () => {
       if (localStorage.getItem('token')) {
@@ -39,6 +42,16 @@ export default function NavBar() {
 
     checkToken();
   }, [dispatch]);
+
+  useEffect(() => {
+    const isEditPostPage = pathname?.startsWith('/blog/edit-post/');
+
+    if (isEditPostPage) {
+      return () => {
+        dispatch(resetPostData());
+      };
+    }
+  }, [pathname, dispatch]);
 
   function loginHandler() {
     dispatch(changeLoginModalStatus());

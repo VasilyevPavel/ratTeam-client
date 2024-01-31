@@ -1,14 +1,26 @@
 import $api from '@/http';
 import axios, { AxiosResponse } from 'axios';
-import { IAuthResponse } from '../types/types';
+import { IAuthResponse, IImage } from '../types/types';
 
 export default class PostService {
   static async create(postData: {
     header: string;
     body: string;
     isPosted?: boolean;
+    images: IImage[];
   }): Promise<AxiosResponse> {
     return $api.post('/post/create', { postData });
+  }
+  static async update(
+    id: number,
+    postData: {
+      header: string;
+      body: string;
+      isPosted?: boolean;
+      images: IImage[];
+    }
+  ): Promise<AxiosResponse> {
+    return $api.patch(`/post/update/${id}`, { postData });
   }
   static async getUserPosts(id: number): Promise<AxiosResponse> {
     // const headers = {

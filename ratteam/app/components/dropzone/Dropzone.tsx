@@ -2,15 +2,38 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDropzone, DropzoneState } from 'react-dropzone';
 import styles from './dropzone.module.css';
 import ImagePreview from '../imagePreview/ImagePreview';
-import { uploadPhoto } from '@/app/lib/data/imageData';
+import { getPostPhotos, uploadPhoto } from '@/app/lib/data/imageData';
 import { IImageResponse } from '@/app/lib/types/response';
 import { CircularProgress } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '@/app/lib/redux/hooks';
+import { RootState } from '@/app/lib/redux/store';
+import { setImages } from '@/app/lib/redux/postSlice';
 
 interface DropzoneProps {}
 
 const Dropzone: React.FC<DropzoneProps> = () => {
-  const [files, setFiles] = useState<IImageResponse[]>([]);
+  const dispatch = useAppDispatch();
+
   const [loading, setLoading] = useState<boolean>(false);
+  const images = useAppSelector((state: RootState) => state.postSlice.images);
+  console.log('images', images);
+  const postId = useAppSelector((state: RootState) => state.postSlice.id);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      if (postId) {
+        try {
+          const images = await getPostPhotos(postId);
+
+          setImages(images);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+
+    fetchImages();
+  }, [postId]);
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     if (acceptedFiles.length) {
@@ -21,7 +44,8 @@ const Dropzone: React.FC<DropzoneProps> = () => {
         const response = await uploadPhoto(formData);
 
         const newImages = response.data;
-        setFiles((prevFiles) => [...prevFiles, ...newImages]);
+        console.log('newImages', newImages);
+        dispatch(setImages(newImages));
       } catch (error) {
         console.error(error);
       } finally {
@@ -39,11 +63,11 @@ const Dropzone: React.FC<DropzoneProps> = () => {
       onDrop,
     });
 
-  useEffect(() => {
-    return () => {
-      files.forEach((file) => URL.revokeObjectURL(file.name));
-    };
-  }, [files]);
+  // useEffect(() => {
+  //   return () => {
+  //     images.forEach((file) => URL.revokeObjectURL(file.name));
+  //   };
+  // }, [images]);
 
   return (
     <>
@@ -61,13 +85,8 @@ const Dropzone: React.FC<DropzoneProps> = () => {
       {loading && <CircularProgress className={styles.loadingSpinner} />}
 
       <div className={styles.photosBox}>
-        {files.map((file) => (
-          <ImagePreview
-            key={file.id}
-            file={file}
-            files={files}
-            setFiles={setFiles}
-          />
+        {images.map((image) => (
+          <ImagePreview key={image.id} image={image} />
         ))}
       </div>
     </>

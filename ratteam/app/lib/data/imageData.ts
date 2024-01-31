@@ -35,3 +35,14 @@ export async function deletePhoto(id: number) {
     throw error;
   }
 }
+export async function getPostPhotos(id: number) {
+  try {
+    const response = await ImageService.getPostPhotos(id);
+
+    return response.data;
+  } catch (error) {
+    const err = error as AxiosError<IError>;
+    console.log(err.response?.data.message);
+    throw error;
+  }
+}
