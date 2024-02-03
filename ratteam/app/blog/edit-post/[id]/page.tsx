@@ -3,6 +3,7 @@ import CreatePost from '@/app/components/createPost/CreatePost';
 import PostService from '@/app/lib/data/postService';
 import { useAppDispatch } from '@/app/lib/redux/hooks';
 import {
+  setImages,
   setPostBody,
   setPostHeader,
   setPostId,
@@ -32,6 +33,7 @@ export default function page({
 
           dispatch(setPostHeader(post.header));
           dispatch(setPostBody(post.body));
+          dispatch(setImages(post.Images));
         } catch (error) {
           const err = error as AxiosError<IError>;
           console.log(err.response?.data?.message);

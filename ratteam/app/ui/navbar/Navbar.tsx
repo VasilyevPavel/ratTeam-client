@@ -23,7 +23,6 @@ import { resetPostData } from '@/app/lib/redux/postSlice';
 
 export default function NavBar() {
   const dispatch = useAppDispatch();
-
   const [loading, setLoading] = useState(true);
   const userData = useAppSelector(
     (state: RootState) => state.userSlice.userData
@@ -31,6 +30,7 @@ export default function NavBar() {
 
   const router = useRouter();
   const pathname = usePathname();
+  console.log('pathname', pathname);
 
   useEffect(() => {
     const checkToken = async () => {

@@ -7,6 +7,7 @@ import defaultAvatar from '../../public/splinter.jpg';
 import Image from 'next/image';
 import styles from './avatar.module.css';
 import { IUser } from '../lib/types/types';
+import { CircularProgress } from '@mui/material';
 
 interface AvatarProps {
   user?: IUser;
@@ -18,7 +19,7 @@ export default function Avatar({ user }: AvatarProps) {
   );
 
   if (!user && !userData) {
-    return <div>No user data available</div>;
+    return <CircularProgress />;
   }
 
   if (user) {

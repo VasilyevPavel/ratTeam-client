@@ -25,6 +25,7 @@ export async function getUserPosts() {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const data: PostData[] = await response.data;
+
     return data;
   } catch (error) {
     const err = error as AxiosError<IError>;

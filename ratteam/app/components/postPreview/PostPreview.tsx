@@ -11,22 +11,14 @@ import Avatar from '../Avatar';
 import { translit } from '../../lib/translit/translit';
 import Image from 'next/image';
 
-export default function PostPreview({
-  header,
-  body,
-  user_id,
-  id,
-  PostLikes,
-  Comments,
-  User,
-  Images,
-}: PostData) {
-  console.log('Images', Images);
+export default function PostPreview(post: PostData) {
+  const { header, body, user_id, id, PostLikes, Comments, User, Images } = post;
+
   let firstImage = '';
   if (Images.length > 0) {
     firstImage = Images[0].name;
   }
-
+  console.log('Images', Images);
   const postAuthorTranslit = translit(User.name);
   const postNameTranslit = translit(header);
   const readMoreLink = (
@@ -34,10 +26,9 @@ export default function PostPreview({
       <strong>Читать дальше</strong>
     </Link>
   );
-  const imagesRegex = /\[image\s+src=\d\s+title=(\w+)\]/g;
+  const imagesRegex = /\[image\s+src=(\d+)\s+title=([^\]]*?)\]/g;
 
   const truncateText = (text: string, maxLength: number) => {
-    console.log('text', text);
     if (text.length <= maxLength) {
       const textWithoutImages = text.replace(imagesRegex, '');
       return (
@@ -51,6 +42,7 @@ export default function PostPreview({
     let truncated = text.replace(/<br\s*\/?>/gi, '');
 
     const matches = truncated.matchAll(imagesRegex);
+
     for (const match of matches) {
       if (match.index !== undefined && match[0] !== undefined) {
         truncated = truncated.replace(match[0], '');

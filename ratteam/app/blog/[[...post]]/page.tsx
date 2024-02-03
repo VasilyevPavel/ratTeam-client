@@ -1,22 +1,27 @@
 import React from 'react';
 import { getOnePost } from '@/app/lib/data/postData';
 import { Element } from 'html-react-parser';
-const parse = require('html-react-parser').default;
 import './postStyles.css';
 
 import Image from 'next/image';
 import EditButton from '@/app/components/EditButton';
 
+import Comments from '@/app/components/comments/Comments';
+const parse = require('html-react-parser').default;
+
 export default async function page({ params }: { params: { post: string[] } }) {
   const [, , postId] = params.post.map(Number);
-
   const post = await getOnePost(postId);
+  console.log('post', post);
   const images = post?.Images;
   if (post) {
     const text = post.body;
+    console.log('text', text);
+
     const regex = /\[image\s+src=(\d+)\s+title=([^\]]*?)\]/g;
     const bodyWithImgTags = text.replace(regex, (_, index, title) => {
-      const src = images && images[index - 1];
+      const src =
+        images && images.length === 1 ? images[0] : images?.[index - 1];
 
       return src
         ? `<img src="${process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL}${src.name}" alt="${title}" />`
@@ -59,6 +64,7 @@ export default async function page({ params }: { params: { post: string[] } }) {
           <EditButton postId={postId} />
         </div>
         <div className="postBody">{parse(bodyWithImgTags, options)}</div>
+        <Comments postId={postId} comments={post.Comments} />
       </>
     );
   } else {

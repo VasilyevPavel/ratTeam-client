@@ -44,4 +44,13 @@ export default class PostService {
       `${process.env.NEXT_PUBLIC_URL}/post/get-post/${postId}`
     );
   }
+  static async saveComment(
+    postId: number,
+    text: string,
+    replayCommentId?: number
+  ): Promise<AxiosResponse> {
+    return $api.post<IAuthResponse>(`/create/${postId}/${replayCommentId}`, {
+      text,
+    });
+  }
 }

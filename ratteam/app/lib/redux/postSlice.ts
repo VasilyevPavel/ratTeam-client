@@ -79,6 +79,7 @@ const postSlice = createSlice({
     resetPostData(state) {
       state.header = '';
       state.body = '';
+      state.images = [];
     },
   },
 });
