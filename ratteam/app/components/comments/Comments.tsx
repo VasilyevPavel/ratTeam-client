@@ -4,6 +4,10 @@ import Avatar from '../avatar/Avatar';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { saveComment } from '@/app/lib/data/commentData';
 import { IComment } from '@/app/lib/types/response';
+import { useAppSelector } from '@/app/lib/redux/hooks';
+import { RootState } from '@/app/lib/redux/store';
+import PostLike from '@/app/ui/postLike/PostLike';
+import { useRouter } from 'next/navigation';
 
 interface ICommentsProps {
   postId: number;
@@ -12,10 +16,18 @@ interface ICommentsProps {
 
 export default function Comments({ postId, comments }: ICommentsProps) {
   const [text, setText] = useState('');
+  console.log('comments', comments);
+  const userData = useAppSelector(
+    (state: RootState) => state.userSlice.userData
+  );
+  const router = useRouter();
 
   const saveCommentHandler = () => {
     saveComment(postId, text);
     setText('');
+    setTimeout(() => {
+      router.refresh();
+    }, 0);
   };
 
   return (
@@ -23,35 +35,50 @@ export default function Comments({ postId, comments }: ICommentsProps) {
       <div className="comments-head">
         <h3 className="comments-header">Комментарии</h3>
       </div>
-      <div className="comments-form">
-        <Avatar />
+      {userData && (
+        <div className="comments-form">
+          <div className="comment-control">
+            <Avatar />
 
-        <div className="comment-control">
-          <textarea
-            className="textField"
-            placeholder="Введите комментарий"
-            value={text}
-            onChange={(e) => {
-              setText(e.target.value);
-            }}
-          />
-          <div className="controls">
-            <AddAPhotoIcon sx={{ fontSize: '40px', cursor: 'pointer' }} />
-            <button className="comment-btn" onClick={saveCommentHandler}>
-              Отправить{' '}
-            </button>
+            <textarea
+              className="textField"
+              placeholder="Введите комментарий"
+              value={text}
+              onChange={(e) => {
+                setText(e.target.value);
+              }}
+            />
+            <div className="controls">
+              <AddAPhotoIcon sx={{ fontSize: '40px', cursor: 'pointer' }} />
+              <button className="comment-btn" onClick={saveCommentHandler}>
+                Отправить{' '}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
+
       <div>
         {comments &&
           comments.map((comment) => (
             <div key={comment.id} className="comments-block">
               <div className="comments-user">
-                <Avatar user={comment.User} />
+                <Avatar user={comment.User} style="comment" />
                 {comment.User.name}{' '}
               </div>
               <div className="comments-text"> {comment.text}</div>
+              <div className="comments-text">
+                {' '}
+                <div className="comments-info">likes</div>
+                <div className="comments-info">Ответить</div>
+                <div className="comments-info">
+                  {new Date(comment.createdAt).toLocaleDateString('ru-RU', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </div>
+              </div>
             </div>
           ))}
       </div>

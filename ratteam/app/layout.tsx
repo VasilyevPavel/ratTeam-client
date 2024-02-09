@@ -38,10 +38,10 @@ export default function RootLayout({
             <NavBar />
             <Auth />
             <main>{children}</main>
+            <footer>
+              <Footer />
+            </footer>
           </div>
-          <footer>
-            <Footer />
-          </footer>
         </body>
       </html>
     </Providers>

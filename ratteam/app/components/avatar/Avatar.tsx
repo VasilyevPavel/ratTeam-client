@@ -11,9 +11,13 @@ import { CircularProgress } from '@mui/material';
 
 interface AvatarProps {
   user?: IUser;
+  style?: string;
 }
 
-export default function Avatar({ user }: AvatarProps) {
+export default function Avatar({ user, style }: AvatarProps) {
+  const avatarClassName =
+    style === 'comment' ? styles.commentAvatar : styles.avatar;
+
   const userData = useAppSelector(
     (state: RootState) => state.userSlice.userData
   );
@@ -33,7 +37,7 @@ export default function Avatar({ user }: AvatarProps) {
               width={70}
               height={50}
               alt="logo"
-              className={styles.avatar}
+              className={avatarClassName}
             />
           </Link>
         ) : (
@@ -43,7 +47,7 @@ export default function Avatar({ user }: AvatarProps) {
               src={defaultAvatar}
               width={70}
               alt="logo"
-              className={styles.avatar}
+              className={avatarClassName}
             />
           </Link>
         )}
@@ -60,7 +64,7 @@ export default function Avatar({ user }: AvatarProps) {
             width={70}
             height={50}
             alt="logo"
-            className={styles.avatar}
+            className={avatarClassName}
           />
         </Link>
       ) : (
@@ -69,7 +73,7 @@ export default function Avatar({ user }: AvatarProps) {
             src={defaultAvatar}
             width={70}
             alt="logo"
-            className={styles.avatar}
+            className={avatarClassName}
           />
         </Link>
       )}

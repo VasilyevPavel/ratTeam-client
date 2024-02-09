@@ -25,6 +25,7 @@ export interface IComment {
   post_id: number;
   text: string;
   User: IUser;
+  createdAt: string;
 }
 export interface PostData {
   id: number;

@@ -67,6 +67,8 @@
 }
 .comment-control {
   flex: 1;
+  display: flex;
+  align-items: center;
 }
 .comment-btn {
   background-color: #47c;
@@ -111,7 +113,17 @@
   align-items: center;
 }
 .comments-text {
+  margin-top: 15px;
+  display: flex;
 }
 .avatar {
   width: 30px;
+}
+.comments-info {
+  color: grey;
+  cursor: pointer;
+  margin-left: 20px;
+}
+.postBody {
+  margin: 30px;
 }

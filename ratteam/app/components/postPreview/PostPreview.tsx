@@ -55,7 +55,7 @@ export default function PostPreview(post: PostData) {
     }
 
     truncated =
-      truncated.substring(0, maxLength).replace(/<\/?p[^>]*>/g, '') + '...';
+      truncated.substring(0, maxLength).replace(/<\/?p[^>]*>/g, ' ') + '...';
     return (
       <>
         <div>{ReactHtmlParser(truncated)}</div>
@@ -112,7 +112,7 @@ export default function PostPreview(post: PostData) {
         <div className={styles.previewBottomRight}>
           <div className={styles.previewBottomInfo}>
             <div className={styles.previewBottomInfoAvatar}>
-              <Avatar user={User} />
+              <Avatar user={User} style="comment" />
             </div>
             <span>{User.name}</span>
             {(isOwner || user?.isAdmin) && <EditButton postId={id} />}

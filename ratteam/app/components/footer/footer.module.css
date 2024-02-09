@@ -1,7 +1,9 @@
 .footerMain {
   color: gray;
   background-color: #f8f8f8;
-  margin-top: auto;
+  /* position: absolute; */
+  bottom: 0;
+  width: 100%;
 }
 
 .footerContent {
@@ -12,7 +14,6 @@
 }
 
 .footerBg {
-  margin: 0 -36px 0 -136px;
   padding: 36px 36px 33px 136px;
 }
 

@@ -19,6 +19,8 @@ interface PostLikeProps {
 }
 
 export default function PostLike({ PostLikes, postId }: PostLikeProps) {
+  console.log('PostLikes', PostLikes);
+  console.log('postId', postId);
   const dispatch = useAppDispatch();
   const userData = useAppSelector(
     (state: RootState) => state.userSlice.userData
