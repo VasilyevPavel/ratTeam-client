@@ -7,7 +7,7 @@ import { headers } from 'next/headers';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import PostLike from '../../ui/postLike/PostLike';
 import EditButton from '../EditButton';
-import Avatar from '../Avatar';
+import Avatar from '../avatar/Avatar';
 import { translit } from '../../lib/translit/translit';
 import Image from 'next/image';
 
@@ -18,7 +18,7 @@ export default function PostPreview(post: PostData) {
   if (Images.length > 0) {
     firstImage = Images[0].name;
   }
-  console.log('Images', Images);
+
   const postAuthorTranslit = translit(User.name);
   const postNameTranslit = translit(header);
   const readMoreLink = (
@@ -26,14 +26,19 @@ export default function PostPreview(post: PostData) {
       <strong>Читать дальше</strong>
     </Link>
   );
-  const imagesRegex = /\[image\s+src=(\d+)\s+title=([^\]]*?)\]/g;
+  const imagesRegex = /\[image\s+src=(\d+)\s+title=([^\]]*?)\]|<br\s*\/?>/gi;
 
   const truncateText = (text: string, maxLength: number) => {
     if (text.length <= maxLength) {
-      const textWithoutImages = text.replace(imagesRegex, '');
+      const textWithoutImages = text
+        .replace(imagesRegex, '')
+        .replace(/<\/?p[^>]*>/g, ' ');
+
       return (
         <>
-          <div>{ReactHtmlParser(textWithoutImages)}</div>
+          <div style={{ whiteSpace: 'nowrap' }}>
+            {ReactHtmlParser(textWithoutImages)}
+          </div>
           {readMoreLink}
         </>
       );
@@ -49,8 +54,8 @@ export default function PostPreview(post: PostData) {
       }
     }
 
-    truncated = truncated.substring(0, maxLength) + '...';
-
+    truncated =
+      truncated.substring(0, maxLength).replace(/<\/?p[^>]*>/g, '') + '...';
     return (
       <>
         <div>{ReactHtmlParser(truncated)}</div>

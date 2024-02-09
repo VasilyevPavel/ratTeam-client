@@ -18,7 +18,7 @@ import { checkAuthThunk, logoutThunk } from '@/app/lib/data/authThunk';
 import { usePathname } from 'next/navigation';
 import { RootState } from '@/app/lib/redux/store';
 import { useRouter } from 'next/navigation';
-import Avatar from '@/app/components/Avatar';
+import Avatar from '@/app/components/avatar/Avatar';
 import { resetPostData } from '@/app/lib/redux/postSlice';
 
 export default function NavBar() {

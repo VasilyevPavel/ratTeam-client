@@ -1,12 +1,12 @@
 'use client';
 import React from 'react';
-import { useAppSelector } from '../lib/redux/hooks';
-import { RootState } from '../lib/redux/store';
+import { useAppSelector } from '../../lib/redux/hooks';
+import { RootState } from '../../lib/redux/store';
 import Link from 'next/link';
-import defaultAvatar from '../../public/splinter.jpg';
+import defaultAvatar from '../../../public/splinter.jpg';
 import Image from 'next/image';
 import styles from './avatar.module.css';
-import { IUser } from '../lib/types/types';
+import { IUser } from '../../lib/types/types';
 import { CircularProgress } from '@mui/material';
 
 interface AvatarProps {

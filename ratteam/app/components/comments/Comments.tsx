@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import Avatar from '../Avatar';
+import Avatar from '../avatar/Avatar';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { saveComment } from '@/app/lib/data/commentData';
 import { IComment } from '@/app/lib/types/response';
@@ -46,12 +46,12 @@ export default function Comments({ postId, comments }: ICommentsProps) {
       <div>
         {comments &&
           comments.map((comment) => (
-            <div key={comment.id}>
-              <div>
+            <div key={comment.id} className="comments-block">
+              <div className="comments-user">
                 <Avatar user={comment.User} />
                 {comment.User.name}{' '}
               </div>
-              {comment.text}
+              <div className="comments-text"> {comment.text}</div>
             </div>
           ))}
       </div>

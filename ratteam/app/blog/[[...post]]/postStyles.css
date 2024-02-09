@@ -102,3 +102,16 @@
   align-items: center;
   display: flex;
 }
+.comments-block {
+  display: flex;
+  flex-direction: column;
+}
+.comments-user {
+  display: flex;
+  align-items: center;
+}
+.comments-text {
+}
+.avatar {
+  width: 30px;
+}
