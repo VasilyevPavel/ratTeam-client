@@ -30,7 +30,6 @@ export default function NavBar() {
 
   const router = useRouter();
   const pathname = usePathname();
-  console.log('pathname', pathname);
 
   useEffect(() => {
     const checkToken = async () => {

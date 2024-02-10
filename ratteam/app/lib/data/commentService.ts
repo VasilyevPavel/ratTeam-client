@@ -13,4 +13,7 @@ export default class CommentService {
 
     return $api.post(url, { text });
   }
+  static async setLike(commentId: number): Promise<AxiosResponse> {
+    return $api.post('/comments/set-like', { commentId });
+  }
 }

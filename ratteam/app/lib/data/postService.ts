@@ -36,13 +36,11 @@ export default class PostService {
       withCredentials: true,
     });
   }
-  static async setLike(userId: number, postId: number): Promise<AxiosResponse> {
-    return $api.post<IAuthResponse>('/post/set-like', { userId, postId });
+  static async setLike(postId: number): Promise<AxiosResponse> {
+    return $api.post('/post/set-like', { postId });
   }
   static async getOnePost(postId: number): Promise<AxiosResponse> {
-    return axios.get<IAuthResponse>(
-      `${process.env.NEXT_PUBLIC_URL}/post/get-post/${postId}`
-    );
+    return axios.get(`${process.env.NEXT_PUBLIC_URL}/post/get-post/${postId}`);
   }
   static async saveComment(
     postId: number,

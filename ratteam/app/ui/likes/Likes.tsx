@@ -10,16 +10,19 @@ import {
   changeModalStatus,
 } from '@/app/lib/redux/modalSlice';
 import { RootState } from '@/app/lib/redux/store';
+import CommentService from '@/app/lib/data/commentService';
 
 interface LikesProps {
   allLikes: IPostLike[] | ICommentLike[];
-
   id: number;
+  comment?: boolean;
 }
 
-export default function Likes({ allLikes, id }: LikesProps) {
+export default function Likes({ allLikes, id, comment }: LikesProps) {
   console.log('allLikes', allLikes);
   console.log('id', id);
+  console.log('comment', comment);
+
   const dispatch = useAppDispatch();
   const userData = useAppSelector(
     (state: RootState) => state.userSlice.userData
@@ -41,11 +44,14 @@ export default function Likes({ allLikes, id }: LikesProps) {
       return;
     }
 
-    const userId = userData.user.id;
-    if (!userId) {
-      return;
+    console.log('comment', comment);
+
+    if (comment) {
+      console.log('comment');
+      await CommentService.setLike(id);
+    } else {
+      await PostService.setLike(id);
     }
-    await PostService.setLike(userId, id);
     setLiked((prevLiked) => !prevLiked);
     if (liked) {
       setLikes((prevLikes) => prevLikes - 1);

@@ -73,7 +73,11 @@ export default function Comments({ postId, comments }: ICommentsProps) {
               <div className="comments-text">
                 {' '}
                 <div className="comments-info">
-                  <Likes allLikes={comment.CommentLikes} id={comment.id} />
+                  <Likes
+                    allLikes={comment.CommentLikes}
+                    id={comment.id}
+                    comment
+                  />
                 </div>
                 <div className="comments-info">Ответить</div>
                 <div className="comments-info">
