@@ -13,6 +13,7 @@ import {
 import modalSlice from './modalSlice';
 import userSlice from './userSlice';
 import postSlice from './postSlice';
+import commentSlice from './commentSlice';
 /* Instruments */
 
 export const reduxStore = configureStore({
@@ -20,6 +21,7 @@ export const reduxStore = configureStore({
     modalSlice: modalSlice,
     userSlice: userSlice,
     postSlice: postSlice,
+    commentSlice: commentSlice,
   },
 });
 export const useDispatch = () => useReduxDispatch<ReduxDispatch>();

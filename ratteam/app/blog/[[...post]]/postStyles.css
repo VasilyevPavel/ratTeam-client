@@ -54,6 +54,14 @@
 
   padding: 0;
 }
+.comments-form.show {
+  opacity: 0;
+  transform: scale(0.9);
+}
+.comments-form.show:active {
+  opacity: 1;
+  transform: translateX(0);
+}
 .textField {
   min-height: 100px;
   height: 168px;
@@ -126,6 +134,12 @@
   margin-left: 20px;
   display: flex;
   align-items: center;
+  margin-right: 10px;
+
+  background: unset;
+  border: unset;
+
+  font-size: unset;
 }
 .postBody {
   margin: 30px;
