@@ -7,11 +7,15 @@ import Image from 'next/image';
 import EditButton from '@/app/components/EditButton';
 
 import Comments from '@/app/components/comments/Comments';
+import Likes from '@/app/ui/likes/Likes';
+import { headers } from 'next/headers';
+
 const parse = require('html-react-parser').default;
 
 export default async function page({ params }: { params: { post: string[] } }) {
   const [, , postId] = params.post.map(Number);
   const post = await getOnePost(postId);
+
   console.log('post', post);
   const images = post?.Images;
   if (post) {
@@ -61,9 +65,13 @@ export default async function page({ params }: { params: { post: string[] } }) {
       <>
         <div className="postHeaderBox">
           <h1 className="postHeader">{post.header}</h1>
-          <EditButton postId={postId} />
         </div>
+
         <div className="postBody">{parse(bodyWithImgTags, options)}</div>
+        <div className="postControl">
+          <EditButton postId={post.id} userId={post.User.id} />
+          <Likes allLikes={post.PostLikes} id={post.id} />
+        </div>
         <Comments postId={postId} comments={post.Comments} />
       </>
     );

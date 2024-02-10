@@ -49,9 +49,9 @@
   line-height: 1;
 }
 .comments-form {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   display: flex;
-  margin: 0;
+
   padding: 0;
 }
 .textField {
@@ -107,6 +107,7 @@
 .comments-block {
   display: flex;
   flex-direction: column;
+  padding-bottom: 30px;
 }
 .comments-user {
   display: flex;
@@ -123,7 +124,13 @@
   color: grey;
   cursor: pointer;
   margin-left: 20px;
+  display: flex;
+  align-items: center;
 }
 .postBody {
   margin: 30px;
+}
+.postControl {
+  display: flex;
+  margin-left: 20px;
 }

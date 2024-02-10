@@ -1,14 +1,20 @@
 import { NextResponse } from 'next/server';
+import type { NextFetchEvent, NextRequest } from 'next/server';
 
-export default async function middleware(req: {
-  headers: HeadersInit | undefined;
-  cookies: { get: (arg0: string) => any };
-  nextUrl: { pathname: string };
-  url: string | URL | undefined;
-}) {
+export default async function middleware(
+  req: {
+    headers: HeadersInit | undefined;
+    cookies: { get: (arg0: string) => any };
+    nextUrl: { pathname: string };
+    url: string | URL | undefined;
+  },
+  event: NextFetchEvent
+) {
   const loggedin = req.cookies.get('refreshToken') ?? { value: null };
 
   const { pathname } = req.nextUrl;
+
+  event.waitUntil(fetch(`${process.env.NEXT_PUBLIC_URL}/auth/login`));
 
   const token = async () => {
     try {
@@ -49,7 +55,10 @@ export default async function middleware(req: {
     }
   }
 
-  if (!loggedin.value && pathname.startsWith('/personal')) {
+  if (
+    !loggedin.value &&
+    (pathname.startsWith('/personal') || pathname.startsWith('/blog/edit-post'))
+  ) {
     return NextResponse.redirect(new URL('/', req.url));
   }
 }

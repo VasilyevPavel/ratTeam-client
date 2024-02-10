@@ -6,8 +6,9 @@ import { saveComment } from '@/app/lib/data/commentData';
 import { IComment } from '@/app/lib/types/response';
 import { useAppSelector } from '@/app/lib/redux/hooks';
 import { RootState } from '@/app/lib/redux/store';
-import PostLike from '@/app/ui/postLike/PostLike';
+import PostLike from '@/app/ui/likes/Likes';
 import { useRouter } from 'next/navigation';
+import Likes from '@/app/ui/likes/Likes';
 
 interface ICommentsProps {
   postId: number;
@@ -16,18 +17,20 @@ interface ICommentsProps {
 
 export default function Comments({ postId, comments }: ICommentsProps) {
   const [text, setText] = useState('');
-  console.log('comments', comments);
+
   const userData = useAppSelector(
     (state: RootState) => state.userSlice.userData
   );
   const router = useRouter();
 
   const saveCommentHandler = () => {
-    saveComment(postId, text);
-    setText('');
-    setTimeout(() => {
-      router.refresh();
-    }, 0);
+    if (text.trim().length > 0) {
+      saveComment(postId, text);
+      setText('');
+      setTimeout(() => {
+        router.refresh();
+      }, 0);
+    }
   };
 
   return (
@@ -69,7 +72,9 @@ export default function Comments({ postId, comments }: ICommentsProps) {
               <div className="comments-text"> {comment.text}</div>
               <div className="comments-text">
                 {' '}
-                <div className="comments-info">likes</div>
+                <div className="comments-info">
+                  <Likes allLikes={comment.CommentLikes} id={comment.id} />
+                </div>
                 <div className="comments-info">Ответить</div>
                 <div className="comments-info">
                   {new Date(comment.createdAt).toLocaleDateString('ru-RU', {

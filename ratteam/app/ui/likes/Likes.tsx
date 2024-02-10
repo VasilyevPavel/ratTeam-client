@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { IPostLike } from '../../lib/types/response';
-import { IUser } from '../../lib/types/types';
+import { ICommentLike, IPostLike } from '../../lib/types/response';
 import PostService from '@/app/lib/data/postService';
 import { useAppDispatch, useAppSelector } from '@/app/lib/redux/hooks';
 import {
@@ -12,28 +11,28 @@ import {
 } from '@/app/lib/redux/modalSlice';
 import { RootState } from '@/app/lib/redux/store';
 
-interface PostLikeProps {
-  PostLikes: IPostLike[];
+interface LikesProps {
+  allLikes: IPostLike[] | ICommentLike[];
 
-  postId: number;
+  id: number;
 }
 
-export default function PostLike({ PostLikes, postId }: PostLikeProps) {
-  console.log('PostLikes', PostLikes);
-  console.log('postId', postId);
+export default function Likes({ allLikes, id }: LikesProps) {
+  console.log('allLikes', allLikes);
+  console.log('id', id);
   const dispatch = useAppDispatch();
   const userData = useAppSelector(
     (state: RootState) => state.userSlice.userData
   );
   const [liked, setLiked] = useState(false);
-  const [likes, setLikes] = useState(PostLikes.length);
+  const [likes, setLikes] = useState(allLikes.length);
 
   useEffect(() => {
-    const isLiked = PostLikes.some(
+    const isLiked = allLikes.some(
       (like) => like.user_id === userData?.user?.id
     );
     setLiked(isLiked);
-  }, [PostLikes, userData]);
+  }, [allLikes, userData]);
 
   const handleLikeClick = async () => {
     if (!userData) {
@@ -46,7 +45,7 @@ export default function PostLike({ PostLikes, postId }: PostLikeProps) {
     if (!userId) {
       return;
     }
-    await PostService.setLike(userId, postId);
+    await PostService.setLike(userId, id);
     setLiked((prevLiked) => !prevLiked);
     if (liked) {
       setLikes((prevLikes) => prevLikes - 1);

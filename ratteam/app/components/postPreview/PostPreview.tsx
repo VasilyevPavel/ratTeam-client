@@ -5,11 +5,12 @@ import styles from './postPreview.module.css';
 import ReactHtmlParser from 'html-react-parser';
 import { headers } from 'next/headers';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import PostLike from '../../ui/postLike/PostLike';
+
 import EditButton from '../EditButton';
 import Avatar from '../avatar/Avatar';
 import { translit } from '../../lib/translit/translit';
 import Image from 'next/image';
+import Likes from '../../ui/likes/Likes';
 
 export default function PostPreview(post: PostData) {
   const { header, body, user_id, id, PostLikes, Comments, User, Images } = post;
@@ -66,17 +67,6 @@ export default function PostPreview(post: PostData) {
 
   const truncatedBody = truncateText(body, 300);
 
-  const headersList = headers();
-  const middlewareSet = headersList.get('user');
-
-  let user = null;
-
-  if (middlewareSet) {
-    const decodedUser = Buffer.from(middlewareSet, 'base64').toString('utf-8');
-    user = JSON.parse(decodedUser);
-  }
-  const isOwner = user?.id === user_id;
-
   return (
     <div className={styles.previewStyle}>
       <Link href={`/blog/${postAuthorTranslit}/${postNameTranslit}/${id}`}>
@@ -93,6 +83,8 @@ export default function PostPreview(post: PostData) {
             style={{
               width: '100%',
               height: 'auto',
+              borderRadius: '6px',
+              marginBottom: '10px',
             }}
           />
         </div>
@@ -102,7 +94,7 @@ export default function PostPreview(post: PostData) {
       <div className={styles.previewBottom}>
         <div className={styles.previewBottomLeft}>
           <div className={styles.previewBottomLeftInfo}>
-            <PostLike PostLikes={PostLikes} postId={id} />
+            <Likes allLikes={PostLikes} id={id} />
           </div>
           <div className={styles.previewBottomLeftInfo}>
             <ChatBubbleOutlineIcon />
@@ -115,7 +107,7 @@ export default function PostPreview(post: PostData) {
               <Avatar user={User} style="comment" />
             </div>
             <span>{User.name}</span>
-            {(isOwner || user?.isAdmin) && <EditButton postId={id} />}
+            <EditButton postId={id} userId={post.User.id} />
           </div>
         </div>
       </div>

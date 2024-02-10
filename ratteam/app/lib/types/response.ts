@@ -19,12 +19,18 @@ export interface IPostLike {
   user_id: number;
   post_id: number;
 }
+export interface ICommentLike {
+  id: number;
+  user_id: number;
+  comment_id: number;
+}
 export interface IComment {
   id: number;
   user_id: number;
   post_id: number;
   text: string;
   User: IUser;
+  CommentLikes: ICommentLike[];
   createdAt: string;
 }
 export interface PostData {
