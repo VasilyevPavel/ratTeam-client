@@ -1,5 +1,5 @@
 'use client';
-import { useAppSelector } from '@/app/lib/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/lib/redux/hooks';
 import { RootState } from '@/app/lib/redux/store';
 import React, { useState } from 'react';
 import Avatar from '../avatar/Avatar';
@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { saveComment } from '@/app/lib/data/commentData';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import Zoom from '@mui/material/Zoom';
+import { setShowReplayWindow } from '@/app/lib/redux/commentSlice';
 
 interface AddCommentProps {
   postId: number;
@@ -20,17 +21,22 @@ export default function AddComment({ postId, commentId }: AddCommentProps) {
   const showReplayWindow = useAppSelector(
     (state: RootState) => state.commentSlice.showReplayWindow
   );
-
+  const dispatch = useAppDispatch();
   const [text, setText] = useState('');
 
   const router = useRouter();
 
   const saveCommentHandler = () => {
     if (text.trim().length > 0) {
-      saveComment(postId, text);
+      if (commentId) {
+        saveComment(postId, text, commentId);
+      } else {
+        saveComment(postId, text);
+      }
       setText('');
       setTimeout(() => {
         router.refresh();
+        dispatch(setShowReplayWindow(null));
       }, 0);
     }
   };

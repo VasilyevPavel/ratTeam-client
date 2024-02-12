@@ -16,11 +16,9 @@ export default async function page({ params }: { params: { post: string[] } }) {
   const [, , postId] = params.post.map(Number);
   const post = await getOnePost(postId);
 
-  console.log('post', post);
   const images = post?.Images;
   if (post) {
     const text = post.body;
-    console.log('text', text);
 
     const regex = /\[image\s+src=(\d+)\s+title=([^\]]*?)\]/g;
     const bodyWithImgTags = text.replace(regex, (_, index, title) => {

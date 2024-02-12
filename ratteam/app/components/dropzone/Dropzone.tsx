@@ -16,7 +16,7 @@ const Dropzone: React.FC<DropzoneProps> = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
   const images = useAppSelector((state: RootState) => state.postSlice.images);
-  console.log('images', images);
+
   const postId = useAppSelector((state: RootState) => state.postSlice.id);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const Dropzone: React.FC<DropzoneProps> = () => {
         const response = await uploadPhoto(formData);
 
         const newImages = response.data;
-        console.log('newImages', newImages);
+
         dispatch(setImages(newImages));
       } catch (error) {
         console.error(error);

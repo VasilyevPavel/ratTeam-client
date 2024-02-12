@@ -19,10 +19,6 @@ interface LikesProps {
 }
 
 export default function Likes({ allLikes, id, comment }: LikesProps) {
-  console.log('allLikes', allLikes);
-  console.log('id', id);
-  console.log('comment', comment);
-
   const dispatch = useAppDispatch();
   const userData = useAppSelector(
     (state: RootState) => state.userSlice.userData
@@ -44,10 +40,7 @@ export default function Likes({ allLikes, id, comment }: LikesProps) {
       return;
     }
 
-    console.log('comment', comment);
-
     if (comment) {
-      console.log('comment');
       await CommentService.setLike(id);
     } else {
       await PostService.setLike(id);

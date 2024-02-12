@@ -16,11 +16,9 @@ const postSlice = createSlice({
   initialState: initialUserState,
   reducers: {
     setCursorPosition(state, action) {
-      console.log('setCursorPosition', action.payload);
       state.cursorPosition = action.payload;
     },
     setImages(state, action) {
-      console.log('action', action.payload);
       state.images = [...state.images, ...action.payload];
     },
     deleteImage(state, action) {
@@ -38,7 +36,7 @@ const postSlice = createSlice({
         `\\[image\\s+src=${index}\\s+title=(\\w+)\\]`,
         'g'
       );
-      console.log('imagesRegex', imagesRegex);
+
       state.body = state.body.replace(imagesRegex, '');
     },
     setPostId(state, action) {
@@ -48,9 +46,6 @@ const postSlice = createSlice({
       state.posts = action.payload;
     },
     addPost(state, action) {
-      console.log('action', action.payload);
-      console.log('state', state.posts);
-
       state.posts.unshift(action.payload);
     },
     setPostHeader(state, action) {

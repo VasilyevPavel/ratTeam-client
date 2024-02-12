@@ -13,10 +13,6 @@ const commentSlice = createSlice({
   initialState,
   reducers: {
     setShowReplayWindow: (state, action: PayloadAction<number | null>) => {
-      console.log('action.payload', action.payload);
-      console.log('state.showReplayWindow', state.showReplayWindow);
-      console.log('check', action.payload === state.showReplayWindow);
-
       if (state.showReplayWindow === action.payload) {
         state.showReplayWindow = null;
       } else {

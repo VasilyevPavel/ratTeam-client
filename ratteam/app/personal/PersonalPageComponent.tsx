@@ -10,7 +10,6 @@ import { RootState } from '../lib/redux/store';
 
 export default async function PersonalPage() {
   const posts = useAppSelector((state: RootState) => state.postSlice.posts);
-  console.log('postsHome', posts);
 
   const headersList = headers();
   const middlewareSet = headersList.get('user');

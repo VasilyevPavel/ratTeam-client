@@ -28,6 +28,7 @@ export interface IComment {
   id: number;
   user_id: number;
   post_id: number;
+  parent_comment_id: number;
   text: string;
   User: IUser;
   CommentLikes: ICommentLike[];

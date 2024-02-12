@@ -37,7 +37,7 @@ export default function PostPreview(post: PostData) {
 
       return (
         <>
-          <div style={{ whiteSpace: 'nowrap' }}>
+          <div style={{ whiteSpace: 'pre-wrap' }}>
             {ReactHtmlParser(textWithoutImages)}
           </div>
           {readMoreLink}
