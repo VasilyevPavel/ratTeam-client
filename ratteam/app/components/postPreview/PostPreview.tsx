@@ -24,7 +24,7 @@ export default function PostPreview(post: PostData) {
   const postNameTranslit = translit(header);
   const readMoreLink = (
     <Link href={`/blog/${postAuthorTranslit}/${postNameTranslit}/${id}`}>
-      <strong>Читать дальше</strong>
+      <strong>... Читать дальше</strong>
     </Link>
   );
   const imagesRegex = /\[image\s+src=(\d+)\s+title=([^\]]*?)\]|<br\s*\/?>/gi;

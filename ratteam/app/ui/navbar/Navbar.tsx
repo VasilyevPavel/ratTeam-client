@@ -67,9 +67,11 @@ export default function NavBar() {
 
   return (
     <div className={styles.shape}>
-      <Link href="/">
-        <Image src={logo} width={100} alt="logo" className={styles.logo} />
-      </Link>
+      <div className={styles.logo}>
+        <Link href="/">
+          <Image src={logo} width={100} alt="logo" className={styles.logo} />
+        </Link>
+      </div>
       <div className={styles.hello}>
         {' '}
         {userData && userData.user.name && (
@@ -77,6 +79,7 @@ export default function NavBar() {
             <span className={styles.helloSign}>
               Привет, {userData.user.name}
             </span>
+
             <Avatar />
           </>
         )}
@@ -85,26 +88,29 @@ export default function NavBar() {
       {loading ? (
         <div className={styles.auth}>Загрузка...</div>
       ) : userData ? (
-        <>
+        <div className={styles.auth}>
+          <span className={styles.helloSign}>Мем с Райаном Гослингом</span>
+
           <Link href="/personal">
             <div className={styles.helloSign}>Личный кабинет</div>
           </Link>
-          <div className={styles.auth}>
-            {' '}
-            <span className={styles.enter} onClick={logoutHandler}>
-              Выйти{' '}
-            </span>
-          </div>
-        </>
+
+          <span className={styles.enter} onClick={logoutHandler}>
+            Выйти{' '}
+          </span>
+        </div>
       ) : (
         <div className={styles.auth}>
-          <span className={styles.enter} onClick={loginHandler}>
-            Войти{' '}
-          </span>
-          <span> или </span>
-          <span className={styles.enter} onClick={registrationHandler}>
-            Зарегистрироваться
-          </span>
+          <div className={styles.helloSign}>Мем с Райаном Гослингом</div>
+          <div>
+            <span className={styles.enter} onClick={loginHandler}>
+              Войти{' '}
+            </span>
+            <span> или </span>
+            <span className={styles.enter} onClick={registrationHandler}>
+              Зарегистрироваться
+            </span>
+          </div>
         </div>
       )}
     </div>
