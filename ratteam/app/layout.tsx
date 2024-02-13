@@ -13,7 +13,7 @@ import Footer from './components/footer/Footer';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Rat Team App',
+  title: 'Rat Team',
   description: 'About journeys',
 };
 // const headersList = headers();

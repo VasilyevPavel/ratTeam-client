@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 interface CommentState {
   showReplayWindow: number | null;
+  replyCommentId?: number;
 }
 
 const initialState: CommentState = {

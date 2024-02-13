@@ -13,11 +13,12 @@ import Image from 'next/image';
 import Likes from '../../ui/likes/Likes';
 
 export default function PostPreview(post: PostData) {
-  const { header, body, user_id, id, PostLikes, Comments, User, Images } = post;
+  const { header, body, user_id, id, PostLikes, Comments, User, PostImages } =
+    post;
 
   let firstImage = '';
-  if (Images.length > 0) {
-    firstImage = Images[0].name;
+  if (PostImages?.length > 0) {
+    firstImage = PostImages[0].name;
   }
 
   const postAuthorTranslit = translit(User.name);

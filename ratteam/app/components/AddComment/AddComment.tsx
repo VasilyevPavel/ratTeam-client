@@ -9,6 +9,8 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import Zoom from '@mui/material/Zoom';
 import { setShowReplayWindow } from '@/app/lib/redux/commentSlice';
 import { Button } from '@mui/material';
+import { uploadCommentPhoto } from '@/app/lib/data/imageData';
+import Image from 'next/image';
 
 interface AddCommentProps {
   postId: number;
@@ -22,22 +24,36 @@ export default function AddComment({ postId, commentId }: AddCommentProps) {
   const showReplayWindow = useAppSelector(
     (state: RootState) => state.commentSlice.showReplayWindow
   );
+  console.log('showReplayWindow', showReplayWindow);
   const dispatch = useAppDispatch();
   const [text, setText] = useState('');
+  const [commentPhotoName, setCommentPhotoName] = useState<string | null>(null);
+  const [commentPhotoId, setCommentPhotoId] = useState<number | null>(null);
+  const [commentReplyName, setCommentReplyName] = useState<string | null>(null);
+  const [commentReplyId, setCommentReplyId] = useState<number | null>(null);
+
+  console.log('commentReplyName', commentReplyName);
+  console.log('commentPhotoName', commentPhotoName);
+
+  console.log('userData', userData);
 
   const router = useRouter();
 
   const saveCommentHandler = () => {
-    if (text.trim().length > 0) {
+    if (text.trim().length > 0 || commentPhotoId || commentReplyId) {
       if (commentId) {
-        saveComment(postId, text, commentId);
+        saveComment(postId, text, commentReplyId, commentId);
       } else {
-        saveComment(postId, text);
+        saveComment(postId, text, commentPhotoId);
       }
       setText('');
       setTimeout(() => {
         router.refresh();
         dispatch(setShowReplayWindow(null));
+        setCommentPhotoName(null);
+        setCommentPhotoId(null);
+        setCommentReplyName(null);
+        setCommentReplyId(null);
       }, 0);
     }
   };
@@ -45,27 +61,25 @@ export default function AddComment({ postId, commentId }: AddCommentProps) {
   const handleFileUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     console.log('file', file);
-    // if (file) {
-    //   const formData = new FormData();
-    //   formData.append('image', file);
-    //   try {
-    //     const response = await fetch('/api/upload-image', {
-    //       method: 'POST',
-    //       body: formData,
-    //     });
-    //     if (response.ok) {
-    //       console.log('Изображение успешно загружено на бэкенд');
-    //     } else {
-    //       console.error('Ошибка при загрузке изображения на бэкенд');
-    //     }
-    //   } catch (error) {
-    //     console.error('Ошибка при выполнении запроса:', error);
-    //   }
-    // }
+    if (file) {
+      const formData = new FormData();
+      formData.append('photo', file);
+      const response = await uploadCommentPhoto(formData);
+      console.log('response', response);
+      if (response) {
+        if (showReplayWindow) {
+          setCommentReplyName(response.data.name);
+          setCommentReplyId(response.data.id);
+        } else {
+          setCommentPhotoName(response.data.name);
+          setCommentPhotoId(response.data.id);
+        }
+      }
+    }
   };
 
   if (!userData) {
-    return;
+    return null;
   } else if (!commentId) {
     return (
       <div className="comments-form">
@@ -84,14 +98,25 @@ export default function AddComment({ postId, commentId }: AddCommentProps) {
             <input
               accept="image/*"
               style={{ display: 'none' }}
-              id="raised-button-file"
-              // multiple
+              id="main-raised-button-file"
               type="file"
               onChange={handleFileUpload}
             />
-            <label htmlFor="raised-button-file">
-              <AddAPhotoIcon sx={{ fontSize: '40px', cursor: 'pointer' }} />
-            </label>
+            {commentPhotoName ? (
+              <Image
+                key={commentPhotoName}
+                src={`${process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL}${commentPhotoName}`}
+                alt="comment image"
+                width={50}
+                height={50}
+                sizes="100vw"
+              />
+            ) : (
+              <label htmlFor="main-raised-button-file">
+                <AddAPhotoIcon sx={{ fontSize: '40px', cursor: 'pointer' }} />
+              </label>
+            )}
+
             <button className="comment-btn" onClick={saveCommentHandler}>
               Отправить{' '}
             </button>
@@ -102,7 +127,7 @@ export default function AddComment({ postId, commentId }: AddCommentProps) {
   } else {
     return (
       <>
-        {userData && (
+        {userData && showReplayWindow && (
           <Zoom in={showReplayWindow === commentId} timeout={300} unmountOnExit>
             <div className="comments-form.show">
               <div className="comment-control">
@@ -117,7 +142,30 @@ export default function AddComment({ postId, commentId }: AddCommentProps) {
                   }}
                 />
                 <div className="controls">
-                  <AddAPhotoIcon sx={{ fontSize: '40px', cursor: 'pointer' }} />
+                  <input
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    id="reply-raised-button-file"
+                    type="file"
+                    onChange={handleFileUpload}
+                  />
+                  {commentReplyName ? (
+                    <Image
+                      key={commentReplyName}
+                      src={`${process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL}${commentReplyName}`}
+                      alt="comment image"
+                      width={50}
+                      height={50}
+                      sizes="100vw"
+                    />
+                  ) : (
+                    <label htmlFor="reply-raised-button-file">
+                      <AddAPhotoIcon
+                        sx={{ fontSize: '40px', cursor: 'pointer' }}
+                      />
+                    </label>
+                  )}
+
                   <button className="comment-btn" onClick={saveCommentHandler}>
                     Отправить{' '}
                   </button>

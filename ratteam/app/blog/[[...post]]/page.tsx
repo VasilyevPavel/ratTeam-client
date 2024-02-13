@@ -16,7 +16,7 @@ export default async function page({ params }: { params: { post: string[] } }) {
   const [, , postId] = params.post.map(Number);
   const post = await getOnePost(postId);
 
-  const images = post?.Images;
+  const images = post?.PostImages;
   if (post) {
     const text = post.body;
 

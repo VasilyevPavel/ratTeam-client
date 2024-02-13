@@ -1,9 +1,10 @@
 import React from 'react';
 import Avatar from '../avatar/Avatar';
-import { IComment } from '@/app/lib/types/response';
+import { IComment, ICommentImages } from '@/app/lib/types/response';
 import Likes from '@/app/ui/likes/Likes';
 import ReplayCommentButton from '../ReplayCommentButton/ReplayCommentButton';
 import AddComment from '../AddComment/AddComment';
+import Image from 'next/image';
 
 interface ICommentsProps {
   postId: number;
@@ -15,6 +16,8 @@ interface ICommentsMap {
 }
 
 export default function Comments({ postId, comments }: ICommentsProps) {
+  console.log('comments', comments);
+
   const commentsMap = comments.reduce((map, comment) => {
     const parentId = comment.parent_comment_id || 0;
     map[parentId] = map[parentId] || [];
@@ -37,6 +40,8 @@ export default function Comments({ postId, comments }: ICommentsProps) {
           {comment.User.name}
         </div>
         <div className="comments-text">{comment.text}</div>
+        {comment.CommentImages && renderCommentImages(comment.CommentImages)}
+
         <div className="comments-text">
           <div className="comments-info">
             <Likes allLikes={comment.CommentLikes} id={comment.id} comment />
@@ -54,6 +59,25 @@ export default function Comments({ postId, comments }: ICommentsProps) {
           <AddComment postId={postId} commentId={comment.id} />
         </div>
         {renderComments(comment.id, depth + 1)}
+      </div>
+    ));
+  };
+
+  const renderCommentImages = (images: ICommentImages[]) => {
+    return images.map((image) => (
+      <div key={image.id}>
+        <Image
+          src={`${process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL}${image.name}`}
+          width={200}
+          height={200}
+          sizes="100vw"
+          style={{
+            width: 'auto',
+            height: 'auto',
+            maxHeight: '150px',
+          }}
+          alt="Comment Image"
+        />
       </div>
     ));
   };

@@ -24,6 +24,11 @@ export interface ICommentLike {
   user_id: number;
   comment_id: number;
 }
+export interface ICommentImages {
+  id: number;
+  name: string;
+  comment_id: number;
+}
 export interface IComment {
   id: number;
   user_id: number;
@@ -32,6 +37,7 @@ export interface IComment {
   text: string;
   User: IUser;
   CommentLikes: ICommentLike[];
+  CommentImages: ICommentImages[];
   createdAt: string;
 }
 export interface PostData {
@@ -43,5 +49,5 @@ export interface PostData {
   PostLikes: IPostLike[];
   Comments: IComment[];
   User: IUser;
-  Images: IImageResponse[];
+  PostImages: IImageResponse[];
 }

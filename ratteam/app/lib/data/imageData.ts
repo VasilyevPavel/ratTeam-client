@@ -46,3 +46,13 @@ export async function getPostPhotos(id: number) {
     throw error;
   }
 }
+export async function uploadCommentPhoto(formData: FormData) {
+  try {
+    const response = await ImageService.commentImageUpload(formData);
+    return response;
+  } catch (error) {
+    const err = error as AxiosError<IError>;
+    console.log(err.response?.data.message);
+    throw error;
+  }
+}
