@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  exportNext: {
+    maxDuration: 600,
+  },
+  staticPageGenerationTimeout: 2000,
   env: {
     NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
     NEXT_PUBLIC_IMAGE_HOSTING_URL: process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL,
