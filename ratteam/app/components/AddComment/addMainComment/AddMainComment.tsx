@@ -8,7 +8,11 @@ import { uploadCommentPhoto } from '@/app/lib/data/imageData';
 import { useRouter } from 'next/navigation';
 import { saveComment } from '@/app/lib/data/commentData';
 
-export default function AddMainComment({ postId }) {
+interface IAddMainComment {
+  postId: number;
+}
+
+export default function AddMainComment({ postId }: IAddMainComment) {
   const [text, setText] = useState('');
   const [commentPhotoName, setCommentPhotoName] = useState<string | null>(null);
   const [commentPhotoId, setCommentPhotoId] = useState<number | null>(null);
