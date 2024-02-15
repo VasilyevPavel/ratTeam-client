@@ -1,4 +1,6 @@
 'use client';
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import CreatePost from '@/app/components/createPost/CreatePost';
 import PostService from '@/app/lib/data/postService';
 import { useAppDispatch } from '@/app/lib/redux/hooks';
@@ -10,19 +12,15 @@ import {
 } from '@/app/lib/redux/postSlice';
 import { IError, PostData } from '@/app/lib/types/response';
 import { AxiosError } from 'axios';
-import React, { useEffect } from 'react';
 
-export default function page({
-  params,
-}: {
-  params: {
-    id: string;
-  };
-}) {
-  const { id } = params;
+const Page = () => {
+  const router = useRouter();
+  const { id } = router.query;
 
   const dispatch = useAppDispatch();
-  dispatch(setPostId(+id));
+  if (id) {
+    dispatch(setPostId(+id));
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,7 +31,7 @@ export default function page({
 
           dispatch(setPostHeader(post.header));
           dispatch(setPostBody(post.body));
-          dispatch(setImages(post.Images));
+          dispatch(setImages(post.PostImages));
         } catch (error) {
           const err = error as AxiosError<IError>;
           console.log(err.response?.data?.message);
@@ -42,7 +40,9 @@ export default function page({
     };
 
     fetchData();
-  }, [id]);
+  }, [id, dispatch]);
 
   return <CreatePost />;
-}
+};
+
+export default Page;

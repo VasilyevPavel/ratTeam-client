@@ -11,7 +11,15 @@ import { saveComment } from '@/app/lib/data/commentData';
 import { useRouter } from 'next/navigation';
 import { setShowReplayWindow } from '@/app/lib/redux/commentSlice';
 
-export default function AddReplyComment({ commentId, postId }) {
+interface IAddReplyComment {
+  commentId: number;
+  postId: number;
+}
+
+export default function AddReplyComment({
+  commentId,
+  postId,
+}: IAddReplyComment) {
   const [text, setText] = useState('');
   const [commentReplyName, setCommentReplyName] = useState<string | null>(null);
   const [commentReplyId, setCommentReplyId] = useState<number | null>(null);

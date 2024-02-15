@@ -35,24 +35,27 @@ const Dropzone: React.FC<DropzoneProps> = () => {
     fetchImages();
   }, [postId]);
 
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    if (acceptedFiles.length) {
-      try {
-        const formData = new FormData();
-        acceptedFiles.forEach((file) => formData.append('photos', file));
-        setLoading(true);
-        const response = await uploadPhoto(formData);
+  const onDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      if (acceptedFiles.length) {
+        try {
+          const formData = new FormData();
+          acceptedFiles.forEach((file) => formData.append('photos', file));
+          setLoading(true);
+          const response = await uploadPhoto(formData);
 
-        const newImages = response.data;
+          const newImages = response.data;
 
-        dispatch(setImages(newImages));
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
+          dispatch(setImages(newImages));
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false);
+        }
       }
-    }
-  }, []);
+    },
+    [dispatch]
+  );
 
   const { getRootProps, getInputProps, isDragActive }: DropzoneState =
     useDropzone({
