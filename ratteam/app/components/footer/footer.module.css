@@ -1,0 +1,27 @@
+.footerMain {
+  color: gray;
+  background-color: #f8f8f8;
+  /* position: absolute; */
+  bottom: 0;
+  width: 100%;
+}
+
+.footerContent {
+  width: 1156px;
+  margin: 0 auto;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.footerBg {
+  padding: 36px 36px 33px 136px;
+}
+
+.footerBody {
+  margin-left: 196px;
+}
+
+.footerLinks {
+  margin-top: 10px;
+  overflow: hidden;
+}

@@ -1,0 +1,112 @@
+import Image from 'next/image';
+import React, { useState } from 'react';
+import styles from './imagePreview.module.css';
+import { CircularProgress } from '@mui/material';
+import ImageModal from '../imageModal/ImageModal';
+import { IImageResponse } from '@/app/lib/types/response';
+import { deletePhoto } from '@/app/lib/data/imageData';
+import { useAppDispatch } from '@/app/lib/redux/hooks';
+import { deleteImage } from '@/app/lib/redux/postSlice';
+import { IImage } from '@/app/lib/types/types';
+
+interface ImageProps {
+  image: IImage;
+}
+
+export default function ImagePreview({ image }: ImageProps) {
+  const [loading, setLoading] = useState(true);
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [sureDelPhoto, setSureDelPhoto] = useState(false);
+
+  const dispatch = useAppDispatch();
+
+  const addImageHandler = (file: IImageResponse) => {
+    setShowImageModal(true);
+  };
+
+  const removeFileHandler = () => {
+    setSureDelPhoto(true);
+  };
+  const approveRemove = () => {
+    deletePhoto(image.id);
+    dispatch(deleteImage(image.id));
+
+    setSureDelPhoto(false);
+  };
+
+  return (
+    <>
+      <ImageModal
+        setShowImageModal={setShowImageModal}
+        showImageModal={showImageModal}
+        image={image}
+      />
+      <div key={image.id} className={styles.onePhotoBox}>
+        {loading && <CircularProgress />}
+        <Image
+          className={styles.image}
+          src={`${process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL}${image.name}`}
+          alt={image.name}
+          width={150}
+          height={0}
+          sizes="100vw"
+          style={{
+            width: 'auto',
+            height: 'auto',
+            maxHeight: '150px',
+          }}
+          onLoad={() => {
+            setLoading(false);
+          }}
+        />
+
+        <div className={styles.photoControl}>
+          <div className={styles.buttonBox}>
+            <button
+              type="button"
+              className={styles.button}
+              onClick={() => addImageHandler(image)}
+            >
+              Вставить в текст
+            </button>
+          </div>
+
+          <div className={styles.buttonBox}>
+            <button type="button" className={styles.button}>
+              Заменить
+            </button>
+          </div>
+          <div className={styles.buttonBox}>
+            {sureDelPhoto ? (
+              <>
+                {' '}
+                <button
+                  className={styles.sureButtonYes}
+                  onClick={approveRemove}
+                >
+                  Да
+                </button>
+                <button
+                  className={styles.sureButtonNo}
+                  onClick={() => {
+                    setSureDelPhoto(false);
+                  }}
+                >
+                  Нет
+                </button>
+              </>
+            ) : (
+              <button
+                type="button"
+                className={styles.button}
+                onClick={removeFileHandler}
+              >
+                Удалить
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
