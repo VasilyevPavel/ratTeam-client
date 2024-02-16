@@ -12,7 +12,7 @@ import { headers } from 'next/headers';
 
 const parse = require('html-react-parser').default;
 
-export default async function page({ params }: { params: { post: string[] } }) {
+export default async function Page({ params }: { params: { post: string[] } }) {
   const [, , postId] = params.post.map(Number);
   const post = await getOnePost(postId);
 
