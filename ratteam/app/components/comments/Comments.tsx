@@ -16,8 +16,6 @@ interface ICommentsMap {
 }
 
 export default function Comments({ postId, comments }: ICommentsProps) {
-  console.log('comments', comments);
-
   const commentsMap = comments.reduce((map, comment) => {
     const parentId = comment.parent_comment_id || 0;
     map[parentId] = map[parentId] || [];

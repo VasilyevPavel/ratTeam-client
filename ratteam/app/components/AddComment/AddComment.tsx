@@ -24,18 +24,13 @@ export default function AddComment({ postId, commentId }: AddCommentProps) {
   const showReplayWindow = useAppSelector(
     (state: RootState) => state.commentSlice.showReplayWindow
   );
-  console.log('showReplayWindow', showReplayWindow);
+
   const dispatch = useAppDispatch();
   const [text, setText] = useState('');
   const [commentPhotoName, setCommentPhotoName] = useState<string | null>(null);
   const [commentPhotoId, setCommentPhotoId] = useState<number | null>(null);
   const [commentReplyName, setCommentReplyName] = useState<string | null>(null);
   const [commentReplyId, setCommentReplyId] = useState<number | null>(null);
-
-  console.log('commentReplyName', commentReplyName);
-  console.log('commentPhotoName', commentPhotoName);
-
-  console.log('userData', userData);
 
   const router = useRouter();
 
@@ -60,12 +55,12 @@ export default function AddComment({ postId, commentId }: AddCommentProps) {
 
   const handleFileUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log('file', file);
+
     if (file) {
       const formData = new FormData();
       formData.append('photo', file);
       const response = await uploadCommentPhoto(formData);
-      console.log('response', response);
+
       if (response) {
         if (showReplayWindow) {
           setCommentReplyName(response?.data?.name);

@@ -17,20 +17,16 @@ export default function AddMainComment({ postId }: IAddMainComment) {
   const [commentPhotoName, setCommentPhotoName] = useState<string | null>(null);
   const [commentPhotoId, setCommentPhotoId] = useState<number | null>(null);
 
-  console.log('commentPhotoName', commentPhotoName);
-
   const router = useRouter();
 
   const handleMainFileUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-    console.log('коммент');
-
     const file = e.target.files?.[0];
-    console.log('file', file);
+
     if (file) {
       const formData = new FormData();
       formData.append('photo', file);
       const response = await uploadCommentPhoto(formData);
-      console.log('response', response);
+
       if (response) {
         setCommentPhotoName(response.data.name);
         setCommentPhotoId(response.data.id);
@@ -67,7 +63,6 @@ export default function AddMainComment({ postId }: IAddMainComment) {
         />
         <div className="controls">
           <input
-            onClick={() => console.log('коммент')}
             accept="image/*"
             style={{ display: 'none' }}
             id="main-raised-button-file"
