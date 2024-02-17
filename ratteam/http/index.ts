@@ -25,7 +25,7 @@ $api.interceptors.response.use(
       originalRequest._isRetry = true;
       try {
         const response = await axios.get<IAuthResponse>(
-          `${process.env.NEXT_PUBLIC_URL}/refresh`,
+          `${process.env.NEXT_PUBLIC_URL}/api/auth/refresh`,
           {
             withCredentials: true,
           }

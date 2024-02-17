@@ -17,7 +17,7 @@ export default class ImageService {
   }
   static async getPostPhotos(id: number) {
     return axios.get<IImageResponse[]>(
-      `${process.env.NEXT_PUBLIC_URL}/image/get-post-photos/${id}`,
+      `${process.env.NEXT_PUBLIC_URL}/api/image/get-post-photos/${id}`,
       {
         withCredentials: true,
       }
