@@ -5,15 +5,18 @@ import axios from 'axios';
 
 export default class ImageService {
   static async imageUpload(formData: FormData) {
-    return $api.post<IImageResponse[]>('/image/upload-post-photo', formData);
+    return $api.post<IImageResponse[]>(
+      '/api/image/upload-post-photo',
+      formData
+    );
   }
   static async updatePhoto(postId: number, photoId: number) {
     return $api.put<IImageResponse[]>(
-      `/image/update-post-image/${postId}/${photoId}`
+      `/api/image/update-post-image/${postId}/${photoId}`
     );
   }
   static async deletePhoto(id: number) {
-    return $api.delete<IImageResponse[]>(`/image/delete-post-photo/${id}`);
+    return $api.delete<IImageResponse[]>(`/api/image/delete-post-photo/${id}`);
   }
   static async getPostPhotos(id: number) {
     return axios.get<IImageResponse[]>(
@@ -24,6 +27,9 @@ export default class ImageService {
     );
   }
   static async commentImageUpload(formData: FormData) {
-    return $api.post<IImageResponse>('/image/upload-comment-photo', formData);
+    return $api.post<IImageResponse>(
+      '/api/image/upload-comment-photo',
+      formData
+    );
   }
 }
