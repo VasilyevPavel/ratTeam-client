@@ -14,12 +14,12 @@ export default async function middleware(
 
   const { pathname } = req.nextUrl;
 
-  event.waitUntil(fetch(`${process.env.NEXT_PUBLIC_URL}/auth/login`));
+  event.waitUntil(fetch(`${process.env.NEXT_PUBLIC_URL}/api/auth/login`));
 
   const token = async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/auth/get-user`,
+        `${process.env.NEXT_PUBLIC_URL}/api/auth/get-user`,
         {
           method: 'GET',
           credentials: 'include',
