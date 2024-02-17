@@ -9,12 +9,12 @@ export default class CommentService {
     replayCommentId?: number | undefined
   ): Promise<AxiosResponse> {
     const url = replayCommentId
-      ? `/comments/create/${postId}/${replayCommentId}`
-      : `/comments/create/${postId}`;
+      ? `/api/comments/create/${postId}/${replayCommentId}`
+      : `/api/comments/create/${postId}`;
 
     return $api.post(url, { text, commentPhotoId });
   }
   static async setLike(commentId: number): Promise<AxiosResponse> {
-    return $api.post('/comments/set-like', { commentId });
+    return $api.post('/api/comments/set-like', { commentId });
   }
 }

@@ -19,7 +19,7 @@ export default class AuthService {
     return $api.post<IAuthResponse>('/api/auth/registration', formData);
   }
   static async logout(): Promise<void> {
-    return $api.post('/auth/logout');
+    return $api.post('/api/auth/logout');
   }
   static async checkAuth(): Promise<AxiosResponse<IAuthResponse>> {
     return axios.get(`${process.env.ENV_LOCAL_URL}/api/auth/refresh`, {

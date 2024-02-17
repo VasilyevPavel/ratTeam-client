@@ -9,7 +9,7 @@ export default class PostService {
     isPosted?: boolean;
     images: IImage[];
   }): Promise<AxiosResponse> {
-    return $api.post('/post/create', { postData });
+    return $api.post('/api/post/create', { postData });
   }
   static async update(
     id: number,
@@ -20,7 +20,7 @@ export default class PostService {
       images: IImage[];
     }
   ): Promise<AxiosResponse> {
-    return $api.patch(`/post/update/${id}`, { postData });
+    return $api.patch(`/api/post/update/${id}`, { postData });
   }
   static async getUserPosts(id: number): Promise<AxiosResponse> {
     // const headers = {
@@ -40,7 +40,7 @@ export default class PostService {
     });
   }
   static async setLike(postId: number): Promise<AxiosResponse> {
-    return $api.post('/post/set-like', { postId });
+    return $api.post('/api/post/set-like', { postId });
   }
   static async getOnePost(postId: number): Promise<AxiosResponse> {
     return axios.get(
@@ -52,8 +52,11 @@ export default class PostService {
     text: string,
     replayCommentId?: number
   ): Promise<AxiosResponse> {
-    return $api.post<IAuthResponse>(`/create/${postId}/${replayCommentId}`, {
-      text,
-    });
+    return $api.post<IAuthResponse>(
+      `/api/comments/create/${postId}/${replayCommentId}`,
+      {
+        text,
+      }
+    );
   }
 }
