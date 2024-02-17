@@ -26,13 +26,10 @@ export default class PostService {
     // const headers = {
     //   Authorization: `Bearer ${refreshToken}`,
     // };
-    return axios.get(
-      `${process.env.NEXT_PUBLIC_URL}/api/post/get-posts/${id}`,
-      {
-        // headers,
-        withCredentials: true,
-      }
-    );
+    return axios.get(`${process.env.ENV_LOCAL_URL}/api/post/get-posts/${id}`, {
+      // headers,
+      withCredentials: true,
+    });
   }
   static async getAllPosts(): Promise<AxiosResponse> {
     return axios.get(`${process.env.ENV_LOCAL_URL}/api/post/get-all-posts/`, {
@@ -44,7 +41,7 @@ export default class PostService {
   }
   static async getOnePost(postId: number): Promise<AxiosResponse> {
     return axios.get(
-      `${process.env.NEXT_PUBLIC_URL}/api/post/get-post/${postId}`
+      `${process.env.ENV_LOCAL_URL}/api/post/get-post/${postId}`
     );
   }
   static async saveComment(

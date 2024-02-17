@@ -24,8 +24,6 @@ export default function AddReplyComment({
   const [commentReplyName, setCommentReplyName] = useState<string | null>(null);
   const [commentReplyId, setCommentReplyId] = useState<number | null>(null);
 
-  console.log('commentReplyName', commentReplyName);
-
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -37,14 +35,13 @@ export default function AddReplyComment({
   );
 
   const handleReplyFileUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-    console.log('ответ на коммент');
     const file = e.target.files?.[0];
-    console.log('file', file);
+
     if (file) {
       const formData = new FormData();
       formData.append('photo', file);
       const response = await uploadCommentPhoto(formData);
-      console.log('response', response);
+
       if (response) {
         setCommentReplyName(response.data.name);
         setCommentReplyId(response.data.id);
@@ -85,7 +82,6 @@ export default function AddReplyComment({
               />
               <div className="controls">
                 <input
-                  onClick={() => console.log('ответ')}
                   accept="image/*"
                   style={{ display: 'none' }}
                   id="reply-raised-button-file"
