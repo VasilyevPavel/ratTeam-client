@@ -35,7 +35,7 @@ export default class PostService {
     );
   }
   static async getAllPosts(): Promise<AxiosResponse> {
-    return axios.get(`${process.env.NEXT_PUBLIC_URL}/api/post/get-all-posts/`, {
+    return axios.get(`${process.env.ENV_LOCAL_URL}/api/post/get-all-posts/`, {
       withCredentials: true,
     });
   }

@@ -68,11 +68,11 @@ export default function AddComment({ postId, commentId }: AddCommentProps) {
       console.log('response', response);
       if (response) {
         if (showReplayWindow) {
-          setCommentReplyName(response.data.name);
-          setCommentReplyId(response.data.id);
+          setCommentReplyName(response?.data?.name);
+          setCommentReplyId(response?.data?.id);
         } else {
-          setCommentPhotoName(response.data.name);
-          setCommentPhotoId(response.data.id);
+          setCommentPhotoName(response?.data?.name);
+          setCommentPhotoId(response?.data?.id);
         }
       }
     }
