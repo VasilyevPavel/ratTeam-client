@@ -22,7 +22,7 @@ export default class AuthService {
     return $api.post('/auth/logout');
   }
   static async checkAuth(): Promise<AxiosResponse<IAuthResponse>> {
-    return axios.get(`${process.env.NEXT_PUBLIC_URL}/api/auth/refresh`, {
+    return axios.get(`${process.env.ENV_LOCAL_URL}/api/auth/refresh`, {
       withCredentials: true,
     });
   }

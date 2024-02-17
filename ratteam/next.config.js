@@ -6,6 +6,7 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_URL: process.env.NEXT_PUBLIC_URL,
     NEXT_PUBLIC_IMAGE_HOSTING_URL: process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL,
+    ENV_LOCAL_URL: process.env.ENV_LOCAL_URL,
   },
   images: {
     formats: ['image/avif', 'image/webp'],
