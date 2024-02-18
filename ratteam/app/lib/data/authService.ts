@@ -22,6 +22,8 @@ export default class AuthService {
     return $api.post('/api/auth/logout');
   }
   static async checkAuth(): Promise<AxiosResponse<IAuthResponse>> {
+    console.log('env_public_thunk', process.env.NEXT_PUBLIC_URL);
+
     return axios.get(`${process.env.NEXT_PUBLIC_URL}/api/auth/refresh`, {
       withCredentials: true,
     });

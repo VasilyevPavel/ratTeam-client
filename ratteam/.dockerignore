@@ -3,4 +3,3 @@ npm-debug.log
 .dockerignore
 .cache
 .git
-.env.local
