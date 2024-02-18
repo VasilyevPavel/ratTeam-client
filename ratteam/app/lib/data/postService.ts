@@ -41,7 +41,7 @@ export default class PostService {
   }
   static async getOnePost(postId: number): Promise<AxiosResponse> {
     return axios.get(
-      `${process.env.ENV_LOCAL_URL}/api/post/get-post/${postId}`
+      `${process.env.NEXT_PUBLIC_URL}/api/post/get-post/${postId}`
     );
   }
   static async saveComment(

@@ -1,10 +1,10 @@
 'use client';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import 'quill-image-uploader/dist/quill.imageUploader.min.css';
 import PostService from '@/app/lib/data/postService';
 import { AxiosError } from 'axios';
-import { IError, PostData } from '@/app/lib/types/response';
+import { IError } from '@/app/lib/types/response';
 import { TextField } from '@mui/material';
 import styles from './createPost.module.css';
 import dynamic from 'next/dynamic';
@@ -13,12 +13,10 @@ import Dropzone from '@/app/components/dropzone/Dropzone';
 import { useAppDispatch, useAppSelector } from '@/app/lib/redux/hooks';
 import {
   resetPostData,
-  setCursorPosition,
   setPostBody,
   setPostHeader,
 } from '@/app/lib/redux/postSlice';
 import { RootState } from '@/app/lib/redux/store';
-import { getOnePost } from '@/app/lib/data/postData';
 
 const quillModules = {
   toolbar: [
