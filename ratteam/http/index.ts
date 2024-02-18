@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const $api = axios.create({
   withCredentials: true,
-  baseURL: process.env.ENV_LOCAL_URL,
+  baseURL: process.env.NEXT_PUBLIC_URL || process.env.ENV_LOCAL_URL,
 });
 
 $api.interceptors.request.use((config) => {
@@ -25,7 +25,7 @@ $api.interceptors.response.use(
       originalRequest._isRetry = true;
       try {
         const response = await axios.get<IAuthResponse>(
-          `${process.env.ENV_LOCAL_URL}/api/auth/refresh`,
+          `${process.env.NEXT_PUBLIC_URL}/api/auth/refresh`,
           {
             withCredentials: true,
           }

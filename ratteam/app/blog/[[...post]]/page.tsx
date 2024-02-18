@@ -1,14 +1,11 @@
 import React from 'react';
 import { getOnePost } from '@/app/lib/data/postData';
 import { Element } from 'html-react-parser';
-import './postStyles.css';
-
 import Image from 'next/image';
 import EditButton from '@/app/components/EditButton';
-
 import Comments from '@/app/components/comments/Comments';
 import Likes from '@/app/ui/likes/Likes';
-import { headers } from 'next/headers';
+import './postStyles.css';
 
 const parse = require('html-react-parser').default;
 
