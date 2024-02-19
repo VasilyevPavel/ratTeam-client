@@ -22,9 +22,6 @@ import Avatar from '@/app/components/avatar/Avatar';
 import { resetPostData } from '@/app/lib/redux/postSlice';
 
 export default function NavBar() {
-  console.log('env_local', process.env.ENV_LOCAL_URL);
-  console.log('env_public', process.env.NEXT_PUBLIC_URL);
-
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
   const userData = useAppSelector(
