@@ -1,3 +1,4 @@
+'use server';
 import { AxiosError } from 'axios';
 import CommentService from './commentService';
 import { IError } from '../types/response';
@@ -15,9 +16,7 @@ export async function saveComment(
       commentPhotoId,
       replayCommentId
     );
-    if (response.status !== 200) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+    return response;
   } catch (error) {
     const err = error as AxiosError<IError>;
 

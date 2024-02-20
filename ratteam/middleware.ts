@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import type { NextFetchEvent, NextRequest } from 'next/server';
 
@@ -10,7 +11,7 @@ export default async function middleware(
   },
   event: NextFetchEvent
 ) {
-  const loggedin = req.cookies.get('refreshToken') ?? { value: null };
+  const loggedin = cookies().get('refreshToken') ?? { value: null };
 
   const { pathname } = req.nextUrl;
 
