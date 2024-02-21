@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-  output: 'export',
 
   staticPageGenerationTimeout: 2000,
   env: {
@@ -26,6 +25,7 @@ const nextConfig = {
       },
     ],
   },
+  output: 'standalone',
 };
 
 module.exports = nextConfig;
