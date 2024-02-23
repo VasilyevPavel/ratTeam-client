@@ -2,7 +2,7 @@ import PostPreview from './components/postPreview/PostPreview';
 import { getAllPosts } from './lib/data/postData';
 import styles from './page.module.css';
 
-export default async function Home() {
+export default async function Page() {
   const posts = await getAllPosts();
 
   return (
