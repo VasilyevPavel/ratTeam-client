@@ -2,8 +2,9 @@
 import Link from 'next/link';
 import React from 'react';
 import EditIcon from '@mui/icons-material/Edit';
-import { useAppSelector } from '../lib/redux/hooks';
+import { useAppDispatch, useAppSelector } from '../lib/redux/hooks';
 import { RootState } from '../lib/redux/store';
+import { setPostHeader, setPostId } from '../lib/redux/postSlice';
 
 interface IEditButtonProps {
   postId: number;
@@ -11,7 +12,9 @@ interface IEditButtonProps {
 }
 
 export default function EditButton({ postId, userId }: IEditButtonProps) {
-  const editPostLink = `/blog/edit-post/${postId}`;
+  const dispatch = useAppDispatch();
+
+  const editPostLink = `/blog/edit-post/`;
 
   const userData = useAppSelector(
     (state: RootState) => state.userSlice.userData
@@ -22,7 +25,11 @@ export default function EditButton({ postId, userId }: IEditButtonProps) {
   return (
     <>
       {isOwner && (
-        <div>
+        <div
+          onClick={() => {
+            dispatch(setPostId(postId));
+          }}
+        >
           <Link href={editPostLink}>
             <EditIcon />
           </Link>
