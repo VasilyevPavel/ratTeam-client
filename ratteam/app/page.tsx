@@ -1,38 +1,33 @@
-// 'use client';
-
-// import { useEffect, useState } from 'react';
+'use client';
+import { useEffect, useState } from 'react';
 import PostPreview from './components/postPreview/PostPreview';
 import styles from './page.module.css';
 import { PostData } from './lib/types/response';
 import PostService from './lib/data/postService';
-import { getAllPosts } from './lib/data/postData';
 
-export const revalidate = 60;
+export default function Page() {
+  // const posts = await getAllPosts();
+  const [posts, setPosts] = useState<PostData[]>([]);
 
-export default async function Page() {
-  const posts = await getAllPosts();
-  console.log('posts', posts);
-  // const [posts, setPosts] = useState<PostData[]>([]);
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        // const posts = await getAllPosts();
+        const response = await PostService.getAllPosts();
+        if (response.status !== 200) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const posts: PostData[] = await response.data;
+        if (posts) {
+          setPosts(posts);
+        }
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    };
 
-  // useEffect(() => {
-  //   const fetchPosts = async () => {
-  //     try {
-  //       // const posts = await getAllPosts();
-  //       const response = await PostService.getAllPosts();
-  //       if (response.status !== 200) {
-  //         throw new Error(`HTTP error! Status: ${response.status}`);
-  //       }
-  //       const posts: PostData[] = await response.data;
-  //       if (posts) {
-  //         setPosts(posts);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching posts:', error);
-  //     }
-  //   };
-
-  //   fetchPosts();
-  // }, []);
+    fetchPosts();
+  }, []);
 
   return (
     <main className={styles.main}>
