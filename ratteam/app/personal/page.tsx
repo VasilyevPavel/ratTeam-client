@@ -35,7 +35,7 @@ export default function PersonalPage() {
     };
 
     fetchPosts();
-  }, [posts, user]);
+  }, [user]);
 
   if (!user?.user.isActivated) {
     return <div>Активируйте свой профиль в почте</div>;

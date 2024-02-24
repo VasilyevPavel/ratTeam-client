@@ -27,7 +27,7 @@ export default function Page() {
     };
 
     fetchPosts();
-  }, [posts]);
+  }, []);
 
   return (
     <main className={styles.main}>
