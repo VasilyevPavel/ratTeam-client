@@ -1,6 +1,7 @@
 import $api from '@/http';
 import axios, { AxiosResponse } from 'axios';
 import { IAuthResponse, IImage } from '../types/types';
+import { revalidatePath } from 'next/cache';
 
 export default class PostService {
   static async create(postData: {
@@ -23,11 +24,7 @@ export default class PostService {
     return $api.patch(`/api/post/update/${id}`, { postData });
   }
   static async getUserPosts(id: number): Promise<AxiosResponse> {
-    // const headers = {
-    //   Authorization: `Bearer ${refreshToken}`,
-    // };
     return axios.get(`${process.env.ENV_LOCAL_URL}/api/post/get-posts/${id}`, {
-      // headers,
       withCredentials: true,
     });
   }

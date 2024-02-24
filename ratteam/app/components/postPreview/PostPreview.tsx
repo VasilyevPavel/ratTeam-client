@@ -95,7 +95,7 @@ export default function PostPreview(post: PostData) {
       <div className={styles.previewBottom}>
         <div className={styles.previewBottomLeft}>
           <div className={styles.previewBottomLeftInfo}>
-            <Likes allLikes={PostLikes} id={id} />
+            <Likes allLikes={PostLikes} postId={id} />
           </div>
           <div className={styles.previewBottomLeftInfo}>
             <ChatBubbleOutlineIcon />

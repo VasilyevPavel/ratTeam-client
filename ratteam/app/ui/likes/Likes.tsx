@@ -11,14 +11,16 @@ import {
 } from '@/app/lib/redux/modalSlice';
 import { RootState } from '@/app/lib/redux/store';
 import CommentService from '@/app/lib/data/commentService';
+import { unstable_noStore as noStore } from 'next/cache';
 
 interface LikesProps {
   allLikes: IPostLike[] | ICommentLike[];
-  id: number;
-  comment?: boolean;
+  postId?: number;
+  commentId?: number;
 }
 
-export default function Likes({ allLikes, id, comment }: LikesProps) {
+export default function Likes({ allLikes, postId, commentId }: LikesProps) {
+  noStore();
   const dispatch = useAppDispatch();
   const userData = useAppSelector(
     (state: RootState) => state.userSlice.userData
@@ -40,10 +42,12 @@ export default function Likes({ allLikes, id, comment }: LikesProps) {
       return;
     }
 
-    if (comment) {
-      await CommentService.setLike(id);
-    } else {
-      await PostService.setLike(id);
+    if (commentId) {
+      await CommentService.setLike(commentId);
+      // revalidateTag('likes');
+    } else if (postId) {
+      await PostService.setLike(postId);
+      // revalidateTag('likes');
     }
     setLiked((prevLiked) => !prevLiked);
     if (liked) {
