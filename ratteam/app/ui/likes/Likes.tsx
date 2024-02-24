@@ -11,7 +11,6 @@ import {
 } from '@/app/lib/redux/modalSlice';
 import { RootState } from '@/app/lib/redux/store';
 import CommentService from '@/app/lib/data/commentService';
-import { unstable_noStore as noStore } from 'next/cache';
 
 interface LikesProps {
   allLikes: IPostLike[] | ICommentLike[];
@@ -20,7 +19,6 @@ interface LikesProps {
 }
 
 export default function Likes({ allLikes, postId, commentId }: LikesProps) {
-  noStore();
   const dispatch = useAppDispatch();
   const userData = useAppSelector(
     (state: RootState) => state.userSlice.userData
