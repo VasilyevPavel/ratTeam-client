@@ -2,6 +2,7 @@ import $api from '@/http';
 import axios, { AxiosResponse } from 'axios';
 import { IAuthResponse, IImage } from '../types/types';
 import { revalidatePath } from 'next/cache';
+import { PostData } from '../types/response';
 
 export default class PostService {
   static async create(postData: {
@@ -28,10 +29,21 @@ export default class PostService {
       withCredentials: true,
     });
   }
-  static async getAllPosts(): Promise<AxiosResponse> {
-    return axios.get(`${process.env.ENV_LOCAL_URL}/api/post/get-all-posts/`, {
-      withCredentials: true,
-    });
+  static async getAllPosts() {
+    // return axios.get(`${process.env.ENV_LOCAL_URL}/api/post/get-all-posts/`, {
+    //   withCredentials: true,
+    // });
+    const response = await fetch(
+      `${process.env.ENV_LOCAL_URL}/api/post/get-all-posts/`,
+      {
+        method: 'GET',
+        credentials: 'include',
+        next: { revalidate: 10 },
+      }
+    );
+    const posts: PostData[] = await response.json();
+
+    return posts;
   }
   static async setLike(postId: number): Promise<AxiosResponse> {
     return $api.post('/api/post/set-like', { postId });

@@ -3,6 +3,7 @@ import { getAllPosts, getOnePost } from '@/app/lib/data/postData';
 
 import './postStyles.css';
 import OnePost from '@/app/components/onePost/OnePost';
+export const revalidate = 60;
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();

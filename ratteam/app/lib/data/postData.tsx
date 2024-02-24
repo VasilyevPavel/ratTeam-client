@@ -36,10 +36,8 @@ export async function getUserPosts() {
 export async function getAllPosts() {
   try {
     const response = await PostService.getAllPosts();
-    if (response.status !== 200) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    const data: PostData[] = await response.data;
+
+    const data: PostData[] = await response;
     return data;
   } catch (error) {
     const err = error as AxiosError<IError>;
