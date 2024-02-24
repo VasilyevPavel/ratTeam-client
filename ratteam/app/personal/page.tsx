@@ -1,21 +1,43 @@
+'use client';
 import Link from 'next/link';
-import React from 'react';
-import { headers } from 'next/headers';
+import React, { useEffect, useState } from 'react';
+
 import PostPreview from '../components/postPreview/PostPreview';
 import styles from './personal.module.css';
-import { getUserPosts } from '../lib/data/postData';
 
-export default async function PersonalPage() {
-  const posts = await getUserPosts();
+import { PostData } from '../lib/types/response';
+import { useAppSelector } from '../lib/redux/hooks';
+import { RootState } from '../lib/redux/store';
+import PostService from '../lib/data/postService';
 
-  const headersList = headers();
-  const middlewareSet = headersList.get('user');
-  let user = null;
-  if (middlewareSet) {
-    const decodedUser = Buffer.from(middlewareSet, 'base64').toString('utf-8');
-    user = JSON.parse(decodedUser);
-  }
-  if (!user.isActivated) {
+export default function PersonalPage() {
+  // const posts = await getUserPosts();
+  const user = useAppSelector((state: RootState) => state.userSlice.userData);
+
+  const [posts, setPosts] = useState<PostData[]>([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        if (user?.user?.id) {
+          const response = await PostService.getUserPosts(user?.user?.id);
+          if (response.status !== 200) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          const posts: PostData[] = await response.data;
+          if (posts) {
+            setPosts(posts);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    };
+
+    fetchPosts();
+  }, [posts, user]);
+
+  if (!user?.user.isActivated) {
     return <div>Активируйте свой профиль в почте</div>;
   }
   return (

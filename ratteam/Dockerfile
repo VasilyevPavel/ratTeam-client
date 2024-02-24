@@ -1,5 +1,6 @@
+
 # Base on offical Node.js Alpine image
-FROM --platform=linux/amd64 node:18-alpine AS base
+FROM node:18-alpine AS base
 
 FROM base AS deps
 
@@ -41,6 +42,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Copy package.json and package-lock.json before other files
+
 # Utilize Docker cache to save re-installing dependencies if unchanged
 USER nextjs
 

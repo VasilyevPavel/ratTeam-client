@@ -42,7 +42,7 @@ export default function Comments({ postId, comments }: ICommentsProps) {
 
         <div className="comments-text">
           <div className="comments-info">
-            <Likes allLikes={comment.CommentLikes} id={comment.id} comment />
+            <Likes allLikes={comment.CommentLikes} commentId={comment.id} />
           </div>
           <ReplayCommentButton commentId={comment.id} />
           <div className="comments-info">

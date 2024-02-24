@@ -33,7 +33,24 @@ export default class CommentService {
     return response.data;
     // return $api.post(url, { text, commentPhotoId });
   }
-  static async setLike(commentId: number): Promise<AxiosResponse> {
-    return $api.post('/api/comments/set-like', { commentId });
+  static async setLike(commentId: number) {
+    // Получаем токен из серверных куки
+    const token = await serverCookie();
+
+    // Отправляем запрос на сервер с помощью fetch
+    const response = await fetch(
+      // Используем переменную окружения для URL API
+      `${process.env.ENV_LOCAL_URL}/api/comments/set-like`,
+      {
+        next: { tags: ['likes'] },
+        method: 'POST', // Определяем метод запроса
+        credentials: 'include', // Включаем отправку куки в запросе
+        headers: {
+          'Content-Type': 'application/json', // Устанавливаем заголовок Content-Type
+          Cookie: `refreshToken=${token}`, // Устанавливаем куку с токеном аутентификации
+        },
+        body: JSON.stringify({ commentId }), // Преобразуем тело запроса в формат JSON
+      }
+    );
   }
 }
