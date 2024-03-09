@@ -1,20 +1,22 @@
-import { useCallback, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useDropzone, DropzoneState } from 'react-dropzone';
 import styles from './dropzone.module.css';
 import ImagePreview from '../imagePreview/ImagePreview';
 import { getPostPhotos, uploadPhoto } from '@/app/lib/data/imageData';
-import { IImageResponse } from '@/app/lib/types/response';
-import { CircularProgress } from '@mui/material';
+
 import { useAppDispatch, useAppSelector } from '@/app/lib/redux/hooks';
 import { RootState } from '@/app/lib/redux/store';
-import { setImages } from '@/app/lib/redux/postSlice';
+import {
+  removeMockImage,
+  setImageLoading,
+  setImages,
+} from '@/app/lib/redux/postSlice';
 
 interface DropzoneProps {}
 
 const Dropzone: React.FC<DropzoneProps> = () => {
   const dispatch = useAppDispatch();
 
-  const [loading, setLoading] = useState<boolean>(false);
   const images = useAppSelector((state: RootState) => state.postSlice.images);
 
   const postId = useAppSelector((state: RootState) => state.postSlice.id);
@@ -39,18 +41,18 @@ const Dropzone: React.FC<DropzoneProps> = () => {
     async (acceptedFiles: File[]) => {
       if (acceptedFiles.length) {
         try {
+          dispatch(setImageLoading({ id: 0, name: 'mockup', post_id: null }));
           const formData = new FormData();
           acceptedFiles.forEach((file) => formData.append('photos', file));
-          setLoading(true);
+
           const response = await uploadPhoto(formData);
 
           const newImages = response.data;
+          dispatch(removeMockImage());
 
           dispatch(setImages(newImages));
         } catch (error) {
           console.error(error);
-        } finally {
-          setLoading(false);
         }
       }
     },
@@ -66,12 +68,6 @@ const Dropzone: React.FC<DropzoneProps> = () => {
       onDrop,
     });
 
-  // useEffect(() => {
-  //   return () => {
-  //     images.forEach((file) => URL.revokeObjectURL(file.name));
-  //   };
-  // }, [images]);
-
   return (
     <>
       <div {...getRootProps()}>
@@ -84,8 +80,6 @@ const Dropzone: React.FC<DropzoneProps> = () => {
           )}
         </div>
       </div>
-
-      {loading && <CircularProgress className={styles.loadingSpinner} />}
 
       <div className={styles.photosBox}>
         {images.map((image) => (

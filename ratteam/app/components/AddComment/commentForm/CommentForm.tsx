@@ -56,76 +56,51 @@ export default function CommentForm({ postId, commentId }: ICommentForm) {
     }
   };
 
-  if (!commentId) {
-    return (
-      <form
-        className="form-text"
-        ref={ref}
-        action={async (formData) => {
-          await addComment(formData, commentPhotoId, postId, pathname);
+  return (
+    <form
+      className="form-text"
+      ref={ref}
+      action={async (formData) => {
+        await addComment(
+          formData,
+          commentPhotoId || commentReplyId,
+          postId,
+          pathname
+        );
 
-          setTimeout(() => {
-            dispatch(setShowReplayWindow(null));
-            setCommentPhotoName(null);
-            setCommentPhotoId(null);
-            setCommentPhotoReplyName(null);
-            setCommentReplyId(null);
-            ref.current?.reset();
-          }, 0);
-        }}
-      >
-        <textarea
-          className="textField"
-          placeholder="Введите комментарий"
-          name="commentName"
-        />
-
+        setTimeout(() => {
+          dispatch(setShowReplayWindow(null));
+          setCommentPhotoName(null);
+          setCommentPhotoId(null);
+          setCommentPhotoReplyName(null);
+          setCommentReplyId(null);
+          ref.current?.reset();
+        }, 0);
+      }}
+    >
+      <textarea
+        className="textField"
+        placeholder="Введите комментарий"
+        name="commentName"
+      />
+      {commentId ? (
         <CommentImage
-          commentPhotoName={commentPhotoName}
           commentPhotoReplyName={commentPhotoReplyName}
           loadingPhoto={loadingPhoto}
           handleFileUpload={handleFileUpload}
-        />
-      </form>
-    );
-  } else {
-    return (
-      <form
-        className="form-text"
-        ref={ref}
-        action={async (formData) => {
-          await addComment(
-            formData,
-            commentReplyId,
-            postId,
-            pathname,
-            commentId
-          );
-
-          setTimeout(() => {
-            dispatch(setShowReplayWindow(null));
-            setCommentPhotoName(null);
-            setCommentPhotoId(null);
-            setCommentPhotoReplyName(null);
-            setCommentReplyId(null);
-            ref.current?.reset();
-          }, 0);
-        }}
-      >
-        <textarea
-          className="textField"
-          placeholder="Введите комментарий"
-          name="commentName"
-        />
-
-        <CommentImage
-          commentPhotoName={commentPhotoName}
-          commentPhotoReplyName={commentPhotoReplyName}
-          loadingPhoto={loadingPhoto}
-          handleFileUpload={handleFileUpload}
+          setCommentPhotoName={setCommentPhotoName}
+          setCommentPhotoReplyName={setCommentPhotoReplyName}
           isReply
         />
-      </form>
-    );
-  }
+      ) : (
+        <CommentImage
+          commentPhotoName={commentPhotoName}
+          loadingPhoto={loadingPhoto}
+          handleFileUpload={handleFileUpload}
+          setCommentPhotoName={setCommentPhotoName}
+          setCommentPhotoReplyName={setCommentPhotoReplyName}
+        />
+      )}
+    </form>
+  );
 }

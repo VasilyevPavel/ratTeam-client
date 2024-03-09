@@ -18,6 +18,12 @@ const postSlice = createSlice({
     setCursorPosition(state, action) {
       state.cursorPosition = action.payload;
     },
+    setImageLoading(state, action) {
+      state.images = [...state.images, action.payload];
+    },
+    removeMockImage(state) {
+      state.images.pop();
+    },
     setImages(state, action) {
       state.images = [...state.images, ...action.payload];
     },
@@ -82,6 +88,8 @@ const postSlice = createSlice({
 export default postSlice.reducer;
 export const {
   setCursorPosition,
+  setImageLoading,
+  removeMockImage,
   setImages,
   setPostId,
   setPostHeader,

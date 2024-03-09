@@ -63,6 +63,7 @@ export const checkAuthThunk = () => {
       const response = await AuthService.checkAuth();
 
       dispatch(setUserData(response.data));
+
       localStorage.setItem('token', response.data.accessToken);
 
       return response.data;

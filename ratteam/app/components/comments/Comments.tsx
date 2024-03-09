@@ -54,7 +54,7 @@ export default function Comments({ postId, comments }: ICommentsProps) {
           </div>
         </div>
         <div>
-          <AddComment postId={postId} commentId={comment.id} />
+          <AddComment key={comment.id} postId={postId} commentId={comment.id} />
         </div>
         {renderComments(comment.id, depth + 1)}
       </div>
@@ -85,7 +85,7 @@ export default function Comments({ postId, comments }: ICommentsProps) {
       <div className="comments-head">
         <h3 className="comments-header">Комментарии</h3>
       </div>
-      <AddComment postId={postId} />
+      <AddComment key={0} postId={postId} />
       <div>{renderComments(0)}</div>
     </div>
   );

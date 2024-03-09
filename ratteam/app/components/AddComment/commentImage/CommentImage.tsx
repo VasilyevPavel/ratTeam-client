@@ -5,10 +5,12 @@ import { CircularProgress } from '@mui/material';
 import ImageComponent from './ImageComponent';
 
 interface CommentImageProps {
-  commentPhotoName: string | null;
-  commentPhotoReplyName: string | null;
+  commentPhotoName?: string | null;
+  commentPhotoReplyName?: string | null;
   handleFileUpload: (e: ChangeEvent<HTMLInputElement>) => void;
   loadingPhoto: boolean;
+  setCommentPhotoName: (value: string | null) => void;
+  setCommentPhotoReplyName: (value: string | null) => void;
   isReply?: boolean;
 }
 
@@ -18,9 +20,11 @@ export default function CommentImage({
   handleFileUpload,
   loadingPhoto,
   isReply,
+  setCommentPhotoName,
+  setCommentPhotoReplyName,
 }: CommentImageProps) {
-  console.log('commentPhotoName', commentPhotoName);
-  const photoUrl = commentPhotoName || commentPhotoReplyName;
+  const photoUrl = isReply ? commentPhotoReplyName : commentPhotoName;
+
   const inputId = isReply
     ? 'reply-raised-button-file'
     : 'main-raised-button-file';
@@ -32,12 +36,12 @@ export default function CommentImage({
       ) : (
         <>
           {photoUrl ? (
-            <Suspense fallback={<CircularProgress />}>
-              <ImageComponent
-                photoUrl={photoUrl}
-                handleFileUpload={handleFileUpload}
-              />
-            </Suspense>
+            <ImageComponent
+              photoUrl={photoUrl}
+              handleFileUpload={handleFileUpload}
+              setCommentPhotoName={setCommentPhotoName}
+              setCommentPhotoReplyName={setCommentPhotoReplyName}
+            />
           ) : (
             <label htmlFor={inputId}>
               {' '}
