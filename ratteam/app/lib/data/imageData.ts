@@ -56,3 +56,15 @@ export async function uploadCommentPhoto(formData: FormData) {
     throw error;
   }
 }
+
+export async function deleteCommentPhoto(id: number | null) {
+  try {
+    const response = await ImageService.commentImageDelete(id);
+
+    return response;
+  } catch (error) {
+    const err = error as AxiosError<IError>;
+    console.log(err.response?.data.message);
+    throw error;
+  }
+}

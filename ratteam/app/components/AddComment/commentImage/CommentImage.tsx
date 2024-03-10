@@ -11,6 +11,7 @@ interface CommentImageProps {
   loadingPhoto: boolean;
   setCommentPhotoName: (value: string | null) => void;
   setCommentPhotoReplyName: (value: string | null) => void;
+  commentPhotoId: number | null;
   isReply?: boolean;
 }
 
@@ -22,6 +23,7 @@ export default function CommentImage({
   isReply,
   setCommentPhotoName,
   setCommentPhotoReplyName,
+  commentPhotoId,
 }: CommentImageProps) {
   const photoUrl = isReply ? commentPhotoReplyName : commentPhotoName;
 
@@ -41,6 +43,7 @@ export default function CommentImage({
               handleFileUpload={handleFileUpload}
               setCommentPhotoName={setCommentPhotoName}
               setCommentPhotoReplyName={setCommentPhotoReplyName}
+              commentPhotoId={commentPhotoId}
             />
           ) : (
             <label htmlFor={inputId}>

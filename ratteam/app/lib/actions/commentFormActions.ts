@@ -26,9 +26,7 @@ export const addComment = async (
       return response;
     } else {
       const response = await saveComment(postId, text, commentPhotoId);
-
       revalidatePath(pathname);
-
       return response;
     }
   }

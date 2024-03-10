@@ -32,4 +32,9 @@ export default class ImageService {
       formData
     );
   }
+  static async commentImageDelete(id: number | null) {
+    return $api.delete<IImageResponse[]>(
+      `/api/image/delete-comment-photo/${id}`
+    );
+  }
 }

@@ -3,12 +3,14 @@ import React, { ChangeEvent, Suspense } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 import { CircularProgress } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import { deleteCommentPhoto } from '@/app/lib/data/imageData';
 
 interface IImageComponent {
   photoUrl: string;
   handleFileUpload: (e: ChangeEvent<HTMLInputElement>) => void;
   setCommentPhotoName: (value: string | null) => void;
   setCommentPhotoReplyName: (value: string | null) => void;
+  commentPhotoId: number | null;
 }
 
 export default function ImageComponent({
@@ -16,9 +18,11 @@ export default function ImageComponent({
   handleFileUpload,
   setCommentPhotoName,
   setCommentPhotoReplyName,
+  commentPhotoId,
 }: IImageComponent) {
   const handleDeleteImage = () => {
     console.log('Удоли');
+    deleteCommentPhoto(commentPhotoId);
     setCommentPhotoName(null);
     setCommentPhotoReplyName(null);
   };
