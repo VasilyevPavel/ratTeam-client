@@ -13,6 +13,7 @@ import Dropzone from '@/app/components/dropzone/Dropzone';
 import { useAppDispatch, useAppSelector } from '@/app/lib/redux/hooks';
 import {
   resetPostData,
+  setCursorPosition,
   setPostBody,
   setPostHeader,
 } from '@/app/lib/redux/postSlice';
@@ -78,6 +79,11 @@ export default function CreatePost() {
 
   const handleEditorChange = useCallback(
     (newContent: string, delta: any, source: any, editor: any) => {
+      const cursorPosition = editor.getSelection()?.index;
+      if (cursorPosition !== null) {
+        // Сохраняем положение курсора в Redux
+        dispatch(setCursorPosition(cursorPosition));
+      }
       const doc = new DOMParser().parseFromString(newContent, 'text/html');
       const imgElements = doc.querySelectorAll('img[src]');
 
@@ -105,6 +111,14 @@ export default function CreatePost() {
 
     [dispatch]
   );
+
+  const handleSelectionChange = (range: any, source: string, editor: any) => {
+    // Если курсор перемещается, мы обновляем его позицию
+    if (range) {
+      const cursorPosition = range.index; // Получаем индекс курсора
+      dispatch(setCursorPosition(cursorPosition)); // Сохраняем в Redux
+    }
+  };
 
   const handleSave = async (isPosted: boolean) => {
     if (postHeader.length === 0 || postHeader.trim() === '') {
@@ -165,6 +179,7 @@ export default function CreatePost() {
           placeholder="Start typing!"
           value={postBody}
           onChange={handleEditorChange}
+          onChangeSelection={handleSelectionChange}
           modules={quillModules}
           formats={quillFormats}
         />

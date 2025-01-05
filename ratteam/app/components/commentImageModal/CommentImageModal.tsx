@@ -39,12 +39,12 @@ const CommentImageModal: React.FC<CommentImageModalProps> = ({ src, alt }) => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          outline: 'none', // Убирает рамку модального окна
+          outline: 'none',
         }}
       >
         <div
           style={{
-            outline: 'none', // Убирает рамку содержимого модального окна
+            outline: 'none',
           }}
         >
           <Image
@@ -52,12 +52,12 @@ const CommentImageModal: React.FC<CommentImageModalProps> = ({ src, alt }) => {
             alt={alt}
             width={800}
             height={800}
-            onClick={handleClose} // Закрытие при клике на изображение
+            onClick={handleClose}
             style={{
               maxWidth: '90%',
               maxHeight: '90%',
               objectFit: 'contain',
-              cursor: 'pointer', // Добавлен указатель для визуального подсказания
+              cursor: 'pointer',
             }}
           />
         </div>

@@ -5,9 +5,10 @@ import { CircularProgress } from '@mui/material';
 import ImageModal from '../imageModal/ImageModal';
 import { IImageResponse } from '@/app/lib/types/response';
 import { deletePhoto } from '@/app/lib/data/imageData';
-import { useAppDispatch } from '@/app/lib/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/lib/redux/hooks';
 import { deleteImage } from '@/app/lib/redux/postSlice';
 import { IImage } from '@/app/lib/types/types';
+import { RootState } from '@/app/lib/redux/store';
 
 interface ImageProps {
   image: IImage;
@@ -22,7 +23,10 @@ export default function ImagePreview({ image }: ImageProps) {
   const addImageHandler = (file: IImageResponse) => {
     setShowImageModal(true);
   };
-
+  const cursourPosition = useAppSelector(
+    (state: RootState) => state.postSlice.cursorPosition
+  );
+  console.log('cursourPosition', cursourPosition);
   const removeFileHandler = () => {
     setSureDelPhoto(true);
   };

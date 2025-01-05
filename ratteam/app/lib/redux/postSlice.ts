@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { PostBody } from '../types/types';
+import { IImage, PostBody } from '../types/types';
 
 const initialUserState: PostBody = {
   cursorPosition: null,
@@ -15,9 +15,24 @@ const postSlice = createSlice({
   name: 'postSlice',
   initialState: initialUserState,
   reducers: {
-    setCursorPosition(state, action) {
+    setCursorPosition(state, action: PayloadAction<number | null>) {
       state.cursorPosition = action.payload;
     },
+    addImageAtCursor(
+      state,
+      action: PayloadAction<{ cursorPosition: number; image: string }>
+    ) {
+      const { cursorPosition, image } = action.payload;
+
+      if (cursorPosition !== null) {
+        // Вставляем изображение в нужную позицию в теле текста
+        state.body =
+          state.body.slice(0, cursorPosition) +
+          image +
+          state.body.slice(cursorPosition);
+      }
+    },
+
     setImageLoading(state, action) {
       state.images = [...state.images, action.payload];
     },
@@ -25,7 +40,14 @@ const postSlice = createSlice({
       state.images.pop();
     },
     setImages(state, action) {
-      state.images = [...state.images, ...action.payload];
+      const newImages = action.payload;
+
+      const uniqueImages = newImages.filter(
+        (newImage: IImage) =>
+          !state.images.some((image) => image.id === newImage.id)
+      );
+
+      state.images = [...state.images, ...uniqueImages];
     },
     deleteImage(state, action) {
       const filteredImages = state.images.filter(
@@ -61,7 +83,14 @@ const postSlice = createSlice({
       state.body = action.payload;
     },
     addImage(state, action: PayloadAction<string>) {
-      state.body = state.body + action.payload;
+      const cursorPosition = state.cursorPosition;
+      const newImageWithNewline = '\n' + action.payload + ' ';
+      state.body =
+        state.body.slice(0, cursorPosition) +
+        newImageWithNewline + // Вставляем разрыв строки и изображение
+        state.body.slice(cursorPosition);
+
+      state.cursorPosition = cursorPosition + newImageWithNewline.length;
     },
 
     // deleteImage(state, action: PayloadAction<string>) {
@@ -99,4 +128,5 @@ export const {
   deleteImage,
   setPosts,
   addPost,
+  addImageAtCursor,
 } = postSlice.actions;
