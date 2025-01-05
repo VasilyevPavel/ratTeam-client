@@ -4,7 +4,7 @@ import { IComment, ICommentImages } from '@/app/lib/types/response';
 import Likes from '@/app/ui/likes/Likes';
 import ReplayCommentButton from '../ReplayCommentButton/ReplayCommentButton';
 import AddComment from '../AddComment/AddComment';
-import Image from 'next/image';
+import CommentImageModal from '../commentImageModal/CommentImageModal';
 
 interface ICommentsProps {
   postId: number;
@@ -63,20 +63,11 @@ export default function Comments({ postId, comments }: ICommentsProps) {
 
   const renderCommentImages = (images: ICommentImages[]) => {
     return images.map((image) => (
-      <div key={image.id}>
-        <Image
-          src={`${process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL}${image.name}`}
-          width={200}
-          height={200}
-          sizes="100vw"
-          style={{
-            width: 'auto',
-            height: 'auto',
-            maxHeight: '150px',
-          }}
-          alt="Comment Image"
-        />
-      </div>
+      <CommentImageModal
+        key={image.id}
+        src={`${process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL}${image.name}`}
+        alt="Comment Image"
+      />
     ));
   };
 
