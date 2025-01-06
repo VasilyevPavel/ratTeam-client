@@ -11,7 +11,7 @@ export default async function middleware(
   },
   event: NextFetchEvent
 ) {
-  const loggedin = cookies().get('refreshToken') ?? { value: null };
+  const loggedin = (await cookies()).get('refreshToken') ?? { value: null };
 
   const { pathname } = req.nextUrl;
 

@@ -43,14 +43,14 @@ export default function NavBar() {
   }, [dispatch]);
 
   useEffect(() => {
-    const isEditPostPage = pathname?.startsWith('/blog/edit-post/');
+    const isEditPostPage = pathname?.startsWith('/blog/edit-post');
 
     if (isEditPostPage) {
       return () => {
         dispatch(resetPostData());
       };
     }
-  }, [pathname, dispatch]);
+  }, [pathname]);
 
   function loginHandler() {
     dispatch(changeLoginModalStatus());

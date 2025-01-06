@@ -18,20 +18,6 @@ const postSlice = createSlice({
     setCursorPosition(state, action: PayloadAction<number | null>) {
       state.cursorPosition = action.payload;
     },
-    addImageAtCursor(
-      state,
-      action: PayloadAction<{ cursorPosition: number; image: string }>
-    ) {
-      const { cursorPosition, image } = action.payload;
-
-      if (cursorPosition !== null) {
-        // Вставляем изображение в нужную позицию в теле текста
-        state.body =
-          state.body.slice(0, cursorPosition) +
-          image +
-          state.body.slice(cursorPosition);
-      }
-    },
 
     setImageLoading(state, action) {
       state.images = [...state.images, action.payload];
@@ -64,8 +50,8 @@ const postSlice = createSlice({
         `\\[image\\s+src=${index}\\s+title=(\\w+)\\]`,
         'g'
       );
-
       state.body = state.body.replace(imagesRegex, '');
+      console.log('state.body', state.body);
     },
     setPostId(state, action) {
       state.id = action.payload;
@@ -83,14 +69,7 @@ const postSlice = createSlice({
       state.body = action.payload;
     },
     addImage(state, action: PayloadAction<string>) {
-      const cursorPosition = state.cursorPosition;
-      const newImageWithNewline = '\n' + action.payload + ' ';
-      state.body =
-        state.body.slice(0, cursorPosition) +
-        newImageWithNewline + // Вставляем разрыв строки и изображение
-        state.body.slice(cursorPosition);
-
-      state.cursorPosition = cursorPosition + newImageWithNewline.length;
+      state.body = state.body + action.payload;
     },
 
     // deleteImage(state, action: PayloadAction<string>) {
@@ -107,6 +86,7 @@ const postSlice = createSlice({
     // },
 
     resetPostData(state) {
+      console.log('сработал reset');
       state.header = '';
       state.body = '';
       state.images = [];
@@ -128,5 +108,4 @@ export const {
   deleteImage,
   setPosts,
   addPost,
-  addImageAtCursor,
 } = postSlice.actions;
