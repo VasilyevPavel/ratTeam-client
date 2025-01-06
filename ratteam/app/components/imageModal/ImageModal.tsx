@@ -8,7 +8,7 @@ import { TextField } from '@mui/material';
 import styles from './imageModal.module.css';
 import { IImageResponse } from '@/app/lib/types/response';
 import { useAppDispatch, useAppSelector } from '@/app/lib/redux/hooks';
-import { addImage } from '@/app/lib/redux/postSlice';
+import { addImage, setPostBody } from '@/app/lib/redux/postSlice'; // Добавили setPostBody
 import { RootState } from '@/app/lib/redux/store';
 
 interface ImageModalProps {
@@ -37,6 +37,10 @@ const ImageModal: React.FC<ImageModalProps> = ({
   const [description, setDescription] = useState<string>('');
   const dispatch = useAppDispatch();
   const images = useAppSelector((state: RootState) => state.postSlice.images);
+  const cursorPosition = useAppSelector(
+    (state: RootState) => state.postSlice.cursorPosition
+  );
+  const postBody = useAppSelector((state: RootState) => state.postSlice.body);
 
   const handleClose = () => setShowImageModal(false);
 
@@ -53,14 +57,20 @@ const ImageModal: React.FC<ImageModalProps> = ({
           index = i + 1;
         }
       });
-      //     const imgTag = `
-      //     <p class="ql-align-center"><img src=${imageUrl}></p>
-      //     <p class="ql-align-center"><em >${description}</em></p>
-      //     <p>&nbsp;</p>
-      //  `;
+
+      // Тег для изображения
       const imgTag = `[image src=${index} title=${description}]`;
 
-      dispatch(addImage(imgTag));
+      // Добавляем изображение в текст с учётом позиции курсора
+      const updatedBody =
+        cursorPosition !== null
+          ? postBody.slice(0, cursorPosition) +
+            imgTag +
+            postBody.slice(cursorPosition)
+          : postBody + imgTag;
+
+      // Обновляем текст через Redux
+      dispatch(setPostBody(updatedBody));
 
       setDescription('');
       setShowImageModal(false);
