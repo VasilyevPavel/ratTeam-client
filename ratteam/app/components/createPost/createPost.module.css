@@ -9,6 +9,20 @@
   width: 70%;
   margin-bottom: 20px;
 }
+.photosBox {
+  padding: 20px;
+  color: #333;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.03);
+  border-radius: 10px;
+  width: 70%;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
 .input {
   width: 100%;
 

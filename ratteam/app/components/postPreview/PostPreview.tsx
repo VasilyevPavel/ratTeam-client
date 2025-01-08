@@ -24,7 +24,10 @@ export default function PostPreview(post: PostData) {
   const postAuthorTranslit = translit(User.name);
   const postNameTranslit = translit(header);
   const readMoreLink = (
-    <Link href={`/blog/${postAuthorTranslit}/${postNameTranslit}/${id}`}>
+    <Link
+      className={styles.readMoreLink}
+      href={`/blog/${postAuthorTranslit}/${postNameTranslit}/${id}`}
+    >
       <strong>... Читать дальше</strong>
     </Link>
   );
@@ -98,7 +101,11 @@ export default function PostPreview(post: PostData) {
             <Likes allLikes={PostLikes} postId={id} />
           </div>
           <div className={styles.previewBottomLeftInfo}>
-            <ChatBubbleOutlineIcon />
+            <Link
+              href={`/blog/${postAuthorTranslit}/${postNameTranslit}/${id}#commentsSection`}
+            >
+              <ChatBubbleOutlineIcon className={styles.commentBtn} />
+            </Link>
             <span>{Comments.length}</span>
           </div>
         </div>

@@ -1,0 +1,21 @@
+.editorBox {
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 15px;
+  min-height: 200px;
+  background-color: #fff;
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.editorBox:hover {
+  cursor: text;
+}
+
+.editorContent {
+  outline: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}

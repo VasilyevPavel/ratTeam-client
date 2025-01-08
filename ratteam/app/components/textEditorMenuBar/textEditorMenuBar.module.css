@@ -1,0 +1,36 @@
+.toolbar {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background-color: #f4f4f5;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.button {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.button:hover {
+  background-color: #e0e0e0;
+  color: #000;
+}
+
+.button:disabled {
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.active {
+  background-color: #6200ea;
+  color: #fff;
+}

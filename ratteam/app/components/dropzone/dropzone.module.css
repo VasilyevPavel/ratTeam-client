@@ -1,26 +1,60 @@
+.dropzoneContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 90%;
+}
+
+.dropzone {
+  width: 100%;
+  /* max-width: 500px; */
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7f7f7;
+  border: 2px dashed #bbb;
+  border-radius: 10px;
+  transition: background-color 0.3s, border-color 0.3s;
+  cursor: pointer;
+  text-align: center;
+}
+
+.dropzone.active {
+  background-color: #e0f7fa;
+  border-color: #00897b;
+}
+
+.dropzoneText {
+  font-size: 16px;
+  color: #555;
+}
+
 .photosBox {
   display: flex;
   flex-wrap: wrap;
-}
-
-.progressBar {
-  height: 10px;
+  gap: 15px;
   width: 100%;
-  background-color: #ddd;
-  border-radius: 5px;
-  margin-top: 10px;
+  justify-content: center;
 }
 
-.progress {
-  height: 100%;
-  width: 0;
-  background-color: #4caf50;
-  border-radius: 5px;
+.photosBox img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
 }
+
+.photosBox img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .loadingSpinner {
-  position: absolute;
-  top: 70%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   color: #2196f3;
+  margin-top: 10px;
 }

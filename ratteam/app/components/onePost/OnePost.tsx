@@ -61,7 +61,9 @@ export default function OnePost({ post }: { post: PostData }) {
           <EditButton postId={post.id} userId={post.User.id} />
           <Likes allLikes={post.PostLikes} postId={post.id} />
         </div>
-        <Comments postId={post.id} comments={post.Comments} />
+        <div id="commentsSection">
+          <Comments postId={post.id} comments={post.Comments} />
+        </div>
       </>
     );
   } else {

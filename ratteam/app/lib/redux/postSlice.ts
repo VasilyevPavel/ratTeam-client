@@ -72,21 +72,7 @@ const postSlice = createSlice({
       state.body = state.body + action.payload;
     },
 
-    // deleteImage(state, action: PayloadAction<string>) {
-    //   const imageName = action.payload;
-    //   const escapedImageName = imageName.replaceAll(
-    //     /[.*+?^${}()|[\]\\]/g,
-    //     '\\$&'
-    //   );
-    //   const imagesRegex = new RegExp(
-    //     `<p class="ql-align-center">(<img src="${process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL}${escapedImageName}"[^>]*>(?:<\/p>)?(?:<p class="ql-align-center">)?(?:<em>[^<]*<\/em>)?(?:<\/p>)?(?:<p class="ql-align-center"><br><\/p>)?)<\/p>`,
-    //     'g'
-    //   );
-    //   state.body = state.body.replace(imagesRegex, '');
-    // },
-
     resetPostData(state) {
-      console.log('сработал reset');
       state.header = '';
       state.body = '';
       state.images = [];

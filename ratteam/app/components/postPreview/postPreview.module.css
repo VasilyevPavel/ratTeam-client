@@ -55,6 +55,10 @@
 }
 .previewBottomInfoAvatar {
   margin-right: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+.previewBottomInfoAvatar :hover {
+  transform: scale(1.1);
 }
 .previewBottomRight .previewBottomInfo span {
   margin-right: 10px;
@@ -69,4 +73,18 @@
 .imageBox {
   display: flex;
   justify-content: center;
+}
+.readMoreLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.readMoreLink:hover {
+  text-decoration: underline;
+}
+.commentBtn {
+  cursor: pointer;
+}
+.commentBtn:hover {
+  transform: scale(1.1);
 }

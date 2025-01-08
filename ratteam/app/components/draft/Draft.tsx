@@ -6,6 +6,7 @@ import { useAppSelector, useAppDispatch } from '@/app/lib/redux/hooks';
 import { RootState } from '@/app/lib/redux/store';
 import { setCursorPosition, setPostBody } from '@/app/lib/redux/postSlice';
 import TextEditorMenuBar from '../textEditorMenuBar/TextEditorMenuBar';
+import styles from './draft.module.css';
 
 type TextEditorProps = {
   onChange: (content: string) => void;
@@ -26,8 +27,7 @@ export default function RichTextEditor({ onChange }: TextEditorProps) {
     },
     editorProps: {
       attributes: {
-        class:
-          'min-h-[150px] cursor-text rounded-md border p-5 ring-offset-background focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2',
+        class: styles.editorBox,
       },
     },
     immediatelyRender: false,
@@ -55,10 +55,18 @@ export default function RichTextEditor({ onChange }: TextEditorProps) {
     }
   }, [postBody, editor]);
 
+  const handleFocus = () => {
+    if (editor) {
+      editor.view.focus();
+    }
+  };
+
   return (
     <div>
       <TextEditorMenuBar editor={editor} />
-      <EditorContent editor={editor} />
+      <div onClick={handleFocus}>
+        <EditorContent editor={editor} />
+      </div>
     </div>
   );
 }

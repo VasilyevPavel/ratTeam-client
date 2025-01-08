@@ -94,7 +94,7 @@ export default function CreatePost() {
         />
         <RichTextEditor onChange={handleEditorChange} />
       </div>
-      <div className={styles.box}>
+      <div className={styles.photosBox}>
         <h2 className={styles.header}>Фотографии</h2>
         <Dropzone />
       </div>

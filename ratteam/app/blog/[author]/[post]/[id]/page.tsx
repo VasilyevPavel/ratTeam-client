@@ -21,7 +21,7 @@ export default async function Page({
 }: {
   params: { author: string; post: string; id: string };
 }) {
-  const { id } = params;
+  const { id } = await params;
 
   const post = await getOnePost(+id);
   if (post) {

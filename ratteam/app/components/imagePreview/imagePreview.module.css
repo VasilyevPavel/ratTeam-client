@@ -1,8 +1,8 @@
 .onePhotoBox {
   margin-left: 15px;
   margin-right: 15px;
-  /* display: flex;
-  flex-direction: column; */
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }
 .image {
