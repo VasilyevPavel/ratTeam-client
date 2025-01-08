@@ -74,7 +74,7 @@ export default function NavBar() {
       </div>
       <div className={styles.hello}>
         {' '}
-        {userData && userData.user.name && (
+        {userData && userData.user?.name && (
           <>
             <span className={styles.helloSign}>
               Привет, {userData.user.name}

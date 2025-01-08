@@ -20,6 +20,12 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'rat-team.s3.storage.selcloud.ru',
+        port: '',
+        // pathname: '/1/upload/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'cac356e0-1c44-4442-8e41-007c9d879a3e.selstorage.ru',
         port: '',
         // pathname: '/1/upload/**',

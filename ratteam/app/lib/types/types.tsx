@@ -40,3 +40,9 @@ export interface PostBody {
   header: string;
   body: string;
 }
+export interface IAvatarUpdate {
+  message: string;
+  userData: {
+    avatar: string;
+  };
+}

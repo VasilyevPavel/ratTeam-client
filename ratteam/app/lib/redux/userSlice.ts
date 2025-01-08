@@ -20,8 +20,14 @@ const userSlice = createSlice({
     setMessage(state, action: PayloadAction<string>) {
       state.message = action.payload;
     },
+    setNewAvatar(state, action: PayloadAction<string>) {
+      if (state.userData) {
+        state.userData.user.avatar = action.payload;
+      }
+    },
   },
 });
 
 export default userSlice.reducer;
-export const { setUserData, resetUserData, setMessage } = userSlice.actions;
+export const { setUserData, resetUserData, setMessage, setNewAvatar } =
+  userSlice.actions;

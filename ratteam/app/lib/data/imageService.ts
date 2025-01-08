@@ -2,6 +2,7 @@ import $api from '@/http';
 
 import { IImageResponse } from '../types/response';
 import axios from 'axios';
+import { IAuthResponse, IAvatarUpdate, UserState } from '../types/types';
 
 export default class ImageService {
   static async imageUpload(formData: FormData) {
@@ -32,8 +33,11 @@ export default class ImageService {
       formData
     );
   }
+  static async avatarImageUpload(formData: FormData) {
+    return $api.post<IAvatarUpdate>('/api/image/upload-avatar-photo', formData);
+  }
   static async commentImageDelete(id: number | null) {
-    return $api.delete<IImageResponse[]>(
+    return $api.delete<IAuthResponse[]>(
       `/api/image/delete-comment-photo/${id}`
     );
   }

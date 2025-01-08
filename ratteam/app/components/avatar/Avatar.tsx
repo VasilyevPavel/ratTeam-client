@@ -33,7 +33,7 @@ export default function Avatar({ user, style }: AvatarProps) {
           //TODO Сделать ссылку на профиль автора
           <Link href="/">
             <Image
-              src={user.avatar}
+              src={`${process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL}${userData?.user.avatar}`}
               width={70}
               height={50}
               alt="logo"
@@ -60,7 +60,7 @@ export default function Avatar({ user, style }: AvatarProps) {
       {userData?.user?.avatar !== undefined && userData?.user?.avatar !== '' ? (
         <Link href="/personal/update-profile">
           <Image
-            src={userData?.user.avatar}
+            src={`${process.env.NEXT_PUBLIC_IMAGE_HOSTING_URL}${userData?.user.avatar}`}
             width={70}
             height={50}
             alt="logo"
