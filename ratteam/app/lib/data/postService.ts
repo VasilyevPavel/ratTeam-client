@@ -1,8 +1,6 @@
 import $api from '@/http';
 import axios, { AxiosResponse } from 'axios';
 import { IAuthResponse, IImage } from '../types/types';
-import { revalidatePath } from 'next/cache';
-import revalidationPath from '../actions/revalidation';
 
 export default class PostService {
   static async create(postData: {

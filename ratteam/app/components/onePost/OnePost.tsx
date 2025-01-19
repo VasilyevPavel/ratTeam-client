@@ -75,7 +75,12 @@ export default function OnePost({
           />
         </div>
         <div id="commentsSection">
-          <Comments postId={post.id} comments={post.Comments} />
+          <Comments
+            postId={post.id}
+            comments={post.Comments}
+            author={author}
+            postName={postName}
+          />
         </div>
       </>
     );

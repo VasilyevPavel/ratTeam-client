@@ -9,13 +9,20 @@ import CommentImageModal from '../commentImageModal/CommentImageModal';
 interface ICommentsProps {
   postId: number;
   comments: IComment[];
+  author: string;
+  postName: string;
 }
 
 interface ICommentsMap {
   [key: number]: IComment[];
 }
 
-export default function Comments({ postId, comments }: ICommentsProps) {
+export default function Comments({
+  postId,
+  comments,
+  author,
+  postName,
+}: ICommentsProps) {
   const commentsMap = comments.reduce((map, comment) => {
     const parentId = comment.parent_comment_id || 0;
     map[parentId] = map[parentId] || [];
@@ -42,7 +49,13 @@ export default function Comments({ postId, comments }: ICommentsProps) {
 
         <div className="comments-text">
           <div className="comments-info">
-            <Likes allLikes={comment.CommentLikes} commentId={comment.id} />
+            <Likes
+              allLikes={comment.CommentLikes}
+              commentId={comment.id}
+              postId={postId}
+              author={author}
+              postName={postName}
+            />
           </div>
           <ReplayCommentButton commentId={comment.id} />
           <div className="comments-info">

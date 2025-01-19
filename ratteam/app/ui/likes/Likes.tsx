@@ -12,7 +12,7 @@ import {
 import { RootState } from '@/app/lib/redux/store';
 import CommentService from '@/app/lib/data/commentService';
 import { revalidateTag } from 'next/cache';
-import revalidationPath from '@/app/lib/actions/revalidation';
+import { revalidationPath } from '@/app/lib/actions/revalidation';
 
 interface LikesProps {
   allLikes: IPostLike[] | ICommentLike[];
@@ -52,18 +52,19 @@ export default function Likes({
       return;
     }
 
-    if (commentId) {
+    if (commentId && postId) {
       await CommentService.setLike(commentId);
-      const tag = `comments`;
-      console.log('tag', tag);
-      revalidationPath(tag);
+      const path = `/blog/${author}/${postName}/${postId}`;
+      console.log('path', path);
+      revalidationPath(path);
       // revalidateTag(`post-${postId}`);
       // revalidateTag('likes');
     } else if (postId) {
       await PostService.setLike(postId, author, postName);
-      const tag = `post-${postId}`;
+      const path = `/blog/${author}/${postName}/${postId}`;
+      console.log('path', path);
 
-      revalidationPath(tag);
+      revalidationPath(path);
 
       // revalidateTag(`post-${postId}`);
 

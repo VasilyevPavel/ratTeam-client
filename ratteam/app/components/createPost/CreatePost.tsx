@@ -17,6 +17,7 @@ import {
 } from '@/app/lib/redux/postSlice';
 import { RootState } from '@/app/lib/redux/store';
 import RichTextEditor from '../draft/Draft';
+import { revalidationTag } from '@/app/lib/actions/revalidation';
 
 export default function CreatePost() {
   const postId = useAppSelector((state: RootState) => state.postSlice.id);
@@ -62,8 +63,13 @@ export default function CreatePost() {
       };
       if (postId) {
         const post = await PostService.update(postId, postData);
+        const tag = 'posts';
+        revalidationTag(tag);
       } else {
         const post = await PostService.create(postData);
+        const tag = 'posts';
+
+        revalidationTag(tag);
       }
       dispatch(resetPostData());
       router.push('/personal');
