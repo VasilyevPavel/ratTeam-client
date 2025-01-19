@@ -6,7 +6,15 @@ import Comments from '@/app/components/comments/Comments';
 import Likes from '@/app/ui/likes/Likes';
 const parse = require('html-react-parser').default;
 
-export default function OnePost({ post }: { post: PostData }) {
+export default function OnePost({
+  post,
+  author,
+  postName,
+}: {
+  post: PostData;
+  author: string;
+  postName: string;
+}) {
   const images = post?.PostImages;
   if (post) {
     const text = post.body;
@@ -59,7 +67,12 @@ export default function OnePost({ post }: { post: PostData }) {
         <div className="postBody">{parse(bodyWithImgTags, options)}</div>
         <div className="postControl">
           <EditButton postId={post.id} userId={post.User.id} />
-          <Likes allLikes={post.PostLikes} postId={post.id} />
+          <Likes
+            allLikes={post.PostLikes}
+            postId={post.id}
+            author={author}
+            postName={postName}
+          />
         </div>
         <div id="commentsSection">
           <Comments postId={post.id} comments={post.Comments} />

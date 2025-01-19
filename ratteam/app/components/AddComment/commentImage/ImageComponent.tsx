@@ -21,7 +21,6 @@ export default function ImageComponent({
   commentPhotoId,
 }: IImageComponent) {
   const handleDeleteImage = () => {
-    console.log('Удоли');
     deleteCommentPhoto(commentPhotoId);
     setCommentPhotoName(null);
     setCommentPhotoReplyName(null);

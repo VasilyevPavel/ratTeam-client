@@ -6,12 +6,12 @@ import { AxiosError } from 'axios';
 export async function getUserPosts() {
   try {
     const headersList = headers();
-    const domain = headersList.get('host') || '';
-    const referer = headersList.get('referer') || '';
+    const domain = (await headersList).get('host') || '';
+    const referer = (await headersList).get('referer') || '';
     const [, pathname] =
       referer.match(new RegExp(`http?:\/\/${domain}(.*)`)) || [];
 
-    const middlewareSet = headersList.get('user');
+    const middlewareSet = (await headersList).get('user');
     let user = null;
 
     if (middlewareSet) {
@@ -55,6 +55,7 @@ export async function getOnePost(postId: number) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const data: PostData = await response.data;
+
     return data;
   } catch (error) {
     const err = error as AxiosError<IError>;

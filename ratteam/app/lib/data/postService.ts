@@ -2,6 +2,7 @@ import $api from '@/http';
 import axios, { AxiosResponse } from 'axios';
 import { IAuthResponse, IImage } from '../types/types';
 import { revalidatePath } from 'next/cache';
+import revalidationPath from '../actions/revalidation';
 
 export default class PostService {
   static async create(postData: {
@@ -33,7 +34,18 @@ export default class PostService {
       withCredentials: true,
     });
   }
-  static async setLike(postId: number): Promise<AxiosResponse> {
+  static async setLike(
+    postId: number,
+    author?: string,
+    postName?: string
+  ): Promise<AxiosResponse> {
+    // if (author && postName) {
+    //   // revalidatePath(`blog/${author}/${postName}/${postId}`, 'page');
+    //   const path = `/blog/${author}/${postName}/${postId}`;
+    //   console.log('pathpath', path);
+    //   revalidationPath(path);
+    //   return $api.post('/api/post/set-like', { postId });
+    // }
     return $api.post('/api/post/set-like', { postId });
   }
   static async getOnePost(postId: number): Promise<AxiosResponse> {
@@ -41,6 +53,7 @@ export default class PostService {
       `${process.env.NEXT_PUBLIC_URL}/api/post/get-post/${postId}`
     );
   }
+
   static async saveComment(
     postId: number,
     text: string,

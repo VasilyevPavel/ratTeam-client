@@ -50,7 +50,7 @@ export default function NavBar() {
         dispatch(resetPostData());
       };
     }
-  }, [pathname]);
+  }, [pathname, dispatch]);
 
   function loginHandler() {
     dispatch(changeLoginModalStatus());

@@ -50,4 +50,5 @@ export interface PostData {
   Comments: IComment[];
   User: IUser;
   PostImages: IImageResponse[];
+  author?: string;
 }

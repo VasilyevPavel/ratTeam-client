@@ -11,18 +11,29 @@ import {
 } from '@/app/lib/redux/modalSlice';
 import { RootState } from '@/app/lib/redux/store';
 import CommentService from '@/app/lib/data/commentService';
+import { revalidateTag } from 'next/cache';
+import revalidationPath from '@/app/lib/actions/revalidation';
 
 interface LikesProps {
   allLikes: IPostLike[] | ICommentLike[];
   postId?: number;
   commentId?: number;
+  author?: string;
+  postName?: string;
 }
 
-export default function Likes({ allLikes, postId, commentId }: LikesProps) {
+export default function Likes({
+  allLikes,
+  postId,
+  commentId,
+  author,
+  postName,
+}: LikesProps) {
   const dispatch = useAppDispatch();
   const userData = useAppSelector(
     (state: RootState) => state.userSlice.userData
   );
+
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(allLikes.length);
 
@@ -30,6 +41,7 @@ export default function Likes({ allLikes, postId, commentId }: LikesProps) {
     const isLiked = allLikes.some(
       (like) => like.user_id === userData?.user?.id
     );
+
     setLiked(isLiked);
   }, [allLikes, userData]);
 
@@ -42,9 +54,26 @@ export default function Likes({ allLikes, postId, commentId }: LikesProps) {
 
     if (commentId) {
       await CommentService.setLike(commentId);
+      const tag = `comments`;
+      console.log('tag', tag);
+      revalidationPath(tag);
+      // revalidateTag(`post-${postId}`);
       // revalidateTag('likes');
     } else if (postId) {
-      await PostService.setLike(postId);
+      await PostService.setLike(postId, author, postName);
+      const tag = `post-${postId}`;
+
+      revalidationPath(tag);
+
+      // revalidateTag(`post-${postId}`);
+
+      // if (author && postName) {
+      //   await PostService.setLike(postId, author, postName);
+      // } else {
+      //   await PostService.setLike(postId);
+      // }
+      // ('use server');
+      // revalidatePath(`blog/${author}/${postName}/${postId}`, 'page');
       // revalidateTag('likes');
     }
     setLiked((prevLiked) => !prevLiked);

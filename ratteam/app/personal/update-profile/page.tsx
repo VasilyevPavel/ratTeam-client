@@ -26,7 +26,7 @@ export default function Page() {
 
       try {
         const response = await uploadAvatarPhoto(formData);
-        console.log('response', response.data);
+
         if (response) {
           alert('Аватар успешно загружен');
           dispatch(setNewAvatar(response.data.userData.avatar));
@@ -61,11 +61,11 @@ export default function Page() {
       {imagePreview && (
         <div>
           <h3>Предпросмотр:</h3>
-          <img
+          {/* <img
             src={imagePreview}
             alt="preview"
             style={{ width: '150px', height: '150px', borderRadius: '50%' }}
-          />
+          /> */}
         </div>
       )}
     </div>

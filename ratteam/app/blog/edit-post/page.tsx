@@ -19,8 +19,7 @@ export default function Page() {
   const dispatch = useAppDispatch();
 
   const [isLoading, setIsLoading] = useState(true);
-  console.log('isLoading', isLoading);
-  console.log('postBody', postBody);
+
   useEffect(() => {
     const fetchData = async () => {
       if (id) {

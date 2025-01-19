@@ -14,7 +14,7 @@ export default class CommentService {
       : `/api/comments/create/${postId}`;
 
     const token = await serverCookie();
-    console.log('token', token);
+
     const response = await axios.post(
       `${process.env.ENV_LOCAL_URL}${url}`,
       {
@@ -34,22 +34,19 @@ export default class CommentService {
     // return $api.post(url, { text, commentPhotoId });
   }
   static async setLike(commentId: number) {
-    // Получаем токен из серверных куки
     const token = await serverCookie();
 
-    // Отправляем запрос на сервер с помощью fetch
     const response = await fetch(
-      // Используем переменную окружения для URL API
       `${process.env.ENV_LOCAL_URL}/api/comments/set-like`,
       {
         next: { tags: ['likes'] },
-        method: 'POST', // Определяем метод запроса
-        credentials: 'include', // Включаем отправку куки в запросе
+        method: 'POST',
+        credentials: 'include',
         headers: {
-          'Content-Type': 'application/json', // Устанавливаем заголовок Content-Type
-          Cookie: `refreshToken=${token}`, // Устанавливаем куку с токеном аутентификации
+          'Content-Type': 'application/json',
+          Cookie: `refreshToken=${token}`,
         },
-        body: JSON.stringify({ commentId }), // Преобразуем тело запроса в формат JSON
+        body: JSON.stringify({ commentId }),
       }
     );
   }
